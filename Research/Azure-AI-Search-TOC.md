@@ -1,0 +1,379 @@
+# Azure AI Search documentation
+
+- [ ] [ ] [Azure AI Search documentation](https://learn.microsoft.com/en-us/azure/search/)
+- Overview
+  - [x] [What's Azure AI Search?](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
+  - [ ] [What's new](https://learn.microsoft.com/en-us/azure/search/whats-new)
+  - [x] [Features](https://learn.microsoft.com/en-us/azure/search/search-features-list)
+- Quickstart
+  - [ ] [Connect to a search service](https://learn.microsoft.com/en-us/azure/search/search-get-started-rbac)
+  - Classic search
+    - Full-text search
+      - [x] [Portal](https://learn.microsoft.com/en-us/azure/search/search-get-started-portal)
+      - [x] [Programmatic](https://learn.microsoft.com/en-us/azure/search/search-get-started-text)
+    - Vector search
+      - [x] [Portal](https://learn.microsoft.com/en-us/azure/search/search-get-started-portal-import-vectors)
+      - [x] [Programmatic](https://learn.microsoft.com/en-us/azure/search/search-get-started-vector)
+    - Multimodal search
+      - [x] [Portal](https://learn.microsoft.com/en-us/azure/search/search-get-started-portal-image-search)
+    - Skillsets (AI enrichment)
+      - [x] [Portal](https://learn.microsoft.com/en-us/azure/search/search-get-started-skillset)
+    - Semantic ranking
+      - [x] [Programmatic](https://learn.microsoft.com/en-us/azure/search/search-get-started-semantic)
+  - Agentic retrieval (RAG)
+    - [x] [Portal](https://learn.microsoft.com/en-us/azure/search/get-started-portal-agentic-retrieval)
+    - [x] [Programmatic](https://learn.microsoft.com/en-us/azure/search/search-get-started-agentic-retrieval)
+- Setup and management
+  - [ ] [Configure a search service](https://learn.microsoft.com/en-us/azure/search/search-manage)
+  - Advanced management
+    - Manage a service
+      - [ ] [REST](https://learn.microsoft.com/en-us/azure/search/search-manage-rest)
+- Classic search
+  - Indexes
+    - [x] [What is a search index?](https://learn.microsoft.com/en-us/azure/search/search-what-is-an-index)
+    - [x] [What is a vector index?](https://learn.microsoft.com/en-us/azure/search/vector-store)
+    - [x] [Create a search index](https://learn.microsoft.com/en-us/azure/search/search-how-to-create-search-index)
+    - [x] [Create a vector index](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-create-index)
+    - Load and manage
+      - [x] [What is data import?](https://learn.microsoft.com/en-us/azure/search/search-what-is-data-import)
+      - [x] [Import data](https://learn.microsoft.com/en-us/azure/search/search-how-to-load-search-index)
+      - [x] [Import large data sets](https://learn.microsoft.com/en-us/azure/search/search-how-to-large-index)
+      - [x] [Manage an index](https://learn.microsoft.com/en-us/azure/search/search-how-to-manage-index)
+      - [x] [Update or rebuild an index](https://learn.microsoft.com/en-us/azure/search/search-howto-reindex)
+      - [x] [Alias an index](https://learn.microsoft.com/en-us/azure/search/search-how-to-alias)
+    - Index text
+      - [x] [Add synonyms](https://learn.microsoft.com/en-us/azure/search/search-synonyms)
+      - [x] [Add a suggester for typeahead](https://learn.microsoft.com/en-us/azure/search/index-add-suggesters)
+      - [x] [Design a multilingual index](https://learn.microsoft.com/en-us/azure/search/search-language-support)
+      - [ ] [Model complex data types](https://learn.microsoft.com/en-us/azure/search/search-howto-complex-data-types)
+      - [ ] [Model relational data](https://learn.microsoft.com/en-us/azure/search/index-sql-relational-data)
+      - Analyzers
+        - [ ] [What is an analyzer?](https://learn.microsoft.com/en-us/azure/search/search-analyzers)
+        - [ ] [Add a language analyzer](https://learn.microsoft.com/en-us/azure/search/index-add-language-analyzers)
+        - [ ] [Add a custom analyzer](https://learn.microsoft.com/en-us/azure/search/index-add-custom-analyzers)
+      - Index vectors
+       - [x] [Chunk documents](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-chunk-documents)
+       - [x] [Chunk and vectorize by document layout](https://learn.microsoft.com/en-us/azure/search/search-how-to-semantic-chunking)
+       - [x] [Generate embeddings](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-generate-embeddings)
+       - [x] [Use integrated vectorization](https://learn.microsoft.com/en-us/azure/search/search-how-to-integrated-vectorization)
+       - [x] [Use embedding models from Microsoft Foundry](https://learn.microsoft.com/en-us/azure/search/vector-search-integrated-vectorization-ai-studio)
+      - Reduce vector size
+        - [ ] [Understand vector quotas and limits](https://learn.microsoft.com/en-us/azure/search/vector-search-index-size)
+        - [ ] [Choose an optimization strategy](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-configure-compression-storage)
+        - [ ] [Compress using binary or scalar quantization](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-quantization)
+        - [ ] [Index binary data](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-index-binary-data)
+        - [ ] [Assign narrow data types](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-assign-narrow-data-types)
+        - [ ] [Eliminate redundant storage](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-storage-options)
+        - [ ] [Truncate dimensions](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-truncate-dimensions)
+  - Indexers and workflows
+    - [x] [Index via portal wizards](https://learn.microsoft.com/en-us/azure/search/search-import-data-portal)
+    - Indexers
+      - [x] [What is an indexer?](https://learn.microsoft.com/en-us/azure/search/search-indexer-overview)
+      - Create and manage
+        - [x] [Create an indexer](https://learn.microsoft.com/en-us/azure/search/search-howto-create-indexers)
+        - [x] [Schedule an indexer](https://learn.microsoft.com/en-us/azure/search/search-howto-schedule-indexers)
+        - [x] [Run or reset an indexer](https://learn.microsoft.com/en-us/azure/search/search-howto-run-reset-indexers)
+        - [x] [Define field mappings](https://learn.microsoft.com/en-us/azure/search/search-indexer-field-mappings)
+      - Index from data sources
+        - [ ] [Supported data sources](https://learn.microsoft.com/en-us/azure/search/search-data-sources-gallery)
+        - Azure Storage
+          - [x] [Search over blobs](https://learn.microsoft.com/en-us/azure/search/search-blob-storage-integration)
+          - [ ] [ADLS Gen2](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-data-lake-storage)
+          - [x] [ADLS Gen2](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-data-lake-storage)
+          - [x] [Blobs](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-storage)
+          - [ ] [Files](https://learn.microsoft.com/en-us/azure/search/search-file-storage-integration)
+          - [x] [Files](https://learn.microsoft.com/en-us/azure/search/search-file-storage-integration)
+          - [ ] [Tables](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-tables)
+          - [x] [Tables](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-tables)
+          - [ ] [Index changed and deleted content](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-changed-deleted)
+        - Azure Cosmos DB
+           - [x] [Azure Cosmos DB for NoSQL](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-cosmosdb-sql)
+          - [ ] [Azure Cosmos DB for MongoDB](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-cosmosdb-mongodb)
+            - [x] [Azure Cosmos DB for MongoDB](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-cosmosdb-mongodb)
+          - [ ] [Azure Cosmos DB for Apache Gremlin](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-cosmosdb-gremlin)
+        - [x] [Azure DB for MySQL](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-mysql)
+        - Azure SQL
+          - [x] [Azure SQL Databases](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-sql-database)
+          - [x] [Azure SQL Managed Instances](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-sql-managed-instance)
+          - [x] [Azure SQL Server VMs](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-sql-server)
+        - [x] [OneLake](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-onelake-files)
+        - [x] [SharePoint in Microsoft 365](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-sharepoint-online)
+      - Index whole files
+        - [ ] [Content metadata properties](https://learn.microsoft.com/en-us/azure/search/search-blob-metadata-properties)
+        - [ ] [Index one-to-many](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-one-to-many)
+        - [ ] [Index plain text](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-plaintext)
+        - [ ] [Index CSV](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-changed-deleted)
+        - [ ] [Index JSON](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-json)
+        - [ ] [Index Markdown](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-markdown)
+      - Troubleshooting
+        - [ ] [Troubleshoot an indexer](https://learn.microsoft.com/en-us/azure/search/search-indexer-troubleshooting)
+        - [ ] [Troubleshoot errors and warnings](https://learn.microsoft.com/en-us/azure/search/cognitive-search-common-errors-warnings)
+      - Tutorials
+        - [ ] [Index any data](https://learn.microsoft.com/en-us/azure/search/tutorial-optimize-indexing-push-api)
+        - [ ] [Index at scale (Apache Spark)](https://learn.microsoft.com/en-us/azure/search/search-synapseml-cognitive-services)
+        - [ ] [Index Azure SQL Database](https://learn.microsoft.com/en-us/azure/search/search-indexer-tutorial)
+        - [ ] [Index JSON in Azure blobs](https://learn.microsoft.com/en-us/azure/search/search-semi-structured-data)
+        - [ ] [Index Markdown in Azure blobs](https://learn.microsoft.com/en-us/azure/search/search-markdown-data-tutorial)
+        - [ ] [Index multiple Azure data sources](https://learn.microsoft.com/en-us/azure/search/tutorial-multiple-data-sources)
+        - [ ] [Create a custom analyzer](https://learn.microsoft.com/en-us/azure/search/tutorial-create-custom-analyzer)
+    - Logic Apps workflows
+      - [ ] [Create a workflow](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-logic-apps)
+  - Skillsets (AI enrichment)
+    - [ ] [What is AI enrichment?](https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-intro)
+    - [x] [What is integrated vectorization?](https://learn.microsoft.com/en-us/azure/search/vector-search-integrated-vectorization)
+    - [x] [What is a skillset?](https://learn.microsoft.com/en-us/azure/search/cognitive-search-working-with-skillsets)
+    - Create and manage
+      - [x] [Create a skillset (how-to guide)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-defining-skillset)
+      - [ ] [Create a skillset (tutorial)](https://learn.microsoft.com/en-us/azure/search/tutorial-skillset)
+      - [x] [Attach a billable resource](https://learn.microsoft.com/en-us/azure/search/cognitive-search-attach-cognitive-services)
+      - [ ] [Process image files](https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-image-scenarios)
+      - [ ] [Design tips](https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-troubleshooting)
+    - Define projections and mappings
+      - [x] [Define an index projection](https://learn.microsoft.com/en-us/azure/search/search-how-to-define-index-projections)
+      - [ ] [Reference a skill output](https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-annotations-syntax)
+      - [x] [Map to index fields](https://learn.microsoft.com/en-us/azure/search/cognitive-search-output-field-mapping)
+    - Debug sessions
+      - [x] [What is a debug session?](https://learn.microsoft.com/en-us/azure/search/cognitive-search-debug-session)
+      - [x] [Debug a skillset (portal)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-how-to-debug-skillset)
+      - [x] [Debug a skillset (tutorial)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-tutorial-debug-sessions)
+    - Enrichment caches
+      - [x] [Configure an enrichment cache](https://learn.microsoft.com/en-us/azure/search/enrichment-cache-how-to-configure)
+      - [x] [Manage an enrichment cache](https://learn.microsoft.com/en-us/azure/search/enrichment-cache-how-to-manage)
+    - Knowledge stores
+      - [x] [What is a knowledge store?](https://learn.microsoft.com/en-us/azure/search/knowledge-store-concept-intro)
+      - [ ] [Create a knowledge store (REST)](https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-rest)
+      - [x] [Create a knowledge store (portal)](https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-portal)
+      - [x] [Create a knowledge store (REST)](https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-rest)
+      - [x] [Connect with Power BI](https://learn.microsoft.com/en-us/azure/search/knowledge-store-connect-power-bi)
+      - [ ] [Connect with Power BI](https://learn.microsoft.com/en-us/azure/search/knowledge-store-connect-power-bi)
+      - Projections
+        - [ ] [What is a knowledge store projection?](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-overview)
+        - [ ] [Shape data for projection](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-shape)
+        - [ ] [Define a projection](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projections-examples)
+        - [ ] [Sample shapes and projections](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-example-long)
+          - [x] [What is a knowledge store projection?](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-overview)
+          - [x] [Shape data for projection](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-shape)
+          - [x] [Define a projection](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projections-examples)
+          - [x] [Sample shapes and projections](https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-example-long)
+    - Generative AI skills
+      - [x] [Add AI-generated content (GenAI Prompt skill)](https://learn.microsoft.com/en-us/azure/search/chat-completion-skill-example-usage)
+      - [x] [Best practices for GenAI Prompt skill](https://learn.microsoft.com/en-us/azure/search/responsible-ai-best-practices-genai-prompt-skill)
+    - Custom skills
+      - [x] [Add a custom skill](https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-interface)
+      - [ ] [Scale out a custom skill](https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-scale)
+      - [ ] [Sample custom skill (Bing Entity Search)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-create-custom-skill-example)
+      - [ ] [Azure AI Search Power Skills](https://github.com/Azure-Samples/azure-search-power-skills)
+  - Retrieval
+    - [x] [Query with Search Explorer](https://learn.microsoft.com/en-us/azure/search/search-explorer)
+    - Full-text search
+      - [ ] [What is full-text search?](https://learn.microsoft.com/en-us/azure/search/search-lucene-query-architecture)
+      - [x] [Create a full-text query](https://learn.microsoft.com/en-us/azure/search/search-query-create)
+      - [x] [Add autocomplete and suggestions](https://learn.microsoft.com/en-us/azure/search/search-add-autocomplete-suggestions)
+      - [ ] [Add spell check](https://learn.microsoft.com/en-us/azure/search/speller-how-to-add)
+      - [ ] [Sample queries (simple syntax)](https://learn.microsoft.com/en-us/azure/search/search-query-simple-examples)
+      - Filters and facets
+        - [ ] [What is a filter?](https://learn.microsoft.com/en-us/azure/search/search-filters)
+        - [ ] [What is a collection filter?](https://learn.microsoft.com/en-us/azure/search/search-query-understand-collection-filters)
+        - [ ] [Troubleshoot a collection filter](https://learn.microsoft.com/en-us/azure/search/search-query-troubleshoot-collection-filters)
+        - [ ] [Normalize text for filters](https://learn.microsoft.com/en-us/azure/search/search-normalizers)
+        - [ ] [Add faceted navigation](https://learn.microsoft.com/en-us/azure/search/search-faceted-navigation)
+        - [x] [Sample facets](https://learn.microsoft.com/en-us/azure/search/search-faceted-navigation-examples)
+      - Search results
+        - [ ] [Page, sort, and shape results](https://learn.microsoft.com/en-us/azure/search/search-pagination-page-layout)
+        - [x] [Return a semantic answer](https://learn.microsoft.com/en-us/azure/search/semantic-answers)
+      - Advanced queries
+        - [ ] [Sample queries (Lucene syntax)](https://learn.microsoft.com/en-us/azure/search/search-query-lucene-examples)
+        - [ ] [Use partial term search](https://learn.microsoft.com/en-us/azure/search/search-query-partial-matching)
+        - [ ] [Use fuzzy search](https://learn.microsoft.com/en-us/azure/search/search-query-fuzzy)
+    - Vector search
+      - [ ] [What is vector search?](https://learn.microsoft.com/en-us/azure/search/vector-search-overview)
+      - [x] [Create a vector query](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-query)
+      - [x] [Filter a vector query](https://learn.microsoft.com/en-us/azure/search/vector-search-filters)
+      - [x] [Add a vectorizer](https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-configure-vectorizer)
+      - [ ] [Use a multi-vector field](https://learn.microsoft.com/en-us/azure/search/vector-search-multi-vector-fields)
+    - Hybrid search
+      - [x] [What is hybrid search?](https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview)
+      - [x] [Create a hybrid query](https://learn.microsoft.com/en-us/azure/search/hybrid-search-how-to-query)
+    - Multimodal search
+      - [x] [What is multimodal search?](https://learn.microsoft.com/en-us/azure/search/multimodal-search-overview)
+      - Tutorials
+        - [x] [Vectorize images and text](https://learn.microsoft.com/en-us/azure/search/tutorial-document-extraction-multimodal-embeddings)
+        - [ ] [Vectorize from a structured document layout](https://learn.microsoft.com/en-us/azure/search/tutorial-document-layout-multimodal-embeddings)
+        - [ ] [Verbalize images using generative AI](https://learn.microsoft.com/en-us/azure/search/tutorial-document-extraction-image-verbalization)
+        - [ ] [Verbalize images from a structured document layout](https://learn.microsoft.com/en-us/azure/search/tutorial-document-layout-image-verbalization)
+    - [ ] [Other query types](https://learn.microsoft.com/en-us/azure/search/search-query-overview)
+  - Relevance and ranking
+    - [ ] [What is relevance?](https://learn.microsoft.com/en-us/azure/search/search-relevance-overview)
+    - [ ] [What is vector ranking?](https://learn.microsoft.com/en-us/azure/search/vector-search-ranking)
+    - [ ] [What is hybrid ranking (RRF)?](https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking)
+    - [ ] [Add a scoring profile](https://learn.microsoft.com/en-us/azure/search/index-add-scoring-profiles)
+    - BM25 ranking
+      - [ ] [What is BM25 ranking?](https://learn.microsoft.com/en-us/azure/search/index-similarity-and-scoring)
+      - [ ] [Configure BM25 ranking](https://learn.microsoft.com/en-us/azure/search/index-ranking-similarity)
+    - Semantic ranking
+      - [ ] [What is semantic ranking?](https://learn.microsoft.com/en-us/azure/search/semantic-search-overview)
+      - [ ] [Enable or disable semantic ranker](https://learn.microsoft.com/en-us/azure/search/semantic-how-to-enable-disable)
+      - [ ] [Configure semantic ranker](https://learn.microsoft.com/en-us/azure/search/semantic-how-to-configure)
+      - [ ] [Add semantic ranking to queries](https://learn.microsoft.com/en-us/azure/search/semantic-how-to-query-request)
+      - [ ] [Rewrite queries with semantic ranker](https://learn.microsoft.com/en-us/azure/search/semantic-how-to-query-rewrite)
+      - [ ] [Enable scoring profiles in semantic ranker](https://learn.microsoft.com/en-us/azure/search/semantic-how-to-enable-scoring-profiles)
+      - [ ] [Migrate semantic ranking code](https://learn.microsoft.com/en-us/azure/search/semantic-code-migration)
+- Agentic retrieval (RAG)
+    - [x] [What is agentic retrieval?](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-overview)
+    - [x] [What is retrieval-augmented generation (RAG)?](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
+    - Knowledge sources
+      - [x] [What is a knowledge source?](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-overview)
+      - [x] [Create an index for agentic retrieval](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-create-index)
+    - Create an indexed source
+      - [ ] [Search index](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-search-index)
+      - [x] [Azure blob](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-blob)
+      - [x] [OneLake](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-onelake)
+      - [ ] [SharePoint](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-sharepoint-indexed)
+    Create a remote source
+      - [x] [SharePoint](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-sharepoint-remote)
+      - [x] [Web](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-web)
+      - [x] [Manage web access](https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-web-manage)
+  - Knowledge bases and retrieval
+    - [x] [Create a knowledge base](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-create-knowledge-base)
+    - [x] [Enable answer synthesis](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-answer-synthesis)
+    - [ ] [Set retrieval reasoning effort](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-set-retrieval-reasoning-effort)
+    - [ ] [Retrieve data](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-retrieve)
+    - [ ] [Build an end-to-end retrieval solution](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-create-pipeline)
+  - [ ] [Migrate agentic retrieval code](https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-migrate)
+- Security
+  - [ ] [Security in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-security-overview)
+  - [x] [Security in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-security-overview)
+  - Network access
+    - [ ] [Configure network access](https://learn.microsoft.com/en-us/azure/search/service-configure-firewall)
+    - [x] [Create a private endpoint](https://learn.microsoft.com/en-us/azure/search/service-create-private-endpoint)
+    - [ ] [Troubleshoot a private connection](https://learn.microsoft.com/en-us/azure/search/troubleshoot-shared-private-link-resources)
+    - [ ] [Join a network security perimeter](https://learn.microsoft.com/en-us/azure/search/search-security-network-security-perimeter)
+  - Authentication and authorization
+    - [x] [Enable role-based access](https://learn.microsoft.com/en-us/azure/search/search-security-enable-roles)
+    - [ ] [Assign roles (users)](https://learn.microsoft.com/en-us/azure/search/search-security-rbac)
+    - [ ] [Assign roles (apps)](https://learn.microsoft.com/en-us/azure/search/keyless-connections)
+    - [ ] [Authenticate with keys](https://learn.microsoft.com/en-us/azure/search/search-security-api-keys)
+  - Outbound connections
+    - [x] [Secure access to external data](https://learn.microsoft.com/en-us/azure/search/search-indexer-securing-resources)
+    - [x] [Configure a managed identity](https://learn.microsoft.com/en-us/azure/search/search-how-to-managed-identities)
+    - Connect using a managed identity
+      - [ ] [Azure Storage](https://learn.microsoft.com/en-us/azure/search/search-howto-managed-identities-storage)
+      - [ ] [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/search/search-howto-managed-identities-cosmos-db)
+      - [ ] [SQL Database](https://learn.microsoft.com/en-us/azure/search/search-howto-managed-identities-sql)
+      - [ ] [SQL Managed Instance](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-sql-managed-instance-with-managed-identity)
+      - [ ] [Connect to an Azure function](https://learn.microsoft.com/en-us/azure/search/search-howto-managed-identities-azure-functions)
+    - [ ] [Connect through a firewall](https://learn.microsoft.com/en-us/azure/search/search-indexer-howto-access-ip-restricted)
+    - [ ] [Connect through a shared private link](https://learn.microsoft.com/en-us/azure/search/search-indexer-howto-access-private)
+    - [ ] [Connect as a trusted service](https://learn.microsoft.com/en-us/azure/search/search-indexer-howto-access-trusted-service-exception)
+    - [ ] [Connect to a SQL managed instance private endpoint](https://learn.microsoft.com/en-us/azure/search/search-indexer-how-to-access-private-sql)
+  - Document-level access
+    - [ ] [What is document-level security?](https://learn.microsoft.com/en-us/azure/search/search-document-level-access-overview)
+    - [ ] [Use security filters](https://learn.microsoft.com/en-us/azure/search/search-security-trimming-for-azure-search)
+    - ACLs or RBAC scopes
+      - [ ] [Push document-level permissions to an index](https://learn.microsoft.com/en-us/azure/search/search-index-access-control-lists-and-rbac-push-api)
+      - [ ] [Pull ADLS Gen2 permissions into an index](https://learn.microsoft.com/en-us/azure/search/search-indexer-access-control-lists-and-role-based-access)
+      - [ ] [Pull Blob RBAC scopes into an index](https://learn.microsoft.com/en-us/azure/search/search-blob-indexer-role-based-access)
+      - [ ] [Pull SharePoint ACL permissions into an index](https://learn.microsoft.com/en-us/azure/search/search-indexer-sharepoint-access-control-lists)
+      - [ ] [Index permissioned ADLS Gen2 files](https://learn.microsoft.com/en-us/azure/search/tutorial-adls-gen2-indexer-acls)
+      - [ ] [Query with permission filters](https://learn.microsoft.com/en-us/azure/search/search-query-access-control-rbac-enforcement)
+    - Sensitivity labels
+      - [ ] [Pull Purview sensitivity labels into an index](https://learn.microsoft.com/en-us/azure/search/search-indexer-sensitivity-labels)
+      - [ ] [Query honoring sensitivity labels](https://learn.microsoft.com/en-us/azure/search/search-query-sensitivity-labels)
+  - Data encryption
+    - [ ] [Configure customer-managed keys (CMK)](https://learn.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys)
+    - [ ] [Configure cross-tenant CMK](https://learn.microsoft.com/en-us/azure/search/search-security-managed-encryption-cross-tenant)
+    - [ ] [Find encrypted objects](https://learn.microsoft.com/en-us/azure/search/search-security-get-encryption-keys)
+    - [ ] [Index encrypted blobs](https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-encrypted)
+- Development
+  - [x] [API versions](https://learn.microsoft.com/en-us/azure/search/search-api-versions)
+  - [ ] [Preview features](https://learn.microsoft.com/en-us/azure/search/search-api-preview)
+  - [ ] [Develop in .NET](https://learn.microsoft.com/en-us/azure/search/search-how-to-dotnet-sdk)
+  - [ ] [Handle concurrent updates](https://learn.microsoft.com/en-us/azure/search/search-howto-concurrency)
+- Monitoring
+  - [x] [Enable diagnostic logging](https://learn.microsoft.com/en-us/azure/search/search-monitor-enable-logging)
+  - [x] [Monitor data](https://learn.microsoft.com/en-us/azure/search/monitor-azure-cognitive-search)
+  - [x] [Monitor queries](https://learn.microsoft.com/en-us/azure/search/search-monitor-queries)
+  - [x] [Monitor indexer-based indexing](https://learn.microsoft.com/en-us/azure/search/search-monitor-indexers)
+  - [x] [Visualize resource logs](https://learn.microsoft.com/en-us/azure/search/search-monitor-logs-powerbi)
+  - [x] [Analyze search performance](https://learn.microsoft.com/en-us/azure/search/search-performance-analysis)
+  - [x] [Tips for better performance](https://learn.microsoft.com/en-us/azure/search/search-performance-tips)
+- Samples
+  - [ ] [C# samples](https://learn.microsoft.com/en-us/azure/search/samples-dotnet)
+- Responsible AI
+  - [ ] [Transparency note](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/search/transparency-note)
+- References
+  - Azure SDK
+    - .NET
+      - [x] [Azure.Search.Documents](https://learn.microsoft.com/dotnet/api/overview/azure/search.documents-readme)
+      - [ ] [Azure.ResourceManager.Search](https://learn.microsoft.com/dotnet/api/overview/azure/resourcemanager.search-readme)
+  - Data
+    - [x] [Data types](https://learn.microsoft.com/rest/api/searchservice/supported-data-types)
+    - [x] [Data types for indexer data sources](https://learn.microsoft.com/rest/api/searchservice/data-type-map-for-indexers-in-azure-search)
+    - [ ] [Stopwords](https://learn.microsoft.com/en-us/azure/search/reference-stopwords)
+  - Query
+    - [x] [Simple query syntax](https://learn.microsoft.com/en-us/azure/search/query-simple-syntax)
+    - [x] [Full Lucene query syntax](https://learn.microsoft.com/en-us/azure/search/query-lucene-syntax)
+    - [ ] [moreLikeThis](https://learn.microsoft.com/en-us/azure/search/search-more-like-this)
+    - OData language
+      - [ ] [Overview](https://learn.microsoft.com/en-us/azure/search/query-odata-filter-orderby-syntax)
+      - [ ] [$filter](https://learn.microsoft.com/en-us/azure/search/search-query-odata-filter)
+      - [ ] [$orderby](https://learn.microsoft.com/en-us/azure/search/search-query-odata-orderby)
+      - [ ] [$select](https://learn.microsoft.com/en-us/azure/search/search-query-odata-select)
+      - [ ] [any, all](https://learn.microsoft.com/en-us/azure/search/search-query-odata-collection-operators)
+      - [ ] [eq, ne, gt, lt, ge, le](https://learn.microsoft.com/en-us/azure/search/search-query-odata-comparison-operators)
+      - [ ] [search.ismatch, search.ismatchscoring](https://learn.microsoft.com/en-us/azure/search/search-query-odata-full-text-search-functions)
+      - [ ] [geo.distance, geo.intersects](https://learn.microsoft.com/en-us/azure/search/search-query-odata-geo-spatial-functions)
+      - [ ] [and, or, not](https://learn.microsoft.com/en-us/azure/search/search-query-odata-logical-operators)
+      - [ ] [search.in](https://learn.microsoft.com/en-us/azure/search/search-query-odata-search-in-function)
+      - [ ] [search.score](https://learn.microsoft.com/en-us/azure/search/search-query-odata-search-score-function)
+      - [ ] [OData Language Grammar](https://learn.microsoft.com/en-us/azure/search/search-query-odata-syntax-reference)
+  - Skills
+    - [x] [Overview](https://learn.microsoft.com/en-us/azure/search/cognitive-search-predefined-skills)
+    - [ ] [Annotation reference language](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-annotation-language)
+    - Built-in skills
+      - Microsoft Foundry resource
+        - [ ] [Azure Vision multimodal embeddings](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-vision-vectorize)
+        - [ ] [Document Layout](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-document-intelligence-layout)
+        - [ ] [Entity Linking (v3)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-entity-linking-v3)
+        - [ ] [Entity Recognition (v3)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-entity-recognition-v3)
+        - [ ] [Image Analysis](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-image-analysis)
+        - [ ] [Key Phrase Extraction](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-keyphrases)
+        - [ ] [Language Detection](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-language-detection)
+        - [ ] [OCR](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-ocr)
+        - [ ] [PII Detection](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-pii-detection)
+        - [ ] [Sentiment (v3)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-sentiment-v3)
+        - [ ] [Text Translation](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-text-translation)
+      - Azure-hosted model or resource
+        - [ ] [Azure Content Understanding](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-content-understanding)
+        - [ ] [Azure OpenAI Embedding](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-azure-openai-embedding)
+        - [ ] [GenAI Prompt](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-genai-prompt)
+    - Custom skills
+      - [ ] [Azure Machine Learning (AML)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-aml-skill)
+      - [ ] [Custom Entity Lookup](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-custom-entity-lookup)
+      - [ ] [Custom Web API](https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-web-api)
+    - Utility skills (nonbillable)
+      - [ ] [Conditional](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-conditional)
+      - [ ] [Document Extraction](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-document-extraction)
+      - [ ] [Shaper](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-shaper)
+      - [ ] [Text Merger](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-textmerger)
+      - [ ] [Text Split](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-textsplit)
+    - [ ] [Deprecated skills](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated)
+      - [ ] [Named Entity Recognition (v2)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-named-entity-recognition)
+      - [ ] [Entity Recognition (v2)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-entity-recognition)
+      - [ ] [Sentiment (v2)](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-sentiment)
+  - Vectorizers
+    - [x] [Microsoft Foundry model catalog](https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-azure-machine-learning-ai-studio-catalog)
+    - [x] [Azure OpenAI](https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-azure-open-ai)
+    - [x] [Azure Vision](https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-ai-services-vision)
+    - [x] [Custom Web API](https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-custom-web-api)
+  - Security
+    - [ ] [Security controls by Azure Policy](https://learn.microsoft.com/en-us/azure/search/security-controls-policy)
+    - [ ] [Security baseline](https://learn.microsoft.com/security/benchmark/azure/baselines/cognitive-search-security-baseline?toc=/azure/search/TOC.json)
+- Resources
+  - [ ] [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-cognitive-search)
+  - [ ] [Azure pricing calculator](https://azure.microsoft.com/pricing/details/search/)
+  - [ ] [Azure products by region](https://azure.microsoft.com/explore/global-infrastructure/products-by-region/?products=search)
+  - [ ] [Compliance and certification](https://learn.microsoft.com/azure/compliance/)
+  - Tools and training
+    - [ ] [Tools and accelerators](https://learn.microsoft.com/en-us/azure/search/resource-tools)
+    - [ ] [Training](https://learn.microsoft.com/en-us/azure/search/resource-training)

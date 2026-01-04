@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure AI Search Explorer - Prototype</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --sidebar-bg: #252526;
+            --text-color: #cccccc;
+            --accent-color: #0078d4;
+            --border-color: #3e3e42;
+            --hover-color: #2a2d2e;
+            --active-color: #37373d;
+            --header-height: 40px;
+            --sidebar-width: 250px;
+            --tab-height: 35px;
+            --status-bar-height: 22px;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body.light-theme {
+            --bg-color: #ffffff;
+            --sidebar-bg: #f3f3f3;
+            --text-color: #333333;
+            --border-color: #e1e1e1;
+            --hover-color: #e8e8e8;
+            --active-color: #ffffff;
+        }
+        
+        body.light-theme .card {
+            background-color: #ffffff;
+        }
+        
+        body.light-theme input, body.light-theme select, body.light-theme textarea {
+            background-color: #ffffff;
+            color: #333;
+        }
+        
+        body.light-theme .panel-header {
+            background-color: #f3f3f3;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column; /* Changed for Status Bar */
+            font-size: 13px;
+        }
+
+        #app-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            user-select: none;
+        }
+
+        .resource-switcher {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #1e1e1e;
+        }
+
+        .resource-select {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .resource-select:hover {
+            border-color: #666;
+        }
+
+        .nav-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .nav-group {
+            margin-bottom: 12px;
+        }
+
+        .nav-group-title {
+            padding: 4px 16px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            padding: 6px 16px 6px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            gap: 10px;
+        }
+
+        .nav-item i {
+            width: 16px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .nav-item:hover {
+            background-color: var(--hover-color);
+            color: #fff;
+        }
+
+        .nav-item:hover i {
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background-color: var(--active-color);
+            color: #fff;
+            border-left-color: var(--accent-color);
+        }
+
+        .nav-item.active i {
+            color: var(--accent-color);
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 8px 0;
+        }
+
+        /* Main Content */
+        #main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        header {
+            height: var(--header-height);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            background-color: var(--bg-color);
+            justify-content: space-between;
+        }
+
+        .breadcrumbs {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumbs span.current {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .breadcrumbs i {
+            font-size: 10px;
+        }
+
+        /* Tab Bar */
+        #tab-bar {
+            height: var(--tab-height);
+            background-color: var(--sidebar-bg);
+            display: flex;
+            align-items: flex-end;
+            padding-left: 10px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab-item {
+            height: 100%;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--sidebar-bg);
+            color: #888;
+            font-size: 12px;
+            cursor: pointer;
+            border-right: 1px solid var(--border-color);
+            min-width: 120px;
+            max-width: 200px;
+            position: relative;
+        }
+
+        .tab-item:hover {
+            background-color: var(--bg-color);
+        }
+
+        .tab-item.active {
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+            border-top: 2px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        .tab-close {
+            margin-left: auto;
+            padding: 2px;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .tab-close:hover {
+            background-color: var(--hover-color);
+            color: var(--text-color);
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            background-color: var(--active-color);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        button:hover {
+            background-color: var(--hover-color);
+        }
+
+        button.primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        button.primary:hover {
+            background-color: #0063b1;
+        }
+
+        #content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Page Layouts */
+        .page {
+            display: none;
+            /* Removed max-width for better space usage */
+            margin: 0;
+            height: 100%;
+            padding-bottom: 20px;
+        }
+
+        .page.active {
+            display: block;
+        }
+        
+        /* Responsive Grid for Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background-color: #252526;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 3px;
+        }
+        
+        /* Ensure cards in grid don't have bottom margin */
+        .card-grid .card {
+            margin-bottom: 0;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+            color: #aaa;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            background-color: #3c3c3c;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 6px;
+            font-family: inherit;
+            font-size: 12px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 1px solid var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* Grid/Table simulation */
+        .data-grid {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-grid th, .data-grid td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-grid th {
+            color: #aaa;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .status-ok { background-color: #1e4620; color: #4caf50; }
+        .status-warn { background-color: #4d3800; color: #ffcc00; }
+
+        /* Specific Page Elements */
+        .search-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .json-preview {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #111;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            color: #9cdcfe;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+        .tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom-color: var(--accent-color);
+            color: #fff;
+        }
+        
+        /* Bottom Panel */
+        #bottom-panel {
+            height: 180px;
+            background-color: var(--sidebar-bg);
+            border-top: 1px solid var(--border-color);
+            display: none;
+            flex-direction: column;
+        }
+        
+        #bottom-panel.open {
+            display: flex;
+        }
+
+        .panel-header {
+            padding: 0 16px;
+            height: 28px;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #888;
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 16px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12px;
+            background-color: var(--bg-color);
+        }
+
+        .log-entry { margin-bottom: 4px; border-bottom: 1px solid #333; padding-bottom: 2px; }
+        .log-info { color: var(--text-color); }
+        .log-error { color: #f48771; }
+        .log-warn { color: #cca700; }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+        .icon-btn:hover { color: var(--text-color); }
+
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+    <div id="sidebar">
+        <div class="resource-switcher">
+            <select class="resource-select">
+                <option>dev-search-service</option>
+                <option>prod-search-service</option>
+                <option>+ Add New Service</option>
+            </select>
+        </div>
+        <div class="nav-scroll">
+            
+            <div class="nav-group">
+                <div class="nav-group-title">Classic</div>
+                <a class="nav-item active" onclick="showPage('service')"><i class="fas fa-server"></i> Service</a>
+                <a class="nav-item" onclick="showPage('playground')"><i class="fas fa-search"></i> Playground</a>
+                <a class="nav-item" onclick="showPage('indexes')"><i class="fas fa-table"></i> Indexes</a>
+                <a class="nav-item" onclick="showPage('aliases')"><i class="fas fa-share"></i> Aliases</a>
+                <a class="nav-item" onclick="showPage('synonyms')"><i class="fas fa-language"></i> Synonym Maps</a>
+                <a class="nav-item" onclick="showPage('suggestions')"><i class="far fa-lightbulb"></i> Suggestions</a>
+                <a class="nav-item" onclick="showPage('datasources')"><i class="fas fa-database"></i> Data Sources</a>
+                <a class="nav-item" onclick="showPage('indexers')"><i class="fas fa-sync"></i> Indexers</a>
+                <a class="nav-item" onclick="showPage('skillsets')"><i class="fas fa-brain"></i> Skillsets</a>
+                <a class="nav-item" onclick="showPage('knowledgestores')"><i class="fas fa-archive"></i> Knowledge Stores</a>
+                <a class="nav-item" onclick="showPage('retrieval')"><i class="fas fa-filter"></i> Retrieval</a>
+                <a class="nav-item" onclick="showPage('vectorization')"><i class="fas fa-vector-square"></i> Vectorization</a>
+                <a class="nav-item" onclick="showPage('relevance')"><i class="fas fa-sort-amount-up"></i> Relevance</a>
+                <a class="nav-item" onclick="showPage('devtools')"><i class="fas fa-code"></i> Developer Tools</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Agentic</div>
+                <a class="nav-item" onclick="showPage('agentic-playground')"><i class="fas fa-robot"></i> Agentic Playground</a>
+                <a class="nav-item" onclick="showPage('knowledge-sources')"><i class="fas fa-book"></i> Knowledge Sources</a>
+                <a class="nav-item" onclick="showPage('knowledge-bases')"><i class="fas fa-sitemap"></i> Knowledge Bases</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Monitoring</div>
+                <a class="nav-item" onclick="showPage('diagnostics')"><i class="fas fa-stethoscope"></i> Diagnostics & Logs</a>
+                <a class="nav-item" onclick="showPage('query-monitoring')"><i class="fas fa-chart-line"></i> Query Monitoring</a>
+                <a class="nav-item" onclick="showPage('indexer-monitoring')"><i class="fas fa-history"></i> Indexer Monitoring</a>
+                <a class="nav-item" onclick="showPage('performance')"><i class="fas fa-tachometer-alt"></i> Performance</a>
+            </div>
+
+        </div>
+        <div class="sidebar-footer">
+            <a class="nav-item" onclick="togglePanel()"><i class="fas fa-terminal"></i> Logs</a>
+            <a class="nav-item" onclick="showPage('settings')"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+
+    <div id="main">
+        <header>
+            <div class="breadcrumbs" id="breadcrumbs">
+                <span>Home</span> <i class="fas fa-chevron-right"></i> <span class="current">Service</span>
+            </div>
+            <div class="actions">
+                <button onclick="toggleTheme()" title="Toggle Theme"><i class="fas fa-adjust"></i></button>
+                <button>Refresh</button>
+                <button class="primary">Save</button>
+            </div>
+        </header>
+
+        <div id="tab-bar">
+            <!-- Tabs will be injected here via JS -->
+        </div>
+
+        <div id="content-area">
+            
+            <!-- Classic: Service -->
+            <div id="page-service" class="page active">
+                <div class="card-grid">
+                    <div class="card">
+                        <h2>Connection Settings</h2>
+                        <div class="form-group">
+                            <label>Service Endpoint</label>
+                            <input type="text" value="https://my-search-service.search.windows.net">
+                        </div>
+                        <div class="form-group">
+                            <label>Admin Key / Managed Identity</label>
+                            <input type="password" value="****************************">
+                        </div>
+                        <button class="primary">Connect</button>
+                    </div>
+                    <div class="card">
+                        <h2>Service Information</h2>
+                        <table class="data-grid">
+                            <tr><td>SKU</td><td>Standard</td></tr>
+                            <tr><td>Region</td><td>East US</td></tr>
+                            <tr><td>Replica Count</td><td>1</td></tr>
+                            <tr><td>Partition Count</td><td>1</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic: Playground -->
+            <div id="page-playground" class="page">
+                <div class="card">
+                    <h2>Search Explorer</h2>
+                    <div class="form-group">
+                        <label>Index</label>
+                        <select><option>realestate-us-sample</option><option>hotels-sample</option></select>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search query (e.g. 'luxury condo' or *)" style="flex:1">
+                        <select style="width: 150px;"><option>Simple</option><option>Lucene</option></select>
+                        <button class="primary">Search</button>
+                    </div>
+                    <div class="tabs">
+                        <div class="tab active">JSON View</div>
+                        <div class="tab">Table View</div>
+                    </div>
+                    <div class="json-preview">
+{
+  "@odata.context": "https://...",
+  "value": [
+    {
+      "@search.score": 1.0,
+      "id": "1",
+      "description": "Luxury condo with view..."
+    }
+  ]
+}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic: Indexes -->
+            <div id="page-indexes" class="page">
+                <div class="actions" style="margin-bottom: 16px;">
+                    <button class="primary">+ Add Index</button>
+                    <button>Import Data</button>
+                </div>
+                <div class="card">
+                    <table class="data-grid">
+                        <thead>
+                            <tr><th>Name</th><th>Document Count</th><th>Storage Size</th><th>Vector</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>hotels-sample</td><td>50</td><td>2.5 MB</td><td>No</td><td><button>Edit</button></td></tr>
+                            <tr><td>realestate-us-sample</td><td>12,050</td><td>150 MB</td><td>Yes</td><td><button>Edit</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Aliases -->
+            <div id="page-aliases" class="page">
+                <div class="card">
+                    <h2>Index Aliases</h2>
+                    <p style="color:#888; margin-bottom:16px;">Map an alias name to a target index to allow seamless updates.</p>
+                    <table class="data-grid">
+                        <thead><tr><th>Alias Name</th><th>Target Index</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr><td>prod-index</td><td>realestate-v2</td><td><button>Map</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Synonyms -->
+            <div id="page-synonyms" class="page">
+                <div class="card">
+                    <h2>Synonym Maps</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Format</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr><td>city-synonyms</td><td>Solr</td><td><button>Edit</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Suggestions -->
+            <div id="page-suggestions" class="page">
+                <div class="card">
+                    <h2>Suggesters Configuration</h2>
+                    <div class="form-group">
+                        <label>Select Index</label>
+                        <select><option>hotels-sample</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Suggester Name</label>
+                        <input type="text" value="sg">
+                    </div>
+                    <div class="form-group">
+                        <label>Source Fields</label>
+                        <div style="padding: 8px; background: #333; border: 1px solid #444;">
+                            <input type="checkbox" checked> HotelName<br>
+                            <input type="checkbox"> Category
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic: Data Sources -->
+            <div id="page-datasources" class="page">
+                <div class="card">
+                    <h2>Data Sources</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Type</th><th>Container/Table</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr><td>blob-storage-ds</td><td>azureblob</td><td>documents</td><td><button>Test</button></td></tr>
+                            <tr><td>sql-db-ds</td><td>azuresql</td><td>products</td><td><button>Test</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Indexers -->
+            <div id="page-indexers" class="page">
+                <div class="card">
+                    <h2>Indexers</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Data Source</th><th>Target Index</th><th>Status</th><th>Last Run</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr><td>blob-indexer</td><td>blob-storage-ds</td><td>docs-index</td><td><span class="status-badge status-ok">Success</span></td><td>10 mins ago</td><td><button>Run</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Skillsets -->
+            <div id="page-skillsets" class="page">
+                <div class="card">
+                    <h2>Skillsets</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Skills Count</th><th>Cognitive Service</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr><td>ocr-skillset</td><td>3</td><td>Free (Limited)</td><td><button>Visual Editor</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Knowledge Stores -->
+            <div id="page-knowledgestores" class="page">
+                <div class="card">
+                    <h2>Knowledge Store Projections</h2>
+                    <div class="form-group">
+                        <label>Connection String</label>
+                        <input type="password" value="****************">
+                    </div>
+                    <table class="data-grid">
+                        <thead><tr><th>Projection Name</th><th>Type</th><th>Source Context</th></tr></thead>
+                        <tbody>
+                            <tr><td>image-projection</td><td>Object</td><td>/document/images/*</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Retrieval -->
+            <div id="page-retrieval" class="page">
+                <div class="card">
+                    <h2>Advanced Query Builder</h2>
+                    <div class="tabs">
+                        <div class="tab active">Full Text</div>
+                        <div class="tab">Vector</div>
+                        <div class="tab">Hybrid</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Filter (OData)</label>
+                        <input type="text" placeholder="category eq 'Luxury'">
+                    </div>
+                    <div class="form-group">
+                        <label>Select Fields</label>
+                        <input type="text" placeholder="HotelName, Rating">
+                    </div>
+                    <div class="form-group">
+                        <label>Facets</label>
+                        <input type="text" placeholder="Category, Rating">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic: Vectorization -->
+            <div id="page-vectorization" class="page">
+                <div class="card">
+                    <h2>Vectorizers</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Kind</th><th>Model</th></tr></thead>
+                        <tbody>
+                            <tr><td>openai-embedding</td><td>AzureOpenAI</td><td>text-embedding-ada-002</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classic: Relevance -->
+            <div id="page-relevance" class="page">
+                <div class="card">
+                    <h2>Scoring Profiles & Semantic Ranking</h2>
+                    <div class="form-group">
+                        <label>Semantic Configuration</label>
+                        <select><option>default</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Scoring Profile</label>
+                        <select><option>boost-recent</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic: Developer Tools -->
+            <div id="page-devtools" class="page">
+                <div class="card">
+                    <h2>REST API & SDKs</h2>
+                    <div class="form-group">
+                        <label>API Version</label>
+                        <select><option>2024-07-01</option><option>2024-05-01-preview</option></select>
+                    </div>
+                    <p>Generate SDK code snippets for current configuration.</p>
+                    <div class="tabs">
+                        <div class="tab active">C#</div>
+                        <div class="tab">Python</div>
+                        <div class="tab">JavaScript</div>
+                    </div>
+                    <div class="json-preview">
+var client = new SearchClient(endpoint, indexName, credential);
+var options = new SearchOptions { Filter = "rating gt 4" };
+var response = await client.SearchAsync<Hotel>("*", options);
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agentic: Playground -->
+            <div id="page-agentic-playground" class="page">
+                <div class="card" style="height: 600px; display: flex; flex-direction: column;">
+                    <h2>Agentic Chat</h2>
+                    <div style="flex: 1; background: #111; border: 1px solid #333; margin-bottom: 10px; padding: 10px;">
+                        <div style="margin-bottom: 10px;">
+                            <span style="color: #0078d4; font-weight: bold;">User:</span> How do I reset an indexer?
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <span style="color: #4caf50; font-weight: bold;">Agent:</span> You can reset an indexer using the 'Run' command with the reset flag...
+                            <div style="font-size: 11px; color: #888; margin-top: 4px;">Sources: indexer-overview.pdf</div>
+                        </div>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Ask a question..." style="flex:1">
+                        <button class="primary">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agentic: Knowledge Sources -->
+            <div id="page-knowledge-sources" class="page">
+                <div class="card">
+                    <h2>Knowledge Sources</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Type</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>company-sharepoint</td><td>SharePoint</td><td><span class="status-badge status-ok">Connected</span></td></tr>
+                            <tr><td>public-website</td><td>Web</td><td><span class="status-badge status-warn">Crawling</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agentic: Knowledge Bases -->
+            <div id="page-knowledge-bases" class="page">
+                <div class="card">
+                    <h2>Knowledge Bases</h2>
+                    <p>Define retrieval logic and answer synthesis.</p>
+                    <table class="data-grid">
+                        <thead><tr><th>Name</th><th>Sources</th><th>Model</th></tr></thead>
+                        <tbody>
+                            <tr><td>hr-policy-kb</td><td>company-sharepoint</td><td>gpt-4o</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Monitoring: Diagnostics -->
+            <div id="page-diagnostics" class="page">
+                <div class="card">
+                    <h2>Diagnostic Settings</h2>
+                    <div class="form-group">
+                        <label>Log Analytics Workspace</label>
+                        <input type="text" value="/subscriptions/.../workspaces/my-logs">
+                    </div>
+                    <div class="form-group">
+                        <label>Storage Account</label>
+                        <input type="text" value="mystorageaccount">
+                    </div>
+                    <button class="primary">Save Settings</button>
+                </div>
+            </div>
+
+            <!-- Monitoring: Query Monitoring -->
+            <div id="page-query-monitoring" class="page">
+                <div class="card">
+                    <h2>Query Performance</h2>
+                    <div style="height: 200px; background: #333; display: flex; align-items: center; justify-content: center; color: #888;">
+                        [Chart Placeholder: Query Volume over 24h]
+                    </div>
+                    <table class="data-grid" style="margin-top: 16px;">
+                        <thead><tr><th>Query</th><th>Latency (ms)</th><th>Count</th></tr></thead>
+                        <tbody>
+                            <tr><td>search=*</td><td>45</td><td>1200</td></tr>
+                            <tr><td>luxury</td><td>120</td><td>340</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Monitoring: Indexer Monitoring -->
+            <div id="page-indexer-monitoring" class="page">
+                <div class="card">
+                    <h2>Indexer Execution History</h2>
+                    <table class="data-grid">
+                        <thead><tr><th>Indexer</th><th>Start Time</th><th>Duration</th><th>Docs Succeeded</th><th>Errors</th></tr></thead>
+                        <tbody>
+                            <tr><td>blob-indexer</td><td>2024-01-04 10:00</td><td>2m 30s</td><td>500</td><td>0</td></tr>
+                            <tr><td>sql-indexer</td><td>2024-01-04 09:00</td><td>0m 45s</td><td>0</td><td>1 (Connection failed)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Monitoring: Performance -->
+            <div id="page-performance" class="page">
+                <div class="card">
+                    <h2>Performance Analysis</h2>
+                    <div class="card" style="background: #333; border: none;">
+                        <h3>Tips</h3>
+                        <ul>
+                            <li>High latency detected on 'vector-search' queries. Consider increasing replicas.</li>
+                            <li>Indexer 'sql-indexer' is throttling. Check DTU usage on SQL.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div id="page-settings" class="page">
+                <div class="card-grid">
+                    <div class="card">
+                        <h2>Application Settings</h2>
+                        <div class="form-group">
+                            <label>Theme</label>
+                            <select>
+                                <option>Dark (Default)</option>
+                                <option>Light</option>
+                                <option>High Contrast</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Default API Version</label>
+                            <select>
+                                <option>2024-07-01</option>
+                                <option>2024-05-01-preview</option>
+                                <option>2023-11-01</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Telemetry</label>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" checked style="width: auto;"> 
+                                <span>Send anonymous usage data to help improve the app</span>
+                            </div>
+                        </div>
+                        <button class="primary">Save Preferences</button>
+                    </div>
+                    <div class="card">
+                        <h2>About</h2>
+                        <p>Azure AI Search Explorer v0.1.0</p>
+                        <p style="color: #888;">A lightweight cross-platform tool for managing Azure AI Search services.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <div id="bottom-panel">
+            <div class="panel-header">
+                <span>Output / Logs</span>
+                <div class="panel-actions">
+                    <button class="icon-btn" title="Clear Logs"><i class="fas fa-ban"></i></button>
+                    <button class="icon-btn" onclick="togglePanel()" title="Close Panel"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="panel-content">
+                <div class="log-entry log-info">[10:00:01] Service connected successfully to 'dev-search-service'.</div>
+                <div class="log-entry log-info">[10:00:02] Loaded 2 indexes, 3 indexers, 1 skillset.</div>
+                <div class="log-entry log-warn">[10:05:23] Warning: Indexer 'sql-indexer' took longer than expected (45s).</div>
+                <div class="log-entry log-error">[10:12:05] Error: Failed to fetch synonym map 'city-synonyms'. 404 Not Found.</div>
+            </div>
+        </div>
+
+    </div>
+    </div> <!-- End of app-container -->
+
+    <script>
+        // State
+        let tabs = [];
+        let activeTabId = null;
+        
+        // Page Metadata (Title, Icon, Parent)
+        const pageMeta = {
+            'service': { title: 'Service', icon: 'fas fa-server', parent: 'Classic' },
+            'playground': { title: 'Playground', icon: 'fas fa-search', parent: 'Classic' },
+            'indexes': { title: 'Indexes', icon: 'fas fa-table', parent: 'Classic' },
+            'aliases': { title: 'Aliases', icon: 'fas fa-share', parent: 'Classic' },
+            'synonyms': { title: 'Synonym Maps', icon: 'fas fa-language', parent: 'Classic' },
+            'suggestions': { title: 'Suggestions', icon: 'far fa-lightbulb', parent: 'Classic' },
+            'datasources': { title: 'Data Sources', icon: 'fas fa-database', parent: 'Classic' },
+            'indexers': { title: 'Indexers', icon: 'fas fa-sync', parent: 'Classic' },
+            'skillsets': { title: 'Skillsets', icon: 'fas fa-brain', parent: 'Classic' },
+            'knowledgestores': { title: 'Knowledge Stores', icon: 'fas fa-archive', parent: 'Classic' },
+            'retrieval': { title: 'Retrieval', icon: 'fas fa-filter', parent: 'Classic' },
+            'vectorization': { title: 'Vectorization', icon: 'fas fa-vector-square', parent: 'Classic' },
+            'relevance': { title: 'Relevance', icon: 'fas fa-sort-amount-up', parent: 'Classic' },
+            'devtools': { title: 'Developer Tools', icon: 'fas fa-code', parent: 'Classic' },
+            'agentic-playground': { title: 'Agentic Playground', icon: 'fas fa-robot', parent: 'Agentic' },
+            'knowledge-sources': { title: 'Knowledge Sources', icon: 'fas fa-book', parent: 'Agentic' },
+            'knowledge-bases': { title: 'Knowledge Bases', icon: 'fas fa-sitemap', parent: 'Agentic' },
+            'diagnostics': { title: 'Diagnostics', icon: 'fas fa-stethoscope', parent: 'Monitoring' },
+            'query-monitoring': { title: 'Query Monitoring', icon: 'fas fa-chart-line', parent: 'Monitoring' },
+            'indexer-monitoring': { title: 'Indexer Monitoring', icon: 'fas fa-history', parent: 'Monitoring' },
+            'performance': { title: 'Performance', icon: 'fas fa-tachometer-alt', parent: 'Monitoring' },
+            'settings': { title: 'Settings', icon: 'fas fa-cog', parent: 'App' }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('service'); // Open default tab
+        });
+
+        function showPage(pageId) {
+            // Check if tab exists
+            const existingTab = tabs.find(t => t.id === pageId);
+            if (!existingTab) {
+                // Create new tab
+                const meta = pageMeta[pageId] || { title: pageId, icon: 'fas fa-file', parent: 'Unknown' };
+                tabs.push({ id: pageId, ...meta });
+            }
+            
+            // Switch to it
+            switchTab(pageId);
+        }
+
+        function switchTab(pageId) {
+            activeTabId = pageId;
+            renderTabs();
+            renderContent();
+            updateSidebar();
+            updateBreadcrumbs();
+        }
+
+        function closeTab(e, pageId) {
+            e.stopPropagation(); // Prevent switching to tab when closing
+            
+            const index = tabs.findIndex(t => t.id === pageId);
+            if (index > -1) {
+                tabs.splice(index, 1);
+                
+                // If we closed the active tab, switch to another one
+                if (activeTabId === pageId) {
+                    if (tabs.length > 0) {
+                        // Switch to the previous tab or the first one
+                        const newIndex = Math.max(0, index - 1);
+                        switchTab(tabs[newIndex].id);
+                    } else {
+                        activeTabId = null;
+                        renderTabs();
+                        renderContent(); // Will hide all pages
+                        updateBreadcrumbs();
+                    }
+                } else {
+                    renderTabs();
+                }
+            }
+        }
+
+        function renderTabs() {
+            const tabBar = document.getElementById('tab-bar');
+            tabBar.innerHTML = '';
+            
+            tabs.forEach(tab => {
+                const tabEl = document.createElement('div');
+                tabEl.className = `tab-item ${tab.id === activeTabId ? 'active' : ''}`;
+                tabEl.onclick = () => switchTab(tab.id);
+                tabEl.innerHTML = `
+                    <i class="${tab.icon}"></i>
+                    <span>${tab.title}</span>
+                    <div class="tab-close" onclick="closeTab(event, '${tab.id}')"><i class="fas fa-times"></i></div>
+                `;
+                tabBar.appendChild(tabEl);
+            });
+        }
+
+        function renderContent() {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            if (activeTabId) {
+                const targetPage = document.getElementById('page-' + activeTabId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+            }
+        }
+
+        function updateSidebar() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (activeTabId && item.getAttribute('onclick').includes(activeTabId)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function updateBreadcrumbs() {
+            const breadcrumbs = document.getElementById('breadcrumbs');
+            if (!activeTabId) {
+                breadcrumbs.innerHTML = '';
+                return;
+            }
+            
+            const meta = pageMeta[activeTabId];
+            breadcrumbs.innerHTML = `
+                <span>${meta.parent}</span> 
+                <i class="fas fa-chevron-right"></i> 
+                <span class="current">${meta.title}</span>
+            `;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+
+        function togglePanel() {
+            const panel = document.getElementById('bottom-panel');
+            panel.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
