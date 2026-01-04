@@ -1,0 +1,37 @@
+:root {
+  /* Dark Theme (Default) */
+  --bg-color: #1e1e1e;
+  --sidebar-bg: #252526;
+  --text-color: #cccccc;
+  --accent-color: #0078d4;
+  --border-color: #3e3e42;
+  --hover-color: #2a2d2e;
+  --active-color: #37373d;
+  
+  /* Layout Sizes */
+  --header-height: 40px;
+  --sidebar-width: 250px;
+  --tab-height: 35px;
+  --status-bar-height: 22px;
+  
+  /* Typography */
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  --font-size-base: 13px;
+  
+  /* Status Colors */
+  --status-ok-bg: #1e4620;
+  --status-ok-text: #4caf50;
+  --status-warn-bg: #4d3800;
+  --status-warn-text: #ffcc00;
+  --status-error-text: #f48771;
+}
+
+body.light-theme {
+  --bg-color: #ffffff;
+  --sidebar-bg: #f3f3f3;
+  --text-color: #333333;
+  --border-color: #e1e1e1;
+  --hover-color: #e8e8e8;
+  --active-color: #ffffff;
+}

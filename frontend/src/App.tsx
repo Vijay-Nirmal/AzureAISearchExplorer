@@ -1,57 +1,25 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import React from 'react';
+import { LayoutProvider } from './context/LayoutContext';
+import { Sidebar } from './components/layout/Sidebar';
+import { Header } from './components/layout/Header';
+import { TabBar } from './components/layout/TabBar';
+import { ContentArea } from './components/layout/ContentArea';
+import { BottomPanel } from './components/layout/BottomPanel';
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
-
-function App() {
-  const [forecasts, setForecasts] = useState<WeatherForecast[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/weatherforecast')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setForecasts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
+const App: React.FC = () => {
   return (
-    <div className="container">
-      <h1>Azure AI Search Explorer</h1>
-      <h2>Backend Integration Test</h2>
-      
-      {loading && <p>Loading backend data...</p>}
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      
-      {!loading && !error && (
-        <div className="grid">
-          {forecasts.map((forecast, index) => (
-            <div key={index} className="card">
-              <h3>{forecast.date}</h3>
-              <p>Temp: {forecast.temperatureC}°C / {forecast.temperatureF}°F</p>
-              <p>Summary: {forecast.summary}</p>
-            </div>
-          ))}
+    <LayoutProvider>
+      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', width: '100%' }}>
+        <Sidebar />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <Header />
+          <TabBar />
+          <ContentArea />
+          <BottomPanel />
         </div>
-      )}
-    </div>
+      </div>
+    </LayoutProvider>
   );
-}
+};
 
 export default App;

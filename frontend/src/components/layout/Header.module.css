@@ -1,0 +1,32 @@
+.header {
+  height: var(--header-height);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: var(--bg-color);
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.breadcrumbs {
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.current {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.breadcrumbs i {
+  font-size: 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}

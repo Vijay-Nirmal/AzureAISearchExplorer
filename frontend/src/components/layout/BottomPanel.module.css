@@ -1,0 +1,39 @@
+.bottomPanel {
+  height: 180px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.header {
+  height: 28px;
+  background-color: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.logEntry {
+  margin-bottom: 4px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 2px;
+}
+
+.info { color: var(--text-color); }
+.error { color: var(--status-error-text); }
+.warn { color: var(--status-warn-text); }

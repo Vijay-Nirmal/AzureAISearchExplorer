@@ -1,0 +1,48 @@
+.button {
+  background-color: var(--active-color);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.1s;
+}
+
+.button:hover {
+  background-color: var(--hover-color);
+}
+
+.primary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.primary:hover {
+  background-color: #0063b1;
+}
+
+.icon {
+  background-color: transparent;
+  border: none;
+  padding: 4px;
+  color: #888;
+}
+
+.icon:hover {
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+/* Light theme adjustments if needed, though variables handle most */
+:global(body.light-theme) .button {
+  color: var(--text-color);
+}
+
+:global(body.light-theme) .primary {
+  color: #fff;
+}

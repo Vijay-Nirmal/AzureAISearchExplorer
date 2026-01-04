@@ -1,0 +1,21 @@
+.select {
+  width: 100%;
+  background-color: #3c3c3c;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: 1px solid var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+:global(body.light-theme) .select {
+  background-color: #ffffff;
+  color: #333;
+}

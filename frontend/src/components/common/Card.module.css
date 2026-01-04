@@ -1,0 +1,27 @@
+.card {
+  background-color: #252526;
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-top: 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  color: #fff;
+  font-weight: 600;
+}
+
+:global(body.light-theme) .card {
+  background-color: #ffffff;
+}
+
+:global(body.light-theme) .header {
+  color: #333;
+}
