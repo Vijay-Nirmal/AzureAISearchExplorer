@@ -1,0 +1,33 @@
+{
+  "name": "azure-ai-search-explorer",
+  "version": "1.0.0",
+  "description": "Azure AI Search Explorer",
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install && cd ../electron && npm install",
+    "start:frontend": "cd frontend && npm run dev",
+    "start:electron": "cd electron && npm start",
+    "start:backend": "cd backend && dotnet run --project AzureAISearchExplorer.Backend",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\" \"wait-on http://localhost:5173 && npm run start:electron\"",
+    "clean": "rimraf backend/publish electron/dist electron/renderer frontend/dist",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && dotnet publish -c Release -o ../backend/publish",
+    "build:backend:win": "cd backend && dotnet publish -c Release -r win-x64 --self-contained -o ../backend/publish",
+    "build:backend:mac": "cd backend && dotnet publish -c Release -r osx-x64 --self-contained -o ../backend/publish",
+    "build:backend:linux": "cd backend && dotnet publish -c Release -r linux-x64 --self-contained -o ../backend/publish",
+    "prebuild:electron": "rimraf electron/renderer && copyfiles -u 2 \"frontend/dist/**/*\" electron/renderer",
+    "build:electron": "cd electron && npm run dist",
+    "build:electron:win": "cd electron && npm run dist -- --win",
+    "build:electron:mac": "cd electron && npm run dist -- --mac",
+    "build:electron:linux": "cd electron && npm run dist -- --linux",
+    "build": "npm run clean && npm run build:frontend && npm run build:backend && npm run prebuild:electron && npm run build:electron",
+    "build:win": "npm run clean && npm run build:frontend && npm run build:backend:win && npm run prebuild:electron && npm run build:electron:win",
+    "build:mac": "npm run clean && npm run build:frontend && npm run build:backend:mac && npm run prebuild:electron && npm run build:electron:mac",
+    "build:linux": "npm run clean && npm run build:frontend && npm run build:backend:linux && npm run prebuild:electron && npm run build:electron:linux"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^6.1.2",
+    "wait-on": "^7.2.0"
+  }
+}

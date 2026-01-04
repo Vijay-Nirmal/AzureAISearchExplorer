@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+bin
+obj
+.vs
+.vscode
+*.log
+.DS_Store
+publish
