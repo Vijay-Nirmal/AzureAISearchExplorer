@@ -162,6 +162,16 @@ export const AddConnectionPage: React.FC<AddConnectionPageProps> = ({ connection
                         <p className={styles.infoText}>
                             <i className="fas fa-info-circle"></i> You will be prompted to sign in via your browser.
                         </p>
+                        <Button variant="secondary" onClick={async () => {
+                            try {
+                                await connectionService.clearAuthCache();
+                                alert('Authentication cache cleared. You will be prompted to sign in again on next use.');
+                            } catch (e) {
+                                alert('Failed to clear cache');
+                            }
+                        }} style={{ marginTop: '8px', fontSize: '12px', padding: '4px 8px' }}>
+                            Clear Saved Credentials
+                        </Button>
                     </div>
                 )}
 

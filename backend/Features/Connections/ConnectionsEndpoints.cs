@@ -14,8 +14,7 @@ public static class ConnectionsEndpoints
     public static void MapConnectionsEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/connections")
-            .WithTags("Connections")
-            .WithOpenApi();
+            .WithTags("Connections");
 
         // Endpoint to retrieve all saved connection profiles
         group.MapGet("/", async (IRepository<ConnectionProfile> repo) =>

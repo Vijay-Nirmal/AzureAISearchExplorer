@@ -44,4 +44,18 @@ export interface ServiceOverview {
     tags?: Record<string, string>;
     isManagementAvailable: boolean;
     resourceId?: string;
+    
+    // Extended Details
+    networkRuleSet?: string;
+    disableLocalAuth?: boolean;
+    authOptions?: string;
+    encryptionWithCmk?: string;
+    privateEndpointConnections?: string[];
+    sharedPrivateLinkResources?: string[];
+    systemDataCreatedAt?: string;
+    systemDataCreatedBy?: string;
+    systemDataLastModifiedAt?: string;
+    systemDataLastModifiedBy?: string;
+    provisioningState?: string;
+    semanticSearch?: string;
 }

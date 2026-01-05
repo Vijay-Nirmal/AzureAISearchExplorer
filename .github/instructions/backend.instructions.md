@@ -46,6 +46,7 @@ applyTo: "backend/**"
   - All unhandled exceptions are logged and returned as `ProblemDetails` (RFC 7807).
   - Do not catch generic exceptions in endpoints unless you can handle them gracefully; let them bubble up to the global handler.
 - **API Design**: Follow RESTful conventions.
+- **OpenAPI**: Ensure all endpoints are properly detailed documented for OpenAPI generation.
 
 ## Running the App
 - **Command**:

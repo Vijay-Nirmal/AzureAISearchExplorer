@@ -19,4 +19,18 @@ public class ServiceFullOverview
     public IDictionary<string, string>? Tags { get; set; }
     public bool IsManagementAvailable { get; set; }
     public string? ResourceId { get; set; }
+
+    // Extended Details
+    public string? NetworkRuleSet { get; set; }
+    public bool? DisableLocalAuth { get; set; }
+    public string? AuthOptions { get; set; }
+    public string? EncryptionWithCmk { get; set; }
+    public IEnumerable<string>? PrivateEndpointConnections { get; set; }
+    public IEnumerable<string>? SharedPrivateLinkResources { get; set; }
+    public string? SystemDataCreatedAt { get; set; }
+    public string? SystemDataCreatedBy { get; set; }
+    public string? SystemDataLastModifiedAt { get; set; }
+    public string? SystemDataLastModifiedBy { get; set; }
+    public string? ProvisioningState { get; set; }
+    public string? SemanticSearch { get; set; }
 }

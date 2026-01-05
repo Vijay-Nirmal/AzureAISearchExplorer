@@ -32,5 +32,13 @@ export const connectionService = {
 
     scaleService: async (connectionId: string, resourceId: string, replicaCount?: number, partitionCount?: number): Promise<void> => {
         await apiClient.put(`/api/service/${connectionId}/scale`, { resourceId, replicaCount, partitionCount });
+    },
+
+    updateService: async (connectionId: string, resourceId: string, publicNetworkAccess?: boolean, disableLocalAuth?: boolean): Promise<void> => {
+        await apiClient.put(`/api/service/${connectionId}/update`, { resourceId, publicNetworkAccess, disableLocalAuth });
+    },
+
+    clearAuthCache: async (): Promise<void> => {
+        await apiClient.post('/api/service/clear-auth-cache', {});
     }
 };

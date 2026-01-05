@@ -14,10 +14,18 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
     const [overview, setOverview] = useState<ServiceOverview | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    
+    // Scaling State
     const [isScaling, setIsScaling] = useState(false);
     const [scaleReplica, setScaleReplica] = useState(1);
     const [scalePartition, setScalePartition] = useState(1);
     const [scalingLoading, setScalingLoading] = useState(false);
+
+    // Settings Update State
+    const [isEditingSettings, setIsEditingSettings] = useState(false);
+    const [editPublicAccess, setEditPublicAccess] = useState(false);
+    const [editLocalAuth, setEditLocalAuth] = useState(false);
+    const [updatingSettings, setUpdatingSettings] = useState(false);
     
     const { openTab } = useLayout();
 
@@ -33,6 +41,10 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
             setOverview(data);
             if (data.replicaCount) setScaleReplica(data.replicaCount);
             if (data.partitionCount) setScalePartition(data.partitionCount);
+            
+            // Initialize settings state
+            setEditPublicAccess(data.publicNetworkAccess === 'Enabled');
+            setEditLocalAuth(data.disableLocalAuth ?? false);
         } catch (err: any) {
             setError(err.message || 'Failed to load service overview');
         } finally {
@@ -51,6 +63,25 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
             alert('Failed to scale service: ' + err.message);
         } finally {
             setScalingLoading(false);
+        }
+    };
+
+    const handleUpdateSettings = async () => {
+        if (!overview?.resourceId) return;
+        setUpdatingSettings(true);
+        try {
+            await connectionService.updateService(
+                connectionId, 
+                overview.resourceId, 
+                editPublicAccess, 
+                editLocalAuth
+            );
+            setIsEditingSettings(false);
+            await loadOverview();
+        } catch (err: any) {
+            alert('Failed to update service settings: ' + err.message);
+        } finally {
+            setUpdatingSettings(false);
         }
     };
 
@@ -88,75 +119,187 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
             <div className={styles.grid}>
                 {/* Management Plane Details */}
                 {isManagementAvailable && (
-                    <Card>
-                        <div className={styles.cardHeader}>
-                            <h3>Properties</h3>
-                            {!isScaling ? (
-                                <button className={styles.iconBtn} onClick={() => setIsScaling(true)} title="Scale Service">
-                                    <i className="fas fa-sliders-h"></i> Scale
-                                </button>
-                            ) : (
-                                <div className={styles.scaleActions}>
-                                    <button className={styles.iconBtn} onClick={handleScale} disabled={scalingLoading}>
-                                        <i className="fas fa-check"></i>
+                    <>
+                        <Card>
+                            <div className={styles.cardHeader}>
+                                <h3>Properties</h3>
+                                {!isScaling ? (
+                                    <button className={styles.iconBtn} onClick={() => setIsScaling(true)} title="Scale Service">
+                                        <i className="fas fa-sliders-h"></i> Scale
                                     </button>
-                                    <button className={styles.iconBtn} onClick={() => setIsScaling(false)} disabled={scalingLoading}>
-                                        <i className="fas fa-times"></i>
+                                ) : (
+                                    <div className={styles.scaleActions}>
+                                        <button className={styles.iconBtn} onClick={handleScale} disabled={scalingLoading}>
+                                            <i className="fas fa-check"></i>
+                                        </button>
+                                        <button className={styles.iconBtn} onClick={() => setIsScaling(false)} disabled={scalingLoading}>
+                                            <i className="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                            <table className={styles.table}>
+                                <tbody>
+                                    <tr>
+                                        <td>Location</td>
+                                        <td>{overview.location}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SKU</td>
+                                        <td>{overview.sku}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Replicas</td>
+                                        <td>
+                                            {isScaling ? (
+                                                <Input 
+                                                    type="number" 
+                                                    min="1" 
+                                                    max="12" 
+                                                    value={scaleReplica} 
+                                                    onChange={(e) => setScaleReplica(parseInt(e.target.value))}
+                                                    className={styles.scaleInput}
+                                                />
+                                            ) : overview.replicaCount}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Partitions</td>
+                                        <td>
+                                            {isScaling ? (
+                                                <Input 
+                                                    type="number" 
+                                                    min="1" 
+                                                    max="12" 
+                                                    value={scalePartition} 
+                                                    onChange={(e) => setScalePartition(parseInt(e.target.value))}
+                                                    className={styles.scaleInput}
+                                                />
+                                            ) : overview.partitionCount}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hosting Mode</td>
+                                        <td>{overview.hostingMode}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Provisioning State</td>
+                                        <td>{overview.provisioningState}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semantic Search</td>
+                                        <td>{overview.semanticSearch || 'Disabled'}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Card>
+
+                        <Card>
+                            <div className={styles.cardHeader}>
+                                <h3>Networking & Security</h3>
+                                {!isEditingSettings ? (
+                                    <button className={styles.iconBtn} onClick={() => setIsEditingSettings(true)} title="Edit Settings">
+                                        <i className="fas fa-cog"></i> Edit
                                     </button>
-                                </div>
-                            )}
-                        </div>
-                        <table className={styles.table}>
-                            <tbody>
-                                <tr>
-                                    <td>Location</td>
-                                    <td>{overview.location}</td>
-                                </tr>
-                                <tr>
-                                    <td>SKU</td>
-                                    <td>{overview.sku}</td>
-                                </tr>
-                                <tr>
-                                    <td>Replicas</td>
-                                    <td>
-                                        {isScaling ? (
-                                            <Input 
-                                                type="number" 
-                                                min="1" 
-                                                max="12" 
-                                                value={scaleReplica} 
-                                                onChange={(e) => setScaleReplica(parseInt(e.target.value))}
-                                                className={styles.scaleInput}
-                                            />
-                                        ) : overview.replicaCount}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Partitions</td>
-                                    <td>
-                                        {isScaling ? (
-                                            <Input 
-                                                type="number" 
-                                                min="1" 
-                                                max="12" 
-                                                value={scalePartition} 
-                                                onChange={(e) => setScalePartition(parseInt(e.target.value))}
-                                                className={styles.scaleInput}
-                                            />
-                                        ) : overview.partitionCount}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Hosting Mode</td>
-                                    <td>{overview.hostingMode}</td>
-                                </tr>
-                                <tr>
-                                    <td>Public Access</td>
-                                    <td>{overview.publicNetworkAccess}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </Card>
+                                ) : (
+                                    <div className={styles.scaleActions}>
+                                        <button className={styles.iconBtn} onClick={handleUpdateSettings} disabled={updatingSettings}>
+                                            <i className="fas fa-check"></i>
+                                        </button>
+                                        <button className={styles.iconBtn} onClick={() => setIsEditingSettings(false)} disabled={updatingSettings}>
+                                            <i className="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                            <table className={styles.table}>
+                                <tbody>
+                                    <tr>
+                                        <td>Public Network Access</td>
+                                        <td>
+                                            {isEditingSettings ? (
+                                                <label className={styles.toggle}>
+                                                    <input 
+                                                        type="checkbox" 
+                                                        checked={editPublicAccess} 
+                                                        onChange={(e) => setEditPublicAccess(e.target.checked)} 
+                                                    />
+                                                    <span className={styles.toggleLabel}>{editPublicAccess ? 'Enabled' : 'Disabled'}</span>
+                                                </label>
+                                            ) : overview.publicNetworkAccess}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Disable Local Auth</td>
+                                        <td>
+                                            {isEditingSettings ? (
+                                                <label className={styles.toggle}>
+                                                    <input 
+                                                        type="checkbox" 
+                                                        checked={editLocalAuth} 
+                                                        onChange={(e) => setEditLocalAuth(e.target.checked)} 
+                                                    />
+                                                    <span className={styles.toggleLabel}>{editLocalAuth ? 'Yes' : 'No'}</span>
+                                                </label>
+                                            ) : (overview.disableLocalAuth ? 'Yes' : 'No')}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Auth Options</td>
+                                        <td>
+                                            {overview.authOptions ? (
+                                                <pre className={styles.jsonValue}>{JSON.stringify(JSON.parse(overview.authOptions), null, 2)}</pre>
+                                            ) : 'N/A'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Encryption (CMK)</td>
+                                        <td>{overview.encryptionWithCmk || 'Unspecified'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Network Rule Set</td>
+                                        <td>
+                                            {overview.networkRuleSet ? (
+                                                <pre className={styles.jsonValue}>{JSON.stringify(JSON.parse(overview.networkRuleSet), null, 2)}</pre>
+                                            ) : 'None'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Private Endpoints</td>
+                                        <td>{overview.privateEndpointConnections?.length ? overview.privateEndpointConnections.join(', ') : 'None'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shared Private Links</td>
+                                        <td>{overview.sharedPrivateLinkResources?.length ? overview.sharedPrivateLinkResources.join(', ') : 'None'}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Card>
+
+                        <Card>
+                            <h3>System Information</h3>
+                            <table className={styles.table}>
+                                <tbody>
+                                    <tr>
+                                        <td>Created At</td>
+                                        <td>{overview.systemDataCreatedAt ? new Date(overview.systemDataCreatedAt).toLocaleString() : 'N/A'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created By</td>
+                                        <td>{overview.systemDataCreatedBy || 'N/A'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Modified At</td>
+                                        <td>{overview.systemDataLastModifiedAt ? new Date(overview.systemDataLastModifiedAt).toLocaleString() : 'N/A'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Modified By</td>
+                                        <td>{overview.systemDataLastModifiedBy || 'N/A'}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Card>
+                    </>
                 )}
 
                 <Card>

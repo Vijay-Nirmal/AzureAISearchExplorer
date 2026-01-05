@@ -40,6 +40,7 @@ public static class InfrastructureExtensions
 
         // Services
         services.AddScoped<AzureResourceResolver>();
+        services.AddSingleton<AuthenticationService>();
 
         // Logging
         services.AddSingleton<LogBufferService>();

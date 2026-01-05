@@ -148,3 +148,26 @@
     width: 60px;
     padding: 2px;
 }
+
+.toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+}
+
+.toggleLabel {
+    font-size: 13px;
+}
+
+.jsonValue {
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 11px;
+    background: var(--sidebar-bg);
+    padding: 4px;
+    border-radius: 4px;
+    max-height: 100px;
+    overflow-y: auto;
+}
