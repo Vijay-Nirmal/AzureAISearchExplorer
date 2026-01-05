@@ -52,7 +52,6 @@ applyTo: "frontend/**"
 - To start the frontend independently: `npm run start:frontend` (from the root directory)
 - To build the frontend: `npm run build:frontend` (from the root directory)
 - **Validation**: Always run `npm run build:frontend` after making changes to ensure the application builds successfully.
-- **Dependencies**: Always install frontend-specific dependencies inside the `frontend` folder (e.g., `cd frontend && npm install <package>`).
 
 ## API Communication
 - **Location**: `src/services/`

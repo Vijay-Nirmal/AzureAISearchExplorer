@@ -16,7 +16,7 @@ export const ContentArea: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px', overflowY: 'auto', flex: 1 }}>
+    <div style={{ padding: '20px', overflowY: 'auto', flex: 1, minHeight: 0 }}>
       <Card title={activeTab.title}>
         <p>This is the placeholder content for <strong>{activeTab.title}</strong>.</p>
         <p>Component ID: {activeTab.component}</p>

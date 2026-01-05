@@ -8,3 +8,7 @@ obj
 *.log
 .DS_Store
 publish
+
+# Electron build output
+electron/renderer/
+electron/dist/

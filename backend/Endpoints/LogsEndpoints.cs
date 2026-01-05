@@ -1,7 +1,9 @@
 using AzureAISearchExplorer.Backend.Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 
 namespace AzureAISearchExplorer.Backend.Endpoints;
 
@@ -21,6 +23,20 @@ public static class LogsEndpoints
         .WithDescription("Returns a list of the most recent logs captured by the in-memory buffer.")
         .Produces<IEnumerable<LogEntry>>(StatusCodes.Status200OK);
 
+        group.MapPost("/configuration", (LogBufferService logService, [FromBody] LogLevelConfig config) =>
+        {
+            if (Enum.TryParse<LogLevel>(config.Level, true, out var level))
+            {
+                logService.MinLogLevel = level;
+                return Results.Ok();
+            }
+            return Results.BadRequest("Invalid log level.");
+        })
+        .WithName("SetLogLevel")
+        .WithSummary("Sets the minimum log level")
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest);
+
         group.MapDelete("/", (LogBufferService logService) =>
         {
             logService.Clear();
@@ -32,3 +48,5 @@ public static class LogsEndpoints
         .Produces(StatusCodes.Status200OK);
     }
 }
+
+public record LogLevelConfig(string Level);
