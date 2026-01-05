@@ -4,6 +4,12 @@ Azure AI Search Explorer is a lightweight GUI for exploring and managing an Azur
 It helps you create and inspect indexes, ingestion pipelines (data sources, indexers, skillsets), and run queries (full-text, vector, hybrid).
 Under the hood it uses Azure AI Search REST APIs, making it useful for learning, debugging, and validating configurations.
 
+## Features
+
+- **Connection Management**: Securely connect to multiple Azure AI Search services using Azure AD (RBAC), API Keys, or Managed Identities.
+- **Service Overview**: View comprehensive service statistics, quotas, and limits.
+  - **Management Plane Integration**: Inspect service properties (SKU, Location, Tags) and scale Replicas/Partitions directly from the UI.
+
 ## Running Instructions
 
 - Install dependencies: `npm run install:all`
