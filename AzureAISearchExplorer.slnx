@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/AzureAISearchExplorer.Backend.csproj" />
+  </Folder>
+  <Folder Name="/frontend/">
+    <Project Path="frontend/AzureAISearchExplorer.Frontend.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/electron/">
+    <Project Path="electron/AzureAISearchExplorer.Electron.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+</Solution>
