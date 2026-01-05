@@ -4,6 +4,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Resources;
 using AzureAISearchExplorer.Backend.Shared.Models;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace AzureAISearchExplorer.Backend.Infrastructure.Services;
 
@@ -37,7 +38,7 @@ public class AzureResourceResolver
 
         try
         {
-            var credential = GetCredential(profile);
+            var credential = await GetCredentialAsync(profile);
             var armClient = new ArmClient(credential);
 
             // Extract service name from endpoint
@@ -87,15 +88,19 @@ public class AzureResourceResolver
     /// </summary>
     /// <param name="profile">The connection profile.</param>
     /// <returns>A TokenCredential instance.</returns>
-    private TokenCredential GetCredential(ConnectionProfile profile)
+    private async Task<TokenCredential> GetCredentialAsync(ConnectionProfile profile)
     {
         if (profile.AuthType == "ManagedIdentity" && profile.ManagedIdentityType == "User" && !string.IsNullOrEmpty(profile.ClientId))
         {
             return new ManagedIdentityCredential(profile.ClientId);
         }
         
-        // For System MI or Azure AD (local dev), use DefaultAzureCredential
-        // We can pass TenantId if provided to scope it
+        if (profile.AuthType == "AzureAD")
+        {
+             return await GetInteractiveCredentialAsync(profile);
+        }
+
+        // For System MI or other cases, use DefaultAzureCredential
         var options = new DefaultAzureCredentialOptions();
         if (!string.IsNullOrEmpty(profile.TenantId))
         {
@@ -103,5 +108,78 @@ public class AzureResourceResolver
         }
         
         return new DefaultAzureCredential(options);
+    }
+
+    private async Task<TokenCredential> GetInteractiveCredentialAsync(ConnectionProfile profile)
+    {
+        var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        var authRecordPath = Path.Combine(appData, "AzureAISearchExplorer", "auth_record.bin");
+        
+        AuthenticationRecord? authRecord = null;
+
+        if (File.Exists(authRecordPath))
+        {
+            try
+            {
+                using var stream = new FileStream(authRecordPath, FileMode.Open, FileAccess.Read);
+                authRecord = await AuthenticationRecord.DeserializeAsync(stream);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to load auth record");
+            }
+        }
+
+        // Try silent auth if record exists
+        if (authRecord != null)
+        {
+            var silentOptions = new InteractiveBrowserCredentialOptions
+            {
+                TokenCachePersistenceOptions = new TokenCachePersistenceOptions(),
+                AuthenticationRecord = authRecord
+            };
+            if (!string.IsNullOrEmpty(profile.TenantId)) silentOptions.TenantId = profile.TenantId;
+
+            var silentCredential = new InteractiveBrowserCredential(silentOptions);
+            try
+            {
+                // Verify token acquisition
+                var context = new TokenRequestContext(new[] { "https://management.azure.com/.default" });
+                await silentCredential.GetTokenAsync(context);
+                return silentCredential;
+            }
+            catch
+            {
+                _logger.LogWarning("Silent authentication failed, falling back to interactive");
+                // Fall through to interactive
+            }
+        }
+
+        // Interactive auth
+        var options = new InteractiveBrowserCredentialOptions
+        {
+            TokenCachePersistenceOptions = new TokenCachePersistenceOptions()
+        };
+        if (!string.IsNullOrEmpty(profile.TenantId)) options.TenantId = profile.TenantId;
+
+        var credential = new InteractiveBrowserCredential(options);
+
+        try 
+        {
+            authRecord = await credential.AuthenticateAsync();
+            
+            var directory = Path.GetDirectoryName(authRecordPath);
+            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory!);
+            
+            using var stream = new FileStream(authRecordPath, FileMode.Create, FileAccess.Write);
+            await authRecord.SerializeAsync(stream);
+            
+            return credential;
+        }
+        catch(Exception ex)
+        {
+             _logger.LogError(ex, "Interactive authentication failed");
+             throw;
+        }
     }
 }

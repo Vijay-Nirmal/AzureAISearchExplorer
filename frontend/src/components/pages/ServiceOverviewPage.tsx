@@ -172,43 +172,43 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
                         <tbody>
                             <tr>
                                 <td>Indexes</td>
-                                <td>{stats.counters.indexCount.usage}</td>
-                                <td>{stats.counters.indexCount.quota ?? 'Unlimited'}</td>
+                                <td>{stats.counters.indexCount?.usage ?? 'N/A'}</td>
+                                <td>{stats.counters.indexCount?.quota ?? 'Unlimited'}</td>
                             </tr>
                             <tr>
                                 <td>Documents</td>
-                                <td>{stats.counters.documentCount.usage.toLocaleString()}</td>
-                                <td>{stats.counters.documentCount.quota ? stats.counters.documentCount.quota.toLocaleString() : 'Unlimited'}</td>
+                                <td>{stats.counters.documentCount?.usage?.toLocaleString() ?? 'N/A'}</td>
+                                <td>{stats.counters.documentCount?.quota ? stats.counters.documentCount.quota.toLocaleString() : 'Unlimited'}</td>
                             </tr>
                             <tr>
                                 <td>Storage</td>
-                                <td>{(stats.counters.storageSize.usage / 1024 / 1024).toFixed(2)} MB</td>
-                                <td>{stats.counters.storageSize.quota ? (stats.counters.storageSize.quota / 1024 / 1024).toFixed(2) + ' MB' : 'Unlimited'}</td>
+                                <td>{stats.counters.storageSize?.usage !== undefined ? (stats.counters.storageSize.usage / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}</td>
+                                <td>{stats.counters.storageSize?.quota ? (stats.counters.storageSize.quota / 1024 / 1024).toFixed(2) + ' MB' : 'Unlimited'}</td>
                             </tr>
                             <tr>
                                 <td>Indexers</td>
-                                <td>{stats.counters.indexerCount.usage}</td>
-                                <td>{stats.counters.indexerCount.quota ?? 'Unlimited'}</td>
+                                <td>{stats.counters.indexerCount?.usage ?? 'N/A'}</td>
+                                <td>{stats.counters.indexerCount?.quota ?? 'Unlimited'}</td>
                             </tr>
                             <tr>
                                 <td>Data Sources</td>
-                                <td>{stats.counters.dataSourceCount.usage}</td>
-                                <td>{stats.counters.dataSourceCount.quota ?? 'Unlimited'}</td>
+                                <td>{stats.counters.dataSourceCount?.usage ?? 'N/A'}</td>
+                                <td>{stats.counters.dataSourceCount?.quota ?? 'Unlimited'}</td>
                             </tr>
                             <tr>
                                 <td>Skillsets</td>
-                                <td>{stats.counters.skillsetCount.usage}</td>
-                                <td>{stats.counters.skillsetCount.quota ?? 'Unlimited'}</td>
+                                <td>{stats.counters.skillsetCount?.usage ?? 'N/A'}</td>
+                                <td>{stats.counters.skillsetCount?.quota ?? 'Unlimited'}</td>
                             </tr>
                             <tr>
                                 <td>Synonym Maps</td>
-                                <td>{stats.counters.synonymMapCount.usage}</td>
-                                <td>{stats.counters.synonymMapCount.quota ?? 'Unlimited'}</td>
+                                <td>{stats.counters.synonymMapCount?.usage ?? 'N/A'}</td>
+                                <td>{stats.counters.synonymMapCount?.quota ?? 'Unlimited'}</td>
                             </tr>
                              <tr>
                                 <td>Vector Index Size</td>
-                                <td>{(stats.counters.vectorIndexSize.usage / 1024 / 1024).toFixed(2)} MB</td>
-                                <td>{stats.counters.vectorIndexSize.quota ? (stats.counters.vectorIndexSize.quota / 1024 / 1024).toFixed(2) + ' MB' : 'Unlimited'}</td>
+                                <td>{stats.counters.vectorIndexSize?.usage !== undefined ? (stats.counters.vectorIndexSize.usage / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}</td>
+                                <td>{stats.counters.vectorIndexSize?.quota ? (stats.counters.vectorIndexSize.quota / 1024 / 1024).toFixed(2) + ' MB' : 'Unlimited'}</td>
                             </tr>
                         </tbody>
                     </table>

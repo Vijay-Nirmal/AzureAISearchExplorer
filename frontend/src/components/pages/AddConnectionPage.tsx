@@ -15,7 +15,7 @@ interface AddConnectionPageProps {
 }
 
 export const AddConnectionPage: React.FC<AddConnectionPageProps> = ({ connectionId, onSave }) => {
-    const { closeTab } = useLayout();
+    const { closeTab, openTab } = useLayout();
     const [profile, setProfile] = useState<ConnectionProfile>({
         name: '',
         endpoint: '',
@@ -67,14 +67,26 @@ export const AddConnectionPage: React.FC<AddConnectionPageProps> = ({ connection
         setIsLoading(true);
         setError(null);
         try {
+            let savedProfile = profile;
             if (profile.id) {
                 await connectionService.update(profile.id, profile);
             } else {
-                await connectionService.create(profile);
+                savedProfile = await connectionService.create(profile);
             }
             
             if (onSave) onSave();
             closeTab('add-connection');
+            
+            // Open Service Overview for new connections
+            if (!profile.id && savedProfile && savedProfile.id) {
+                 openTab({
+                    id: 'service',
+                    title: 'Service Overview',
+                    icon: 'fa-solid fa-server',
+                    component: 'service',
+                    props: { connectionId: savedProfile.id }
+                });
+            }
             
         } catch (error: any) {
             setError('Failed to save: ' + (error.message || 'Unknown error'));

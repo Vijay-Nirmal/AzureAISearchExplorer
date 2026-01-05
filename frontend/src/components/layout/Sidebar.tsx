@@ -98,24 +98,40 @@ export const Sidebar: React.FC = () => {
   return (
     <div className={styles.sidebar}>
       <div className={styles.resourceSwitcher}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', width: '100%' }}>
-            <Select 
-                value={activeConnectionId || ''} 
-                onChange={handleResourceChange}
-                style={{ flex: 1 }}
-            >
-            {connections.map(c => (
-                <option key={c.id} value={c.id}>{c.name || c.endpoint}</option>
-            ))}
-            <option value="add-new">+ Add New Service</option>
-            </Select>
-            <button className={styles.iconBtn} onClick={handleEditConnection} title="Edit Connection">
-                <i className="fas fa-pencil-alt"></i>
-            </button>
-            <button className={styles.iconBtn} onClick={handleDeleteConnection} title="Delete Connection">
-                <i className="fas fa-trash"></i>
-            </button>
-        </div>
+        {connections.length === 0 ? (
+             <button 
+                onClick={() => openTab({ 
+                    id: 'add-connection', 
+                    title: 'Add Connection', 
+                    icon: 'fa-solid fa-plug', 
+                    component: 'add-connection',
+                    props: { onSave: loadConnections }
+                })}
+                className={styles.addConnectionBtn}
+             >
+                <i className="fa-solid fa-plus"></i>
+                <span>Add Connection</span>
+             </button>
+        ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', width: '100%' }}>
+                <Select 
+                    value={activeConnectionId || ''} 
+                    onChange={handleResourceChange}
+                    style={{ flex: 1 }}
+                >
+                {connections.map(c => (
+                    <option key={c.id} value={c.id}>{c.name || c.endpoint}</option>
+                ))}
+                <option value="add-new">+ Add New Service</option>
+                </Select>
+                <button className={styles.iconBtn} onClick={handleEditConnection} title="Edit Connection">
+                    <i className="fas fa-pencil-alt"></i>
+                </button>
+                <button className={styles.iconBtn} onClick={handleDeleteConnection} title="Delete Connection">
+                    <i className="fas fa-trash"></i>
+                </button>
+            </div>
+        )}
       </div>
       
       <div className={styles.navScroll}>
