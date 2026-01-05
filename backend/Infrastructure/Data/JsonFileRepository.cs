@@ -57,17 +57,30 @@ public class JsonFileRepository<T> : IRepository<T> where T : BaseEntity
         await JsonSerializer.SerializeAsync(stream, items, _jsonOptions);
     }
 
+    /// <summary>
+    /// Retrieves all entities from the JSON file.
+    /// </summary>
+    /// <returns>A collection of entities.</returns>
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         return await ReadFileAsync();
     }
 
+    /// <summary>
+    /// Retrieves a specific entity by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the entity.</param>
+    /// <returns>The entity if found, otherwise null.</returns>
     public async Task<T?> GetByIdAsync(string id)
     {
         var items = await ReadFileAsync();
         return items.FirstOrDefault(x => x.Id == id);
     }
 
+    /// <summary>
+    /// Adds a new entity to the JSON file.
+    /// </summary>
+    /// <param name="entity">The entity to add.</param>
     public async Task AddAsync(T entity)
     {
         var items = await ReadFileAsync();
@@ -75,6 +88,10 @@ public class JsonFileRepository<T> : IRepository<T> where T : BaseEntity
         await WriteFileAsync(items);
     }
 
+    /// <summary>
+    /// Updates an existing entity in the JSON file.
+    /// </summary>
+    /// <param name="entity">The entity with updated values.</param>
     public async Task UpdateAsync(T entity)
     {
         var items = await ReadFileAsync();
@@ -86,6 +103,10 @@ public class JsonFileRepository<T> : IRepository<T> where T : BaseEntity
         }
     }
 
+    /// <summary>
+    /// Deletes an entity from the JSON file by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the entity to delete.</param>
     public async Task DeleteAsync(string id)
     {
         var items = await ReadFileAsync();

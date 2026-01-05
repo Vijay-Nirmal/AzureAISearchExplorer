@@ -9,11 +9,16 @@ namespace AzureAISearchExplorer.Backend.Endpoints;
 
 public static class LogsEndpoints
 {
+    /// <summary>
+    /// Maps the log-related endpoints to the application.
+    /// </summary>
+    /// <param name="app">The endpoint route builder.</param>
     public static void MapLogsEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/logs")
             .WithTags("Logs");
 
+        // Endpoint to retrieve all buffered logs
         group.MapGet("/", (LogBufferService logService) =>
         {
             return logService.GetLogs();
@@ -23,6 +28,7 @@ public static class LogsEndpoints
         .WithDescription("Returns a list of the most recent logs captured by the in-memory buffer.")
         .Produces<IEnumerable<LogEntry>>(StatusCodes.Status200OK);
 
+        // Endpoint to configure the minimum log level dynamically
         group.MapPost("/configuration", (LogBufferService logService, [FromBody] LogLevelConfig config) =>
         {
             if (Enum.TryParse<LogLevel>(config.Level, true, out var level))
@@ -37,6 +43,7 @@ public static class LogsEndpoints
         .Produces(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest);
 
+        // Endpoint to clear the in-memory log buffer
         group.MapDelete("/", (LogBufferService logService) =>
         {
             logService.Clear();

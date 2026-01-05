@@ -28,6 +28,22 @@ export const apiClient = {
     }
     return response.json();
   },
+  put: async <T>(endpoint: string, body: any): Promise<T> => {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.statusText}`);
+    }
+    if (response.status === 204) {
+      return {} as T;
+    }
+    return response.json();
+  },
   delete: async (endpoint: string): Promise<void> => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'DELETE',

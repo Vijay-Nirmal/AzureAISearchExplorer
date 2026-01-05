@@ -471,11 +471,13 @@
     <div id="app-container">
     <div id="sidebar">
         <div class="resource-switcher">
-            <select class="resource-select">
-                <option>dev-search-service</option>
-                <option>prod-search-service</option>
-                <option>+ Add New Service</option>
+            <select class="resource-select" onchange="handleResourceSelect(this)" style="margin-right: 8px;">
+                <option value="dev">dev-search-service</option>
+                <option value="prod">prod-search-service</option>
+                <option value="add-new">+ Add New Service</option>
             </select>
+            <button class="icon-btn" onclick="showPage('add-connection')" title="Edit Connection"><i class="fas fa-pencil-alt"></i></button>
+            <button class="icon-btn" onclick="confirm('Delete connection?')" title="Delete Connection"><i class="fas fa-trash"></i></button>
         </div>
         <div class="nav-scroll">
             
@@ -541,7 +543,10 @@
             <div id="page-service" class="page active">
                 <div class="card-grid">
                     <div class="card">
-                        <h2>Connection Settings</h2>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border-color); padding-bottom:8px;">
+                            <h2 style="border:none; margin:0; padding:0;">Connection Settings</h2>
+                            <button class="icon-btn" onclick="showPage('add-connection')" title="Edit Connection"><i class="fas fa-edit"></i></button>
+                        </div>
                         <div class="form-group">
                             <label>Service Endpoint</label>
                             <input type="text" value="https://my-search-service.search.windows.net">
@@ -904,6 +909,79 @@ var response = await client.SearchAsync<Hotel>("*", options);
                 </div>
             </div>
 
+            <!-- Add/Edit Connection -->
+            <div id="page-add-connection" class="page">
+                <div class="card" style="max-width: 800px; margin: 0 auto;">
+                    <h2 id="connection-page-title">Add Connection</h2>
+                    
+                    <div class="form-group">
+                        <label>Authentication Method</label>
+                        <div class="tabs" style="margin-bottom: 16px;">
+                            <div class="tab active" onclick="selectAuthMethod(event, 'rbac')">Azure AD (RBAC)</div>
+                            <div class="tab" onclick="selectAuthMethod(event, 'apikey')">API Key</div>
+                            <div class="tab" onclick="selectAuthMethod(event, 'managed')">Managed Identity</div>
+                        </div>
+                    </div>
+
+                    <!-- Common Fields -->
+                    <div class="form-group">
+                        <label>Service Endpoint URL</label>
+                        <input type="text" placeholder="https://<service-name>.search.windows.net">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Connection Alias (Optional)</label>
+                        <input type="text" placeholder="e.g. Production Search">
+                    </div>
+
+                    <!-- RBAC Specific -->
+                    <div id="auth-rbac" class="auth-section">
+                        <div class="form-group">
+                            <label>Tenant ID (Optional)</label>
+                            <input type="text" placeholder="Auto-detect">
+                        </div>
+                        <p style="color: #888; font-size: 12px;">
+                            <i class="fas fa-info-circle"></i> You will be prompted to sign in via your browser.
+                        </p>
+                    </div>
+
+                    <!-- API Key Specific -->
+                    <div id="auth-apikey" class="auth-section" style="display:none;">
+                        <div class="form-group">
+                            <label>Admin Key</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="password" placeholder="****************" style="flex: 1;">
+                                <button class="icon-btn"><i class="fas fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <p style="color: #cca700; font-size: 12px;">
+                            <i class="fas fa-exclamation-triangle"></i> Admin keys provide full access. RBAC is recommended.
+                        </p>
+                    </div>
+
+                    <!-- Managed Identity Specific -->
+                    <div id="auth-managed" class="auth-section" style="display:none;">
+                        <div class="form-group">
+                            <label>Identity Type</label>
+                            <select>
+                                <option>System Assigned</option>
+                                <option>User Assigned</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Client ID (User Assigned Only)</label>
+                            <input type="text" placeholder="e.g. 00000000-0000-0000-0000-000000000000">
+                        </div>
+                    </div>
+
+                    <div class="actions" style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                        <button class="primary">Save Connection</button>
+                        <button>Test Connection</button>
+                        <button onclick="closeTab(event, 'add-connection')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Settings -->
             <div id="page-settings" class="page">
                 <div class="card-grid">
@@ -991,13 +1069,33 @@ var response = await client.SearchAsync<Hotel>("*", options);
             'query-monitoring': { title: 'Query Monitoring', icon: 'fas fa-chart-line', parent: 'Monitoring' },
             'indexer-monitoring': { title: 'Indexer Monitoring', icon: 'fas fa-history', parent: 'Monitoring' },
             'performance': { title: 'Performance', icon: 'fas fa-tachometer-alt', parent: 'Monitoring' },
-            'settings': { title: 'Settings', icon: 'fas fa-cog', parent: 'App' }
+            'settings': { title: 'Settings', icon: 'fas fa-cog', parent: 'App' },
+            'add-connection': { title: 'Add Connection', icon: 'fas fa-plug', parent: 'App' }
         };
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             showPage('service'); // Open default tab
         });
+
+        function selectAuthMethod(event, method) {
+            // Update tabs
+            const container = document.getElementById('page-add-connection');
+            container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/Hide sections
+            container.querySelectorAll('.auth-section').forEach(s => s.style.display = 'none');
+            document.getElementById('auth-' + method).style.display = 'block';
+        }
+
+        function handleResourceSelect(select) {
+            if (select.value === 'add-new') {
+                showPage('add-connection');
+                // Reset to first option to avoid staying on "Add New"
+                select.value = select.options[0].value;
+            }
+        }
 
         function showPage(pageId) {
             // Check if tab exists

@@ -2,11 +2,15 @@
 
 Pages in Azure AI Search Explorer application
 
+1. **Add Connection** - Connect to an Azure AI Search service using RBAC authentication.
+  1. Connect to a Azure AI Search service using Azure AD
+  2. Connect using Endpoint and Admin API Key
+  3. Connect using Managed Identity (Azure VM, App Service, etc.)
+
 # Classic Section
 1. **Service (Connection & Settings)** - Connect to a search service and manage service-level settings used by all other pages.
   1. Connect to a search service (RBAC-first) - https://learn.microsoft.com/en-us/azure/search/search-get-started-rbac
   2. Service configuration and management (portal concepts) - https://learn.microsoft.com/en-us/azure/search/search-manage
-  3. API versions (REST and SDK compatibility) - https://learn.microsoft.com/en-us/azure/search/search-api-versions
   4. Enable diagnostic logging (Log Analytics / Storage / Event Hub) - https://learn.microsoft.com/en-us/azure/search/search-monitor-enable-logging
   5. Security overview (high-level controls surfaced in UI) - https://learn.microsoft.com/en-us/azure/search/search-security-overview
 

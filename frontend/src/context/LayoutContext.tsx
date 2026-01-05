@@ -5,6 +5,7 @@ export interface Tab {
   title: string;
   icon?: string;
   component?: string; // ID of the component/page to render
+  props?: any;
 }
 
 interface LayoutContextType {
@@ -17,6 +18,8 @@ interface LayoutContextType {
   setActiveTab: (tabId: string) => void;
   isBottomPanelOpen: boolean;
   toggleBottomPanel: () => void;
+  activeConnectionId: string | null;
+  setActiveConnectionId: (id: string | null) => void;
 }
 
 const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
@@ -26,6 +29,7 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
   const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(false);
+  const [activeConnectionId, setActiveConnectionId] = useState<string | null>(null);
 
   useEffect(() => {
     document.body.className = theme === 'light' ? 'light-theme' : '';
@@ -64,7 +68,9 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       closeTab,
       setActiveTab: setActiveTabId,
       isBottomPanelOpen,
-      toggleBottomPanel
+      toggleBottomPanel,
+      activeConnectionId,
+      setActiveConnectionId
     }}>
       {children}
     </LayoutContext.Provider>

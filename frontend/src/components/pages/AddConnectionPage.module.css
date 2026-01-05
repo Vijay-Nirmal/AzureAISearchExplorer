@@ -1,0 +1,83 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 16px;
+}
+
+.tab {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: #888;
+}
+
+.tab:hover {
+    color: var(--text-color);
+    background-color: var(--hover-color);
+}
+
+.tab.active {
+    border-bottom-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.authSection {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.infoText {
+    color: #888;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.warningText {
+    color: #cca700;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+.testResult {
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.success {
+    background-color: rgba(30, 70, 32, 0.5);
+    color: #4caf50;
+    border: 1px solid #1e4620;
+}
+
+.error {
+    background-color: rgba(77, 0, 0, 0.5);
+    color: #f48771;
+    border: 1px solid #4d0000;
+}

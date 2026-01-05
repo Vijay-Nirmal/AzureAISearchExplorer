@@ -15,3 +15,5 @@ Under the hood it uses Azure AI Search REST APIs, making it useful for learning,
 - Windows: `npm run build:win`
 - macOS: `npm run build:mac`
 - Linux: `npm run build:linux`
+
+Artifacts will be in `electron/dist` folder.
