@@ -8,6 +8,11 @@ export interface Tab {
   props?: any;
 }
 
+export interface BreadcrumbItem {
+  label: string;
+  onClick?: () => void;
+}
+
 interface LayoutContextType {
   theme: 'dark' | 'light';
   toggleTheme: () => void;
@@ -20,6 +25,8 @@ interface LayoutContextType {
   toggleBottomPanel: () => void;
   activeConnectionId: string | null;
   setActiveConnectionId: (id: string | null) => void;
+  breadcrumbs: BreadcrumbItem[];
+  setBreadcrumbs: (items: BreadcrumbItem[]) => void;
 }
 
 const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
@@ -30,6 +37,7 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
   const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(false);
   const [activeConnectionId, setActiveConnectionId] = useState<string | null>(null);
+  const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
 
   useEffect(() => {
     document.body.className = theme === 'light' ? 'light-theme' : '';
@@ -70,7 +78,9 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       isBottomPanelOpen,
       toggleBottomPanel,
       activeConnectionId,
-      setActiveConnectionId
+      setActiveConnectionId,
+      breadcrumbs,
+      setBreadcrumbs
     }}>
       {children}
     </LayoutContext.Provider>

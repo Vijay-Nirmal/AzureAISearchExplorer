@@ -22,6 +22,16 @@
   font-weight: 600;
 }
 
+.link {
+  color: #888;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: var(--text-color);
+}
+
 .breadcrumbs i {
   font-size: 10px;
 }

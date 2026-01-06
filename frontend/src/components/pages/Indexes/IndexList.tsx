@@ -60,7 +60,7 @@ const IndexList: React.FC<IndexListProps> = ({ onQuery, onEdit, onCreate }) => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px' }}>
             <div className="actions" style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
                 <Button variant="primary" onClick={onCreate}>
                     <i className="fas fa-plus"></i> Create Index

@@ -10,6 +10,11 @@
   cursor: pointer;
 }
 
+.select option {
+  background-color: #3c3c3c;
+  color: #fff;
+}
+
 .select:focus {
   outline: 1px solid var(--accent-color);
   border-color: var(--accent-color);

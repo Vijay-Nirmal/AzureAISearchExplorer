@@ -4,15 +4,32 @@ import { useLayout } from '../../context/LayoutContext';
 import { Button } from '../common/Button';
 
 export const Header: React.FC = () => {
-  const { toggleTheme, theme, tabs, activeTabId } = useLayout();
+  const { toggleTheme, theme, tabs, activeTabId, breadcrumbs } = useLayout();
   const activeTab = tabs.find(t => t.id === activeTabId);
 
   return (
     <header className={styles.header}>
       <div className={styles.breadcrumbs}>
-        <span>Azure AI Search</span>
-        <i className="fa-solid fa-chevron-right"></i>
-        <span className={styles.current}>{activeTab?.title || 'Home'}</span>
+        {breadcrumbs.length > 0 ? (
+          breadcrumbs.map((item, index) => (
+            <React.Fragment key={index}>
+              {index > 0 && <i className="fa-solid fa-chevron-right"></i>}
+              <span 
+                className={index === breadcrumbs.length - 1 ? styles.current : styles.link}
+                onClick={item.onClick}
+                style={item.onClick ? { cursor: 'pointer' } : {}}
+              >
+                {item.label}
+              </span>
+            </React.Fragment>
+          ))
+        ) : (
+          <>
+            <span>Azure AI Search</span>
+            <i className="fa-solid fa-chevron-right"></i>
+            <span className={styles.current}>{activeTab?.title || 'Home'}</span>
+          </>
+        )}
       </div>
       
       <div className={styles.actions}>

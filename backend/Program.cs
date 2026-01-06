@@ -1,12 +1,19 @@
+using System.Text.Json.Serialization;
 using AzureAISearchExplorer.Backend.Endpoints;
 using AzureAISearchExplorer.Backend.Extensions;
 using AzureAISearchExplorer.Backend.Features.Connections;
 using AzureAISearchExplorer.Backend.Features.Indexes;
 using AzureAISearchExplorer.Backend.Features.Service;
+using Microsoft.AspNetCore.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddInfrastructureServices();
 builder.Logging.AddBufferedLogging(builder.Services);
 

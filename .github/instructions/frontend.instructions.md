@@ -39,6 +39,7 @@ applyTo: "frontend/**"
 - **Variables**: Use `--bg-color`, `--text-color`, `--accent-color`, etc.
 - **Hex Values**: Do not hardcode hex values. If a needed color is missing, define a new variable in `src/styles/variables.css` and use that.
 - **Spacing**: Use standard spacing (4px, 8px, 16px).
+- **Page Layout**: All main page views (e.g. Lists, Overviews) should have a padding of `20px` around the main container to ensure consistent ease. Tool-like pages (Builders, Explorers) may use full width/height if needed.
 - **Typography**: Use system fonts defined in `--font-family`.
 
 ## File Structure

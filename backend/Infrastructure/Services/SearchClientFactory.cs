@@ -10,10 +10,12 @@ namespace AzureAISearchExplorer.Backend.Infrastructure.Services;
 public class SearchClientFactory
 {
     private readonly IRepository<ConnectionProfile> _repository;
+    private readonly AuthenticationService _authService;
 
-    public SearchClientFactory(IRepository<ConnectionProfile> repository)
+    public SearchClientFactory(IRepository<ConnectionProfile> repository, AuthenticationService authService)
     {
         _repository = repository;
+        _authService = authService;
     }
 
     public async Task<SearchIndexClient> CreateIndexClientAsync(string connectionId)
@@ -30,8 +32,8 @@ public class SearchClientFactory
         }
         else
         {
-            // Default to Azure AD (RBAC)
-            return new SearchIndexClient(endpoint, new DefaultAzureCredential());
+            var credential = await _authService.GetCredentialAsync(profile);
+            return new SearchIndexClient(endpoint, credential);
         }
     }
 
@@ -49,7 +51,8 @@ public class SearchClientFactory
         }
         else
         {
-            return new SearchClient(endpoint, indexName, new DefaultAzureCredential());
+            var credential = await _authService.GetCredentialAsync(profile);
+            return new SearchClient(endpoint, indexName, credential);
         }
     }
 }
