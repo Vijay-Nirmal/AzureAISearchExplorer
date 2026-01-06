@@ -3,6 +3,7 @@ import { useLayout } from '../../context/LayoutContext';
 import { Card } from '../common/Card';
 import { AddConnectionPage } from '../pages/AddConnectionPage';
 import { ServiceOverviewPage } from '../pages/ServiceOverviewPage';
+import IndexesPage from '../pages/Indexes/IndexesPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -24,6 +25,9 @@ export const ContentArea: React.FC = () => {
           case 'service':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <ServiceOverviewPage connectionId={activeConnectionId} />;
+          case 'indexes':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <IndexesPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>

@@ -19,14 +19,13 @@ Pages in Azure AI Search Explorer application
   2. Query syntax modes (Simple and Lucene) - https://learn.microsoft.com/en-us/azure/search/query-simple-syntax https://learn.microsoft.com/en-us/azure/search/query-lucene-syntax
 
 3. **Indexes** - Create, view, edit, and manage index schemas.
-  1. What is a search index? - https://learn.microsoft.com/en-us/azure/search/search-what-is-an-index
-  2. Create a search index - https://learn.microsoft.com/en-us/azure/search/search-how-to-create-search-index
-  3. Create a vector index - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-create-index
-  4. Manage an index (schema updates, settings) - https://learn.microsoft.com/en-us/azure/search/search-how-to-manage-index
-  5. Update or rebuild an index - https://learn.microsoft.com/en-us/azure/search/search-howto-reindex
-  6. Model complex types (UI guidance for schema design) - https://learn.microsoft.com/en-us/azure/search/search-howto-complex-data-types
-  7. Data types reference (field type help) - https://learn.microsoft.com/rest/api/searchservice/supported-data-types
-
+  1. Create a search index - https://learn.microsoft.com/en-us/azure/search/search-how-to-create-search-index
+  2. Create a vector index - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-create-index
+  3. Manage an index (schema updates, settings) - https://learn.microsoft.com/en-us/azure/search/search-how-to-manage-index
+  4. Update or rebuild an index - https://learn.microsoft.com/en-us/azure/search/search-howto-reindex
+  5. Model complex types (UI guidance for schema design) - https://learn.microsoft.com/en-us/azure/search/search-howto-complex-data-types
+  6. Data types reference (field type help) - https://learn.microsoft.com/rest/api/searchservice/supported-data-types
+   
 4. **Aliases** - Swap index versions safely without changing client code.
   1. Create and manage index aliases - https://learn.microsoft.com/en-us/azure/search/search-how-to-alias
   2. Index alias concepts and API surface - https://learn.microsoft.com/en-us/azure/search/search-index-aliases
@@ -56,73 +55,73 @@ Pages in Azure AI Search Explorer application
   9. Index via portal wizards (guided ingestion) - https://learn.microsoft.com/en-us/azure/search/search-import-data-portal
   10. Push API (bulk indexing from app) - https://learn.microsoft.com/en-us/azure/search/tutorial-optimize-indexing-push-api
 
-9. **Skillsets** - AI enrichment and integrated vectorization pipelines.
-  1. What is a skillset? - https://learn.microsoft.com/en-us/azure/search/cognitive-search-working-with-skillsets
-  2. Create a skillset (how-to) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-defining-skillset
-  3. Attach a billable resource (AI Services / Foundry) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-attach-cognitive-services
-  4. Debug sessions (inspect enriched docs, iterate) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-debug-session
-    1. Debug a skillset (portal how-to) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-how-to-debug-skillset
-  5. Enrichment cache (incremental enrichment) - https://learn.microsoft.com/en-us/azure/search/enrichment-cache-how-to-configure https://learn.microsoft.com/en-us/azure/search/enrichment-cache-how-to-manage
-  6. Map skill outputs to index fields - https://learn.microsoft.com/en-us/azure/search/cognitive-search-output-field-mapping
-  7. Define an index projection (one-to-many/chunk projections) - https://learn.microsoft.com/en-us/azure/search/search-how-to-define-index-projections
-  8. Custom Web API skill - https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-interface
-  9. GenAI Prompt skill (content generation) - https://learn.microsoft.com/en-us/azure/search/chat-completion-skill-example-usage
+9.  **Skillsets** - AI enrichment and integrated vectorization pipelines.
+  1.  What is a skillset? - https://learn.microsoft.com/en-us/azure/search/cognitive-search-working-with-skillsets
+  2.  Create a skillset (how-to) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-defining-skillset
+  3.  Attach a billable resource (AI Services / Foundry) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-attach-cognitive-services
+  4.  Debug sessions (inspect enriched docs, iterate) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-debug-session
+    1.  Debug a skillset (portal how-to) - https://learn.microsoft.com/en-us/azure/search/cognitive-search-how-to-debug-skillset
+  5.  Enrichment cache (incremental enrichment) - https://learn.microsoft.com/en-us/azure/search/enrichment-cache-how-to-configure https://learn.microsoft.com/en-us/azure/search/enrichment-cache-how-to-manage
+  6.  Map skill outputs to index fields - https://learn.microsoft.com/en-us/azure/search/cognitive-search-output-field-mapping
+  7.  Define an index projection (one-to-many/chunk projections) - https://learn.microsoft.com/en-us/azure/search/search-how-to-define-index-projections
+  8.  Custom Web API skill - https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-interface
+  9.  GenAI Prompt skill (content generation) - https://learn.microsoft.com/en-us/azure/search/chat-completion-skill-example-usage
   10. Responsible AI best practices for GenAI Prompt skill - https://learn.microsoft.com/en-us/azure/search/responsible-ai-best-practices-genai-prompt-skill
 
 10. **Knowledge Stores** - Persist enriched artifacts to Azure Storage for downstream analytics.
-  1. What is a knowledge store? - https://learn.microsoft.com/en-us/azure/search/knowledge-store-concept-intro
-  2. Create a knowledge store (portal) - https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-portal
-  3. Create a knowledge store (REST) - https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-rest
-  4. Knowledge store projections overview - https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-overview
-  5. Shape data for projections - https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-shape
-  6. Projection examples - https://learn.microsoft.com/en-us/azure/search/knowledge-store-projections-examples
-  7. Connect knowledge store to Power BI - https://learn.microsoft.com/en-us/azure/search/knowledge-store-connect-power-bi
+  11. What is a knowledge store? - https://learn.microsoft.com/en-us/azure/search/knowledge-store-concept-intro
+  12. Create a knowledge store (portal) - https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-portal
+  13. Create a knowledge store (REST) - https://learn.microsoft.com/en-us/azure/search/knowledge-store-create-rest
+  14. Knowledge store projections overview - https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-overview
+  15. Shape data for projections - https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-shape
+  16. Projection examples - https://learn.microsoft.com/en-us/azure/search/knowledge-store-projections-examples
+  17. Connect knowledge store to Power BI - https://learn.microsoft.com/en-us/azure/search/knowledge-store-connect-power-bi
 
 11. **Retrieval (Queries)** - Build and run full-text, vector, hybrid, and multimodal queries.
-  1. Query overview (jumping-off point) - https://learn.microsoft.com/en-us/azure/search/search-query-overview
-  2. Full-text queries
-    1. Create a full-text query - https://learn.microsoft.com/en-us/azure/search/search-query-create
-    2. Full-text search architecture - https://learn.microsoft.com/en-us/azure/search/search-lucene-query-architecture
-    3. Filters and OData basics - https://learn.microsoft.com/en-us/azure/search/search-filters
-    4. Normalize text for filters - https://learn.microsoft.com/en-us/azure/search/search-normalizers
-    5. Faceted navigation - https://learn.microsoft.com/en-us/azure/search/search-faceted-navigation https://learn.microsoft.com/en-us/azure/search/search-faceted-navigation-examples
-    6. Page, sort, and shape results ($top/$skip/$select/$orderby) - https://learn.microsoft.com/en-us/azure/search/search-pagination-page-layout
-    7. Semantic answers (render @search.answers) - https://learn.microsoft.com/en-us/azure/search/semantic-answers
-  3. Vector search
-    1. Vector search overview - https://learn.microsoft.com/en-us/azure/search/vector-search-overview
-    2. Create a vector query - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-query
-    3. Filter a vector query (vectorFilterMode) - https://learn.microsoft.com/en-us/azure/search/vector-search-filters
-    4. Use a multi-vector field - https://learn.microsoft.com/en-us/azure/search/vector-search-multi-vector-fields
-  4. Hybrid search
-    1. Hybrid search overview - https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview
-    2. Create a hybrid query (RRF + tuning knobs) - https://learn.microsoft.com/en-us/azure/search/hybrid-search-how-to-query
-  5. Multimodal search
-    1. Multimodal search overview - https://learn.microsoft.com/en-us/azure/search/multimodal-search-overview
-    2. Vectorize images and text (tutorial) - https://learn.microsoft.com/en-us/azure/search/tutorial-document-extraction-multimodal-embeddings
+  12. Query overview (jumping-off point) - https://learn.microsoft.com/en-us/azure/search/search-query-overview
+  13. Full-text queries
+    14. Create a full-text query - https://learn.microsoft.com/en-us/azure/search/search-query-create
+    15. Full-text search architecture - https://learn.microsoft.com/en-us/azure/search/search-lucene-query-architecture
+    16. Filters and OData basics - https://learn.microsoft.com/en-us/azure/search/search-filters
+    17. Normalize text for filters - https://learn.microsoft.com/en-us/azure/search/search-normalizers
+    18. Faceted navigation - https://learn.microsoft.com/en-us/azure/search/search-faceted-navigation https://learn.microsoft.com/en-us/azure/search/search-faceted-navigation-examples
+    19. Page, sort, and shape results ($top/$skip/$select/$orderby) - https://learn.microsoft.com/en-us/azure/search/search-pagination-page-layout
+    20. Semantic answers (render @search.answers) - https://learn.microsoft.com/en-us/azure/search/semantic-answers
+  14. Vector search
+    15. Vector search overview - https://learn.microsoft.com/en-us/azure/search/vector-search-overview
+    16. Create a vector query - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-query
+    17. Filter a vector query (vectorFilterMode) - https://learn.microsoft.com/en-us/azure/search/vector-search-filters
+    18. Use a multi-vector field - https://learn.microsoft.com/en-us/azure/search/vector-search-multi-vector-fields
+  15. Hybrid search
+    16. Hybrid search overview - https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview
+    17. Create a hybrid query (RRF + tuning knobs) - https://learn.microsoft.com/en-us/azure/search/hybrid-search-how-to-query
+  16. Multimodal search
+    17. Multimodal search overview - https://learn.microsoft.com/en-us/azure/search/multimodal-search-overview
+    18. Vectorize images and text (tutorial) - https://learn.microsoft.com/en-us/azure/search/tutorial-document-extraction-multimodal-embeddings
 
 12. **Vectorization (Models & Vectorizers)** - Configure and validate vectorizers used for indexing/querying.
-  1. Generate embeddings (concepts and patterns) - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-generate-embeddings
-  2. Configure a vectorizer in an index - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-configure-vectorizer
-  3. Vectorizers: Microsoft Foundry model catalog - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-azure-machine-learning-ai-studio-catalog
-  4. Vectorizers: Azure OpenAI - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-azure-open-ai
-  5. Vectorizers: Azure Vision - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-ai-services-vision
-  6. Vectorizers: Custom Web API - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-custom-web-api
-  7. Chunk documents (indexing-time chunking UX) - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-chunk-documents
-  8. Use integrated vectorization - https://learn.microsoft.com/en-us/azure/search/search-how-to-integrated-vectorization
-  9. Vector quotas and limits (size/optimization guidance) - https://learn.microsoft.com/en-us/azure/search/vector-search-index-size
+  13. Generate embeddings (concepts and patterns) - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-generate-embeddings
+  14. Configure a vectorizer in an index - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-configure-vectorizer
+  15. Vectorizers: Microsoft Foundry model catalog - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-azure-machine-learning-ai-studio-catalog
+  16. Vectorizers: Azure OpenAI - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-azure-open-ai
+  17. Vectorizers: Azure Vision - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-ai-services-vision
+  18. Vectorizers: Custom Web API - https://learn.microsoft.com/en-us/azure/search/vector-search-vectorizer-custom-web-api
+  19. Chunk documents (indexing-time chunking UX) - https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-chunk-documents
+  20. Use integrated vectorization - https://learn.microsoft.com/en-us/azure/search/search-how-to-integrated-vectorization
+  21. Vector quotas and limits (size/optimization guidance) - https://learn.microsoft.com/en-us/azure/search/vector-search-index-size
 
 13. **Relevance & Ranking** - Configure scoring, semantic ranking, and ranking diagnostics.
-  1. Add a scoring profile - https://learn.microsoft.com/en-us/azure/search/index-add-scoring-profiles
-  2. Semantic ranker overview - https://learn.microsoft.com/en-us/azure/search/semantic-search-overview
-  3. Configure semantic ranker - https://learn.microsoft.com/en-us/azure/search/semantic-how-to-configure
-  4. Add semantic ranking to queries - https://learn.microsoft.com/en-us/azure/search/semantic-how-to-query-request
-  5. Vector ranking - https://learn.microsoft.com/en-us/azure/search/vector-search-ranking
-  6. Hybrid ranking (RRF) - https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking
+  14. Add a scoring profile - https://learn.microsoft.com/en-us/azure/search/index-add-scoring-profiles
+  15. Semantic ranker overview - https://learn.microsoft.com/en-us/azure/search/semantic-search-overview
+  16. Configure semantic ranker - https://learn.microsoft.com/en-us/azure/search/semantic-how-to-configure
+  17. Add semantic ranking to queries - https://learn.microsoft.com/en-us/azure/search/semantic-how-to-query-request
+  18. Vector ranking - https://learn.microsoft.com/en-us/azure/search/vector-search-ranking
+  19. Hybrid ranking (RRF) - https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking
 
 14. **Developer Tools** - Copy REST payloads, view API versions, and link to SDK samples.
-  1. REST API reference hub (schemas and endpoints) - https://learn.microsoft.com/rest/api/searchservice/
-  2. .NET SDK overview: Azure.Search.Documents - https://learn.microsoft.com/dotnet/api/overview/azure/search.documents-readme
-  3. Samples (starting points) - https://learn.microsoft.com/en-us/azure/search/samples-dotnet
+  15. REST API reference hub (schemas and endpoints) - https://learn.microsoft.com/rest/api/searchservice/
+  16. .NET SDK overview: Azure.Search.Documents - https://learn.microsoft.com/dotnet/api/overview/azure/search.documents-readme
+  17. Samples (starting points) - https://learn.microsoft.com/en-us/azure/search/samples-dotnet
 
 # Agentic Section
 1. **Agentic Playground** - Chat-style UI to test agentic retrieval flows and inspect citations/activity.

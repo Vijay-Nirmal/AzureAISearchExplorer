@@ -41,6 +41,7 @@ public static class InfrastructureExtensions
         // Services
         services.AddScoped<AzureResourceResolver>();
         services.AddSingleton<AuthenticationService>();
+        services.AddScoped<SearchClientFactory>();
 
         // Logging
         services.AddSingleton<LogBufferService>();

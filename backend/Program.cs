@@ -1,6 +1,7 @@
 using AzureAISearchExplorer.Backend.Endpoints;
 using AzureAISearchExplorer.Backend.Extensions;
 using AzureAISearchExplorer.Backend.Features.Connections;
+using AzureAISearchExplorer.Backend.Features.Indexes;
 using AzureAISearchExplorer.Backend.Features.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,5 +26,6 @@ app.UseCors();
 app.MapLogsEndpoints();
 app.MapConnectionsEndpoints();
 app.MapServiceEndpoints();
+app.MapIndexesEndpoints();
 
 app.Run();

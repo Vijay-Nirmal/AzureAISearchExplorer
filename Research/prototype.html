@@ -604,19 +604,418 @@
             <!-- Classic: Indexes -->
             <div id="page-indexes" class="page">
                 <div class="actions" style="margin-bottom: 16px;">
-                    <button class="primary">+ Add Index</button>
-                    <button>Import Data</button>
+                    <button class="primary" onclick="showIndexBuilder()"><i class="fas fa-plus"></i> Create Index</button>
+                    <button onclick="renderIndexList()"><i class="fas fa-sync"></i> Refresh</button>
+                    <div style="margin-left: auto; display: flex; gap: 8px;">
+                        <input type="text" placeholder="Filter indexes..." style="width: 200px;">
+                    </div>
                 </div>
-                <div class="card">
-                    <table class="data-grid">
+                <!-- Index List View -->
+                <div id="index-list-view" class="card" style="padding: 0;">
+                    <table class="data-grid" style="width: 100%; border-collapse: collapse;">
                         <thead>
-                            <tr><th>Name</th><th>Document Count</th><th>Storage Size</th><th>Vector</th><th>Actions</th></tr>
+                            <tr style="text-align: left; background-color: #2d2d2d; border-bottom: 1px solid #3e3e42;">
+                                <th style="padding: 8px 16px;">Name</th>
+                                <th style="padding: 8px 16px;">Document Count</th>
+                                <th style="padding: 8px 16px;">Storage Size</th>
+                                <th style="padding: 8px 16px;">Vector Index</th>
+                                <th style="padding: 8px 16px;">Last Updated</th>
+                                <th style="padding: 8px 16px; width: 140px;">Actions</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr><td>hotels-sample</td><td>50</td><td>2.5 MB</td><td>No</td><td><button>Edit</button></td></tr>
-                            <tr><td>realestate-us-sample</td><td>12,050</td><td>150 MB</td><td>Yes</td><td><button>Edit</button></td></tr>
+                        <tbody id="index-list-body">
+                            <!-- Populated by JS -->
+                            <tr style="border-bottom: 1px solid #333;">
+                                <td style="padding: 8px 16px; color: #4ec9b0;"><i class="fas fa-table" style="margin-right: 8px; color: #888;"></i>realestate-us-sample</td>
+                                <td style="padding: 8px 16px;">4,950</td>
+                                <td style="padding: 8px 16px;">5.2 MB</td>
+                                <td style="padding: 8px 16px;"><span style="color: #4caf50;">Yes</span></td>
+                                <td style="padding: 8px 16px;">2024-03-20</td>
+                                <td style="padding: 8px 16px;">
+                                    <div class="actions">
+                                        <button class="icon-btn" title="Query" onclick="showIndexExplorer('realestate-us-sample')"><i class="fas fa-search"></i></button>
+                                        <button class="icon-btn" title="Edit" onclick="showIndexBuilder('realestate-us-sample')"><i class="fas fa-pen"></i></button>
+                                        <button class="icon-btn" title="Delete" style="color: #f48771;"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                             <tr style="border-bottom: 1px solid #333;">
+                                <td style="padding: 8px 16px; color: #4ec9b0;"><i class="fas fa-table" style="margin-right: 8px; color: #888;"></i>hotels-sample-index</td>
+                                <td style="padding: 8px 16px;">120</td>
+                                <td style="padding: 8px 16px;">0.8 MB</td>
+                                <td style="padding: 8px 16px;"><span style="color: #888;">No</span></td>
+                                <td style="padding: 8px 16px;">2024-03-18</td>
+                                <td style="padding: 8px 16px;">
+                                    <div class="actions">
+                                        <button class="icon-btn" title="Query" onclick="showIndexExplorer('hotels-sample-index')"><i class="fas fa-search"></i></button>
+                                        <button class="icon-btn" title="Edit" onclick="showIndexBuilder('hotels-sample-index')"><i class="fas fa-pen"></i></button>
+                                        <button class="icon-btn" title="Delete" style="color: #f48771;"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Index Explorer (Subpage) -->
+                <div id="index-explorer" class="card" style="display: none; height: calc(100% - 40px); flex-direction: column; padding: 0;">
+                    <div style="padding: 12px 16px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; background-color: #252526;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="breadcrumbs">
+                                <a href="#" onclick="hideIndexSubpages(); return false;">Indexes</a> <i class="fas fa-chevron-right"></i> <span class="current" id="explorer-index-name">index-name</span> <i class="fas fa-chevron-right"></i> <span class="current">Explorer</span>
+                            </div>
+                        </div>
+                        <button onclick="hideIndexSubpages()"><i class="fas fa-arrow-left"></i> Back</button>
+                    </div>
+
+                    <div style="display: flex; flex: 1; overflow: hidden;">
+                        <!-- Query Controls Side Panel -->
+                        <div style="width: 300px; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; background-color: #252526;">
+                            <div style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: #ddd; font-size: 11px; text-transform: uppercase;">
+                                Query Parameters
+                            </div>
+                            <div style="flex: 1; overflow-y: auto; padding: 16px;">
+                                <div class="form-group">
+                                    <label>Search Text (search)</label>
+                                    <input type="text" placeholder="*" value="*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Query Type</label>
+                                    <select><option>simple</option><option>full (Lucene)</option><option>semantic</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Search Mode</label>
+                                    <select><option>any</option><option>all</option></select>
+                                </div>
+                                <div style="margin: 16px 0; border-top: 1px solid #3e3e42;"></div>
+                                <div class="form-group">
+                                    <label>$filter (OData)</label>
+                                    <input type="text" placeholder="Rating gt 4">
+                                </div>
+                                <div class="form-group">
+                                    <label>$select (Fields)</label>
+                                    <input type="text" placeholder="HotelId, HotelName, Rating">
+                                </div>
+                                <div class="form-group">
+                                    <label>$orderby</label>
+                                    <input type="text" placeholder="Rating desc">
+                                </div>
+                                <div class="form-group" style="display: flex; gap: 10px;">
+                                    <div style="flex: 1;">
+                                        <label>$top</label>
+                                        <input type="number" value="50">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label>$skip</label>
+                                        <input type="number" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label style="display: flex; align-items: center; gap: 8px;">
+                                        <input type="checkbox" checked style="width: auto;"> Include Count ($count)
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="padding: 12px; border-top: 1px solid var(--border-color);">
+                                <button class="primary" style="width: 100%;">Run Query</button>
+                            </div>
+                        </div>
+
+                        <!-- Results Area -->
+                        <div style="flex: 1; display: flex; flex-direction: column; background-color: #1e1e1e;">
+                            <!-- Result Tabs & Toolbar -->
+                            <div style="height: 40px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; padding: 0 16px; background-color: #252526;">
+                                <div class="tabs" style="border: none; margin: 0; height: 100%;">
+                                    <div class="tab active" data-target="explorer-json" style="height: 100%; display: flex; align-items: center; border-bottom-width: 3px;">JSON</div>
+                                    <div class="tab" data-target="explorer-table" style="height: 100%; display: flex; align-items: center; border-bottom-width: 3px;">Table (JSONPath)</div>
+                                </div>
+                                <div style="margin-left: auto; color: #888; font-size: 12px;">
+                                    Status: 200 OK | Duration: 45ms
+                                </div>
+                            </div>
+
+                            <!-- JSON View -->
+                            <div id="explorer-json" class="tab-content json-preview" style="flex: 1; border: none; border-radius: 0; margin: 0; display: block;">
+{
+  "@odata.context": "https://service.search.windows.net/indexes('hotels')/$metadata#docs(*)",
+  "@odata.count": 2,
+  "value": [
+    {
+      "@search.score": 1,
+      "HotelId": "1",
+      "HotelName": "Secret Point Motel",
+      "Description": "The hotel is ideally located on the main commercial artery of the city in the heart of New York.",
+      "Category": "Boutique",
+      "Rating": 3.6,
+      "Address": {
+          "City": "New York",
+          "State": "NY"
+      }
+    },
+    {
+      "@search.score": 1.2,
+      "HotelId": "2",
+      "HotelName": "Twin Dome Motel",
+      "Description": "The hotel is situated in a nineteenth century plaza...",
+      "Category": "Luxury",
+       "Address": {
+          "City": "Seattle",
+          "State": "WA"
+      }
+    }
+  ]
+}
+                            </div>
+                            
+                            <!-- Table View -->
+                            <div id="explorer-table" class="tab-content" style="flex: 1; display: none; overflow: hidden; flex-direction: column;">
+                                <div style="padding: 8px; border-bottom: 1px solid #333; background: #252526; display: flex; gap: 8px; align-items: center;">
+                                    <span style="font-size: 11px; color: #888;">JSON Path Columns:</span>
+                                    <input type="text" placeholder="Alias: $.path" value="City: $.Address.City" style="width: 150px; padding: 4px;">
+                                    <button class="icon-btn" title="Add Column"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div style="flex: 1; overflow: auto;">
+                                    <table class="data-grid">
+                                        <thead>
+                                            <tr>
+                                                <th>HotelId <span style="color:#666; font-size: 10px;">$.HotelId</span></th>
+                                                <th>HotelName <span style="color:#666; font-size: 10px;">$.HotelName</span></th>
+                                                <th>Category <span style="color:#666; font-size: 10px;">$.Category</span></th>
+                                                <th>City <span style="color:#aaa; font-size: 10px;">$.Address.City</span></th>
+                                                <th>@search.score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Secret Point Motel</td>
+                                                <td>Boutique</td>
+                                                <td>New York</td>
+                                                <td>1.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Twin Dome Motel</td>
+                                                <td>Luxury</td>
+                                                <td>Seattle</td>
+                                                <td>1.2</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Index Builder (Subpage) -->
+                <div id="index-builder" class="card" style="display: none; height: calc(100% - 40px); flex-direction: column; padding: 0;">
+                    <div style="padding: 12px 16px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; background-color: #252526;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="breadcrumbs">
+                                <a href="#" onclick="hideIndexSubpages(); return false;">Indexes</a> <i class="fas fa-chevron-right"></i> <span class="current" id="index-builder-title">Create Index</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="primary" onclick="saveIndex()"><i class="fas fa-save"></i> Save</button>
+                            <button onclick="hideIndexSubpages()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- Builder Tabs -->
+                     <div style="background-color: #252526; padding: 0 16px;">
+                        <div class="tabs" style="border: none; margin: 0;">
+                            <div class="tab active" data-target="builder-fields" style="border-bottom-width: 3px;">Fields</div>
+                            <div class="tab" data-target="builder-vector" style="border-bottom-width: 3px;">Vector Search</div>
+                            <div class="tab" data-target="builder-suggesters" style="border-bottom-width: 3px;">Suggesters</div>
+                            <div class="tab" data-target="builder-scoring" style="border-bottom-width: 3px;">Scoring</div>
+                            <div class="tab" data-target="builder-cors" style="border-bottom-width: 3px;">CORS</div>
+                            <div class="tab" data-target="builder-json" style="border-bottom-width: 3px;">JSON</div>
+                        </div>
+                    </div>
+
+                    <!-- Fields Tab Content -->
+                    <div id="builder-fields" class="tab-content" style="flex: 1; overflow: hidden; display: flex; flex-direction: column; background-color: #1e1e1e;">
+                        <div style="padding: 16px; border-bottom: 1px solid var(--border-color); display: flex; gap: 16px; background-color: #252526;">
+                             <div class="form-group" style="margin-bottom: 0; flex: 1; max-width: 400px;">
+                                <label>Index Name (Immutable after creation)</label>
+                                <input type="text" placeholder="e.g. hotels-index" value="hotels-sample-index">
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 8px; background-color: #333; display: flex; gap: 8px; border-bottom: 1px solid var(--border-color);">
+                            <button class="icon-btn" title="Add Field"><i class="fas fa-plus"></i> Add Field</button>
+                            <button class="icon-btn" title="Delete Field"><i class="fas fa-trash"></i></button>
+                        </div>
+
+                        <!-- Fields Grid -->
+                        <div style="flex: 1; overflow: auto;">
+                            <table class="data-grid" style="width: 100%; min-width: 1200px;">
+                                <thead style="position: sticky; top: 0; background-color: #2d2d2d; z-index: 1;">
+                                    <tr>
+                                        <th style="width: 200px;">Name</th>
+                                        <th style="width: 150px;">Type</th>
+                                        <th title="Key" style="width: 40px; text-align: center;">K</th>
+                                        <th title="Retrievable" style="width: 40px; text-align: center;">R</th>
+                                        <th title="Filterable" style="width: 40px; text-align: center;">F</th>
+                                        <th title="Sortable" style="width: 40px; text-align: center;">S</th>
+                                        <th title="Facetable" style="width: 40px; text-align: center;">Fa</th>
+                                        <th title="Searchable" style="width: 40px; text-align: center;">Se</th>
+                                        <th style="width: 150px;">Analyzer</th>
+                                        <th style="width: 100px;">Dimensions</th>
+                                        <th style="width: 150px;">Vector Profile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" value="HotelId" style="border: none; background: transparent;"></td>
+                                        <td>
+                                            <select style="border: none; background: transparent;">
+                                                <option selected>Edm.String</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: center;"><input type="checkbox" checked disabled></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td><select style="border: none; background: transparent;"><option>standard.lucene</option></select></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" value="Description" style="border: none; background: transparent;"></td>
+                                        <td>
+                                            <select style="border: none; background: transparent;">
+                                                <option selected>Edm.String</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                                        <td><select style="border: none; background: transparent;"><option>en.microsoft</option></select></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" value="DescriptionVector" style="border: none; background: transparent;"></td>
+                                        <td>
+                                            <select style="border: none; background: transparent;">
+                                                <option selected>Collection(Edm.Single)</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center;"><input type="checkbox"></td>
+                                        <td style="text-align: center;"><input type="checkbox" disabled></td>
+                                        <td style="text-align: center;"><input type="checkbox" disabled></td>
+                                        <td style="text-align: center;"><input type="checkbox" disabled></td>
+                                        <td style="text-align: center;"><input type="checkbox" checked disabled></td>
+                                        <td></td>
+                                        <td><input type="number" value="1536" style="width: 60px; border: none; background: transparent;"></td>
+                                        <td><select style="border: none; background: transparent;"><option>my-vector-profile</option></select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Vector Search Tab Content -->
+                    <div id="builder-vector" class="tab-content" style="flex: 1; display: none; overflow: auto; padding: 16px;">
+                        <h4 style="margin-top: 0;">Algorithms</h4>
+                        <table class="data-grid" style="margin-bottom: 24px;">
+                            <thead><tr><th>Name</th><th>Kind</th><th>Parameters</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>hnsw-1</td>
+                                    <td>hnsw</td>
+                                    <td>m: 4, efConstruction: 400, efSearch: 500, metric: cosine</td>
+                                    <td><button class="icon-btn"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                                 <tr>
+                                    <td>eknn-1</td>
+                                    <td>exhaustiveKnn</td>
+                                    <td>metric: euclidean</td>
+                                    <td><button class="icon-btn"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="icon-btn"><i class="fas fa-plus"></i> Add Algorithm</button>
+
+                        <h4>Profiles</h4>
+                        <table class="data-grid" style="margin-bottom: 24px;">
+                            <thead><tr><th>Name</th><th>Algorithm</th><th>Compression</th><th>Vectorizer</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>my-vector-profile</td>
+                                    <td>hnsw-1</td>
+                                    <td>-</td>
+                                    <td>openai-embedding</td>
+                                    <td><button class="icon-btn"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="icon-btn"><i class="fas fa-plus"></i> Add Profile</button>
+                    </div>
+
+                    <!-- Suggesters Tab Content -->
+                    <div id="builder-suggesters" class="tab-content" style="flex: 1; display: none; overflow: auto; padding: 16px;">
+                        <table class="data-grid">
+                            <thead><tr><th>Name</th><th>Source Fields</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>sg</td>
+                                    <td>HotelName, Category</td>
+                                    <td><button class="icon-btn"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="icon-btn" style="margin-top: 8px;"><i class="fas fa-plus"></i> Add Suggester</button>
+                    </div>
+
+                    <!-- Scoring Tab Content -->
+                    <div id="builder-scoring" class="tab-content" style="flex: 1; display: none; overflow: auto; padding: 16px;">
+                        <table class="data-grid">
+                            <thead><tr><th>Name</th><th>Text Weights</th><th>Functions</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>boost-recent</td>
+                                    <td>Title (2.0), Tags (1.5)</td>
+                                    <td>freshness (LastRenovationDate), magnitude (Rating)</td>
+                                    <td><button class="icon-btn"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="icon-btn" style="margin-top: 8px;"><i class="fas fa-plus"></i> Add Scoring Profile</button>
+                    </div>
+                    
+                    <!-- CORS Tab Content -->
+                    <div id="builder-cors" class="tab-content" style="flex: 1; display: none; overflow: auto; padding: 16px;">
+                         <div class="form-group">
+                            <label>Allowed Origins</label>
+                            <textarea rows="4" placeholder="* or https://example.com, https://app.example.com"></textarea>
+                            <p style="font-size: 11px; color: #888;">Enter one origin per line or comma separated.</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Max Age (Seconds)</label>
+                            <input type="number" value="300">
+                        </div>
+                    </div>
+                    
+                    <!-- JSON Tab Content -->
+                    <div id="builder-json" class="tab-content" style="flex: 1; display: none; overflow: hidden; padding: 0;">
+                        <div class="json-preview" style="height: 100%; border: none; margin: 0;">
+{
+    "name": "hotels-sample-index",
+    "fields": [ ... ],
+    "vectorSearch": { ... }
+}
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -1207,6 +1606,67 @@ var response = await client.SearchAsync<Hotel>("*", options);
             const panel = document.getElementById('bottom-panel');
             panel.classList.toggle('open');
         }
+
+        // Index Page Sub-navigation
+        function showIndexExplorer(indexName) {
+            document.getElementById('index-list-view').style.display = 'none';
+            document.getElementById('index-builder').style.display = 'none';
+            document.getElementById('index-explorer').style.display = 'flex';
+            document.getElementById('explorer-index-name').innerText = indexName || 'index-name';
+        }
+
+        function showIndexBuilder(indexName) {
+             document.getElementById('index-list-view').style.display = 'none';
+             document.getElementById('index-explorer').style.display = 'none';
+             document.getElementById('index-builder').style.display = 'flex';
+             document.getElementById('index-builder-title').innerText = indexName ? 'Edit Index: ' + indexName : 'Create Index';
+        }
+
+        function hideIndexSubpages() {
+            document.getElementById('index-explorer').style.display = 'none';
+            document.getElementById('index-builder').style.display = 'none';
+            document.getElementById('index-list-view').style.display = 'block';
+        }
+        
+        function renderIndexList() {
+            // Emulate refresh
+            const tbody = document.getElementById('index-list-body');
+            tbody.style.opacity = '0.5';
+            setTimeout(() => { tbody.style.opacity = '1'; }, 500);
+        }
+        
+        function saveIndex() {
+            alert('Index saved (simulation)');
+            hideIndexSubpages();
+        }
+
+        // Sub-page Tab Switching logic (Delegated)
+        document.addEventListener('click', function(e) {
+            const tab = e.target.closest('.tab');
+            if (tab && !tab.closest('#tab-bar') && tab.dataset.target) {
+                const tabsContainer = tab.parentElement;
+                const container = tab.closest('.card') || tab.closest('.page');
+                
+                // Deactivate siblings
+                tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Hide all contents
+                container.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+                
+                // Show target
+                const targetId = tab.dataset.target;
+                const content = document.getElementById(targetId);
+                if (content) {
+                    // Restore appropriate display type
+                    if (content.id === 'explorer-table' || content.id === 'builder-fields') {
+                        content.style.display = 'flex';
+                    } else {
+                        content.style.display = 'block';
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>

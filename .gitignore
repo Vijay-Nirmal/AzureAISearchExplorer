@@ -12,3 +12,5 @@ publish
 # Electron build output
 electron/renderer/
 electron/dist/
+
+backend/Data
