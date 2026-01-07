@@ -4,6 +4,11 @@ import { indexesService } from '../../../services/indexesService';
 import { Button } from '../../common/Button';
 import { Input } from '../../common/Input';
 import { Select } from '../../common/Select';
+import { Modal } from '../../common/Modal';
+import { TruncatedTextCell } from '../../common/TruncatedTextCell';
+// import { Breadcrumbs } from '../../common/Breadcrumbs';
+import { JsonViewerModal } from '../../common/JsonViewerModal';
+import { JsonView } from '../../common/JsonView';
 import type { SearchOptions, QueryResponse } from '../../../types/IndexModels';
 
 interface IndexExplorerProps {
@@ -17,7 +22,7 @@ interface ColumnDef {
 }
 
 const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
-    const { activeConnectionId } = useLayout();
+    const { activeConnectionId, setBreadcrumbs } = useLayout();
     const [searchText, setSearchText] = useState('*');
     const [options, setOptions] = useState<SearchOptions>({
         includeTotalCount: true,
@@ -30,6 +35,8 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
     const [response, setResponse] = useState<QueryResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'json' | 'table'>('json');
+    const [viewDetails, setViewDetails] = useState<string | null>(null);
+    const [viewJsonItem, setViewJsonItem] = useState<any | null>(null);
     
     // Table Columns state
     const [columns, setColumns] = useState<ColumnDef[]>([
@@ -66,7 +73,17 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
 
     // Execute on mount
     useEffect(() => {
+        setBreadcrumbs([
+            { label: 'Indexes', onClick: onBack },
+            { label: indexName },
+            { label: 'Explorer' }
+        ]);
+        
         runQuery();
+        
+        return () => {
+             setBreadcrumbs([]);
+        };
     }, []);
 
     const resolvePath = (obj: any, path: string) => {
@@ -94,21 +111,17 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             {/* Header */}
             <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#252526' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div className="breadcrumbs" style={{ fontSize: '13px', color: '#888' }}>
-                        <span style={{ cursor:'pointer' }} onClick={onBack}>Indexes</span> 
-                        <i className="fas fa-chevron-right" style={{ fontSize:'10px', margin:'0 6px' }}></i> 
-                        <span className="current" style={{ fontWeight: 600, color: 'var(--text-color)' }}>{indexName}</span> 
-                        <i className="fas fa-chevron-right" style={{ fontSize:'10px', margin:'0 6px' }}></i> 
-                        <span className="current">Explorer</span>
-                    </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '16px', fontWeight: 600 }}>
+                    <span style={{ color: '#fff' }}>Explorer</span>
+                    <span style={{ color: '#888' }}>{' | '}</span>
+                    <span style={{ color: '#ccc' }}>{indexName}</span>
                 </div>
                 <Button onClick={onBack}><i className="fas fa-arrow-left"></i> Back</Button>
             </div>
 
             <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
                 {/* Query Controls Sub-Sidebar */}
-                <div style={{ width: '300px', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', backgroundColor: '#252526' }}>
+                <div style={{ width: '300px', minWidth: '300px', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', backgroundColor: '#252526' }}>
                     <div style={{ padding: '12px', borderBottom: '1px solid var(--border-color)', fontWeight: 600, color: '#ddd', fontSize: '11px', textTransform: 'uppercase' }}>
                         Query Parameters
                     </div>
@@ -208,10 +221,14 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                         {error && <div style={{ padding: '10px', color: '#f48771', borderBottom: '1px solid #333' }}>Error: {error}</div>}
                         
                         {activeTab === 'json' && (
-                            <div style={{ flex: 1, padding: '0', overflow: 'auto', backgroundColor: '#1e1e1e' }}>
-                                <pre style={{ margin: 0, padding: '16px', fontFamily: 'Consolas, monospace', fontSize: '13px', color: '#9cdcfe' }}>
-                                    {response ? JSON.stringify(response, null, 2) : '// Setup query and click Run'}
-                                </pre>
+                            <div style={{ flex: 1, padding: '0', overflow: 'hidden', backgroundColor: '#1e1e1e' }}>
+                                <JsonView 
+                                    data={response || '// Setup query and click Run'} 
+                                    options={{ 
+                                        lineNumbers: 'on', 
+                                        minimap: { enabled: true } 
+                                    }}
+                                />
                             </div>
                         )}
 
@@ -228,6 +245,7 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                                     <table className="data-grid" style={{ width: '100%', borderCollapse: 'collapse' }}>
                                         <thead>
                                             <tr>
+                                                <th style={{ width: '40px', padding: '8px', borderBottom: '1px solid #444', backgroundColor: '#2d2d2d' }}></th>
                                                 {columns.map((col, idx) => (
                                                     <th key={idx} style={{ textAlign: 'left', padding: '8px', borderBottom: '1px solid #444', backgroundColor: '#2d2d2d' }}>
                                                         {col.header} 
@@ -240,11 +258,19 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                                         <tbody>
                                             {response?.results.map((item, rIdx) => (
                                                 <tr key={rIdx} style={{ borderBottom: '1px solid #333' }}>
-                                                    {columns.map((col, cIdx) => (
-                                                        <td key={cIdx} style={{ padding: '8px', color: '#ccc' }}>
-                                                            {String(resolvePath(item, col.path) ?? '')}
-                                                        </td>
-                                                    ))}
+                                                    <td style={{ padding: '8px', textAlign: 'center' }}>
+                                                        <Button 
+                                                            variant="icon"
+                                                            onClick={() => setViewJsonItem(item)}
+                                                            title="View Full JSON"
+                                                        >
+                                                            <i className="fas fa-code"></i>
+                                                        </Button>
+                                                    </td>
+                                                    {columns.map((col, cIdx) => {
+                                                        const value = String(resolvePath(item, col.path) ?? '');
+                                                        return <TruncatedTextCell key={cIdx} value={value} onExpand={setViewDetails} />;
+                                                    })}
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -255,6 +281,38 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                     </div>
                 </div>
             </div>
+
+            {/* View Details Modal */}
+            <Modal
+                isOpen={viewDetails !== null}
+                onClose={() => setViewDetails(null)}
+                title="Cell Content"
+                footer={(
+                    <>
+                         <Button variant="secondary" onClick={() => viewDetails && navigator.clipboard.writeText(viewDetails)}>
+                            <i className="fas fa-copy"></i> Copy
+                        </Button>
+                        <Button onClick={() => setViewDetails(null)}>Close</Button>
+                    </>
+                )}
+            >
+                <textarea 
+                    readOnly
+                    style={{ 
+                        width: '100%', height: '100%', minHeight: '300px',
+                        backgroundColor: '#1e1e1e', color: '#d4d4d4', 
+                        border: 'none', fontFamily: 'Consolas', resize: 'none'
+                    }}
+                    value={viewDetails || ''}
+                />
+            </Modal>
+            
+            <JsonViewerModal
+                isOpen={viewJsonItem !== null}
+                onClose={() => setViewJsonItem(null)}
+                title="Document JSON"
+                data={viewJsonItem}
+            />
         </div>
     );
 };

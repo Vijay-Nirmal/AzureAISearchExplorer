@@ -24,6 +24,10 @@ applyTo: "frontend/**"
   - `Input`, `Select`: Use for form elements.
   - `Card`: Use as a container for page content.
   - `Label`: Use for form labels.
+  - `Modal`: Use for popup dialogs.
+  - `Breadcrumbs`: Use for navigation paths.
+  - `TruncatedTextCell`: Use for table cells with potential overflow text.
+  - `JsonViewerModal`: Use for viewing JSON data with syntax highlighting (uses Monaco Editor).
 - **New Components**:
   - **Reusability**: If a UI element is generic or used in multiple places, create it as a reusable component in `src/components/common/`. If it doesn't exist, create it.
   - Use CSS Modules for styling.

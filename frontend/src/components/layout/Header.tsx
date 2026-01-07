@@ -10,14 +10,15 @@ export const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.breadcrumbs}>
+        <span>Azure AI Search</span>
         {breadcrumbs.length > 0 ? (
           breadcrumbs.map((item, index) => (
             <React.Fragment key={index}>
-              {index > 0 && <i className="fa-solid fa-chevron-right"></i>}
-              <span 
+              <i className="fa-solid fa-chevron-right"></i>
+              <span
                 className={index === breadcrumbs.length - 1 ? styles.current : styles.link}
                 onClick={item.onClick}
-                style={item.onClick ? { cursor: 'pointer' } : {}}
+                style={item.onClick ? { cursor: 'pointer' } : undefined}
               >
                 {item.label}
               </span>
@@ -25,7 +26,6 @@ export const Header: React.FC = () => {
           ))
         ) : (
           <>
-            <span>Azure AI Search</span>
             <i className="fa-solid fa-chevron-right"></i>
             <span className={styles.current}>{activeTab?.title || 'Home'}</span>
           </>

@@ -4,6 +4,7 @@ import { indexesService } from '../../../services/indexesService';
 import { Button } from '../../common/Button';
 import { Input } from '../../common/Input';
 import { Select } from '../../common/Select';
+import { JsonView } from '../../common/JsonView';
 import type { 
     SearchIndex, 
     SearchField, 
@@ -203,12 +204,12 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
                                     </Select>
                                 </td>
                                  <td style={{ padding: '4px' }}>
-                                    {f.type.includes('Single') && (
+                                    {typeof f.type === 'string' && f.type.includes('Single') && (
                                         <Input type="number" value={f.vectorSearchDimensions} onChange={e => updateField(i, { vectorSearchDimensions: parseInt(e.target.value) })} style={{ width: '60px', border: 'none', background: 'transparent' }} />
                                     )}
                                 </td>
                                 <td style={{ padding: '4px' }}>
-                                    {f.type.includes('Single') && (
+                                    {typeof f.type === 'string' && f.type.includes('Single') && (
                                         <Select value={f.vectorSearchProfileName} onChange={e => updateField(i, { vectorSearchProfileName: e.target.value })} style={{ border: 'none', background: 'transparent' }}>
                                             <option value=""></option>
                                             {indexDef.vectorSearch?.profiles?.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
@@ -489,10 +490,8 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
                 {activeTab === 'scoring' && renderScoringTab()}
                 {activeTab === 'cors' && renderCorsTab()}
                 {activeTab === 'json' && (
-                    <div style={{ flex: 1, padding: '0', overflow: 'auto' }}>
-                       <pre style={{ margin: 0, padding: '16px', fontFamily: 'Consolas', fontSize: '13px', color: '#9cdcfe' }}>
-                           {JSON.stringify(indexDef, null, 2)}
-                       </pre>
+                    <div style={{ flex: 1, padding: '0', overflow: 'hidden' }}>
+                       <JsonView data={indexDef} />
                     </div>
                 )}
             </div>
