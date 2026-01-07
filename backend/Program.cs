@@ -1,17 +1,17 @@
-using System.Text.Json.Serialization;
 using AzureAISearchExplorer.Backend.Endpoints;
 using AzureAISearchExplorer.Backend.Extensions;
 using AzureAISearchExplorer.Backend.Features.Connections;
 using AzureAISearchExplorer.Backend.Features.Indexes;
 using AzureAISearchExplorer.Backend.Features.Service;
 using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<JsonOptions>(options =>
 {
-    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+	options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddInfrastructureServices();
@@ -24,7 +24,7 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+	app.MapOpenApi();
 }
 
 app.UseCors();

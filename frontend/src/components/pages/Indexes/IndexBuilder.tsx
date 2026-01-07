@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexesService } from '../../../services/indexesService';
 import { Button } from '../../common/Button';
+import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
 import { Select } from '../../common/Select';
 import { JsonView } from '../../common/JsonView';
@@ -109,7 +110,7 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
     // --- Tab Renderers ---
 
     const renderHeader = () => (
-         <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#252526' }}>
+         <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
                 {isEdit ? indexDef.name : 'Create Index'}
             </h2>
@@ -121,7 +122,7 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
     );
 
     const renderTabs = () => (
-        <div style={{ backgroundColor: '#252526', padding: '0 16px', borderBottom: '1px solid var(--border-color)' }}>
+        <div style={{ padding: '0 16px', borderBottom: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', gap: '2px' }}>
                 {['fields', 'vector', 'suggesters', 'scoring', 'cors', 'json'].map(tab => (
                     <div 
@@ -480,21 +481,23 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
 
     // --- Main Render ---
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px' }}>
             {renderHeader()}
-            {renderTabs()}
-            <div style={{ flex: 1, backgroundColor: '#1e1e1e', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                {activeTab === 'fields' && renderFieldsTab()}
-                {activeTab === 'vector' && renderVectorTab()}
-                {activeTab === 'suggesters' && renderSuggestersTab()}
-                {activeTab === 'scoring' && renderScoringTab()}
-                {activeTab === 'cors' && renderCorsTab()}
-                {activeTab === 'json' && (
-                    <div style={{ flex: 1, padding: '0', overflow: 'hidden' }}>
-                       <JsonView data={indexDef} />
-                    </div>
-                )}
-            </div>
+            <Card style={{ padding: 0, flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                {renderTabs()}
+                <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                    {activeTab === 'fields' && renderFieldsTab()}
+                    {activeTab === 'vector' && renderVectorTab()}
+                    {activeTab === 'suggesters' && renderSuggestersTab()}
+                    {activeTab === 'scoring' && renderScoringTab()}
+                    {activeTab === 'cors' && renderCorsTab()}
+                    {activeTab === 'json' && (
+                        <div style={{ flex: 1, padding: '0', overflow: 'hidden' }}>
+                        <JsonView data={indexDef} />
+                        </div>
+                    )}
+                </div>
+            </Card>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexesService } from '../../../services/indexesService';
 import { Button } from '../../common/Button';
+import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
 import { Select } from '../../common/Select';
 import { Modal } from '../../common/Modal';
@@ -108,20 +109,20 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px' }}>
             {/* Header */}
-            <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#252526' }}>
+            <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '16px', fontWeight: 600 }}>
-                    <span style={{ color: '#fff' }}>Explorer</span>
+                    <span style={{ color: 'var(--text-color)' }}>Explorer</span>
                     <span style={{ color: '#888' }}>{' | '}</span>
-                    <span style={{ color: '#ccc' }}>{indexName}</span>
+                    <span style={{ color: 'var(--accent-color)' }}>{indexName}</span>
                 </div>
                 <Button onClick={onBack}><i className="fas fa-arrow-left"></i> Back</Button>
             </div>
 
-            <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+            <Card style={{ padding: 0, flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'row' }}>
                 {/* Query Controls Sub-Sidebar */}
-                <div style={{ width: '300px', minWidth: '300px', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', backgroundColor: '#252526' }}>
+                <div style={{ width: '300px', minWidth: '300px', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ padding: '12px', borderBottom: '1px solid var(--border-color)', fontWeight: 600, color: '#ddd', fontSize: '11px', textTransform: 'uppercase' }}>
                         Query Parameters
                     </div>
@@ -184,9 +185,9 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                 </div>
 
                 {/* Results Area */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#1e1e1e' }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     {/* Tabs / Toolbar */}
-                    <div style={{ height: '40px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', padding: '0 16px', backgroundColor: '#252526' }}>
+                    <div style={{ height: '40px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', padding: '0 16px' }}>
                         <div style={{ display: 'flex', height: '100%' }}>
                             <div 
                                 onClick={() => setActiveTab('json')}
@@ -221,7 +222,7 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                         {error && <div style={{ padding: '10px', color: '#f48771', borderBottom: '1px solid #333' }}>Error: {error}</div>}
                         
                         {activeTab === 'json' && (
-                            <div style={{ flex: 1, padding: '0', overflow: 'hidden', backgroundColor: '#1e1e1e' }}>
+                            <div style={{ flex: 1, padding: '0', overflow: 'hidden' }}>
                                 <JsonView 
                                     data={response || '// Setup query and click Run'} 
                                     options={{ 
@@ -235,7 +236,7 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                         {activeTab === 'table' && (
                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                                 {/* Column definitions */}
-                                <div style={{ padding: '8px', borderBottom: '1px solid #333', background: '#252526', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                <div style={{ padding: '8px', borderBottom: '1px solid #333', display: 'flex', gap: '8px', alignItems: 'center' }}>
                                     <span style={{ fontSize: '11px', color: '#888' }}>Cols:</span>
                                     <Input placeholder="Header" value={newColHeader} onChange={e => setNewColHeader(e.target.value)} style={{ width: '100px', padding: '4px' }} />
                                     <Input placeholder="Path (e.g. Address.City)" value={newColPath} onChange={e => setNewColPath(e.target.value)} style={{ width: '150px', padding: '4px' }} />
@@ -280,7 +281,7 @@ const IndexExplorer: React.FC<IndexExplorerProps> = ({ indexName, onBack }) => {
                         )}
                     </div>
                 </div>
-            </div>
+            </Card>
 
             {/* View Details Modal */}
             <Modal
