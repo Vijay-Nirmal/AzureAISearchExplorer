@@ -4,6 +4,7 @@ using AzureAISearchExplorer.Backend.Features.Connections;
 using AzureAISearchExplorer.Backend.Features.Indexes;
 using AzureAISearchExplorer.Backend.Features.Service;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.Azure;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Logging.AddBufferedLogging(builder.Services);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.Services.GetRequiredService<AzureEventSourceLogForwarder>().Start();
 app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())

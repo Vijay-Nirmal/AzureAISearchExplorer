@@ -59,7 +59,7 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
                     if (!data.fields) data.fields = [];
                     if (!data.suggesters) data.suggesters = [];
                     if (!data.scoringProfiles) data.scoringProfiles = [];
-                    if (!data.corsOptions) data.corsOptions = { allowedOrigins: [] };
+                    // if (!data.corsOptions) data.corsOptions = { allowedOrigins: [] };
                     setIndexDef(data);
                 } catch (error) {
                     console.error("Failed to fetch index definition", error);
@@ -111,9 +111,21 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
 
     const renderHeader = () => (
          <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
-                {isEdit ? indexDef.name : 'Create Index'}
-            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
+                    {isEdit ? indexDef.name : 'Create Index'}
+                </h2>
+                {!isEdit && (
+                    <div style={{ width: '300px' }}>
+                        <Input 
+                            value={indexDef.name} 
+                            onChange={e => setIndexDef({...indexDef, name: e.target.value})} 
+                            placeholder="Index name (e.g. my-index)"
+                            style={{ width: '100%' }}
+                        />
+                    </div>
+                )}
+            </div>
             <div style={{ display: 'flex', gap: '8px' }}>
                 <Button variant="primary" onClick={saveIndex} disabled={loading}><i className="fas fa-save"></i> Save</Button>
                 <Button onClick={onBack}>Cancel</Button>
@@ -145,12 +157,6 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
 
     const renderFieldsTab = () => (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-             <div style={{ padding: '16px', borderBottom: '1px solid #333', backgroundColor: '#252526', display: 'flex', gap: '16px' }}>
-                 <div style={{ flex: 1, maxWidth: '400px' }}>
-                    <label style={{ display: 'block', marginBottom: '4px', color: '#aaa', fontSize: '11px' }}>Index Name</label>
-                    <Input value={indexDef.name} onChange={e => setIndexDef({...indexDef, name: e.target.value})} disabled={isEdit} />
-                </div>
-            </div>
             <div style={{ padding: '8px', backgroundColor: '#333', borderBottom: '1px solid #444' }}>
                 <Button onClick={addField}><i className="fas fa-plus"></i> Add Field</Button>
             </div>
@@ -240,244 +246,316 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
     };
 
     const renderVectorTab = () => (
-        <div style={{ padding: '16px', overflow: 'auto', flex: 1 }}>
-            {/* Algorithms */}
-            <div style={{ marginBottom: '24px' }}>
-                <h4 style={{ borderBottom: '1px solid #444', paddingBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-                    Algorithms
-                    <Button variant="secondary" onClick={() => updateVectorSearch('algorithms', [...(indexDef.vectorSearch?.algorithms || []), { name: 'new-algo', kind: 'hnsw', hnswParameters: { m: 4, efConstruction: 400, efSearch: 500, metric: 'cosine' } }])}>
-                        <i className="fas fa-plus"></i> Add
-                    </Button>
-                </h4>
-                <table className="data-grid">
-                    <thead><tr><th>Name</th><th>Kind</th><th>Metric</th><th>M</th><th>efConstruction</th><th></th></tr></thead>
-                    <tbody>
-                        {indexDef.vectorSearch?.algorithms?.map((algo, i) => (
-                            <tr key={i}>
-                                <td><Input value={algo.name} onChange={e => {
-                                    const list = [...(indexDef.vectorSearch?.algorithms || [])];
-                                    list[i].name = e.target.value;
-                                    updateVectorSearch('algorithms', list);
-                                }} style={{background:'transparent', border:'none'}}/></td>
-                                <td>
-                                    <Select value={algo.kind} onChange={e => {
-                                         const list = [...(indexDef.vectorSearch?.algorithms || [])];
-                                         list[i].kind = e.target.value;
-                                         updateVectorSearch('algorithms', list);
-                                    }} style={{background:'transparent', border:'none'}}>
-                                        <option value="hnsw">HNSW</option>
-                                        <option value="exhaustiveKnn">Exhaustive KNN</option>
-                                    </Select>
-                                </td>
-                                <td>
-                                    <Select value={(algo.hnswParameters || algo.exhaustiveKnnParameters)?.metric || 'cosine'} onChange={e => {
-                                         const list = [...(indexDef.vectorSearch?.algorithms || [])];
-                                         const params = algo.kind === 'hnsw' ? (list[i].hnswParameters || {}) : (list[i].exhaustiveKnnParameters || {});
-                                         params.metric = e.target.value as any;
-                                         if(algo.kind === 'hnsw') list[i].hnswParameters = params;
-                                         else list[i].exhaustiveKnnParameters = params;
-                                         updateVectorSearch('algorithms', list);
-                                    }} style={{background:'transparent', border:'none'}}>
-                                        <option value="cosine">Cosine</option>
-                                        <option value="euclidean">Euclidean</option>
-                                        <option value="dotProduct">Dot Product</option>
-                                    </Select>
-                                </td>
-                                <td>{algo.kind === 'hnsw' && 
-                                    <Input type="number" value={algo.hnswParameters?.m} onChange={e => {
-                                        const list = [...(indexDef.vectorSearch?.algorithms || [])];
-                                        list[i].hnswParameters = { ...list[i].hnswParameters, m: parseInt(e.target.value) };
-                                        updateVectorSearch('algorithms', list);
-                                    }} style={{width:'60px', background:'transparent', border:'none'}}/>
-                                }</td>
-                                <td>{algo.kind === 'hnsw' && 
-                                    <Input type="number" value={algo.hnswParameters?.efConstruction} onChange={e => {
-                                        const list = [...(indexDef.vectorSearch?.algorithms || [])];
-                                        list[i].hnswParameters = { ...list[i].hnswParameters, efConstruction: parseInt(e.target.value) };
-                                        updateVectorSearch('algorithms', list);
-                                    }} style={{width:'60px', background:'transparent', border:'none'}}/>
-                                }</td>
-                                <td><button className="icon-btn" onClick={() => {
-                                    const list = [...(indexDef.vectorSearch?.algorithms || [])];
-                                    list.splice(i, 1);
-                                    updateVectorSearch('algorithms', list);
-                                }}><i className="fas fa-trash"></i></button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '8px', backgroundColor: '#333', borderBottom: '1px solid #444', display: 'flex', gap: '8px' }}>
+                <Button onClick={() => updateVectorSearch('algorithms', [...(indexDef.vectorSearch?.algorithms || []), { name: 'new-algo', kind: 'hnsw', hnswParameters: { m: 4, efConstruction: 400, efSearch: 500, metric: 'cosine' } }])}>
+                    <i className="fas fa-plus"></i> Add Algorithm
+                </Button>
+                <Button onClick={() => updateVectorSearch('profiles', [...(indexDef.vectorSearch?.profiles || []), { name: 'new-profile', algorithmConfigurationName: '' }])}>
+                    <i className="fas fa-plus"></i> Add Profile
+                </Button>
             </div>
+            
+            <div style={{ padding: '16px', overflow: 'auto', flex: 1 }}>
+                {/* Algorithms */}
+                <div style={{ marginBottom: '32px' }}>
+                    <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', color: '#ccc', borderBottom: '1px solid #444', paddingBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Algorithms</h4>
+                    <table className="data-grid" style={{ width: '100%' }}>
+                        <thead><tr><th>Name</th><th>Kind</th><th>Metric</th><th>M</th><th>efConstruction</th><th></th></tr></thead>
+                        <tbody>
+                            {indexDef.vectorSearch?.algorithms?.map((algo, i) => (
+                                <tr key={i}>
+                                    <td><Input value={algo.name} onChange={e => {
+                                        const list = [...(indexDef.vectorSearch?.algorithms || [])];
+                                        list[i].name = e.target.value;
+                                        updateVectorSearch('algorithms', list);
+                                    }} style={{background:'transparent', border:'none'}}/></td>
+                                    <td>
+                                        <Select value={algo.kind} onChange={e => {
+                                            const list = [...(indexDef.vectorSearch?.algorithms || [])];
+                                            list[i].kind = e.target.value;
+                                            updateVectorSearch('algorithms', list);
+                                        }} style={{background:'transparent', border:'none'}}>
+                                            <option value="hnsw">HNSW</option>
+                                            <option value="exhaustiveKnn">Exhaustive KNN</option>
+                                        </Select>
+                                    </td>
+                                    <td>
+                                        {/* @ts-ignore */}
+                                        <Select value={(algo.hnswParameters || algo.exhaustiveKnnParameters)?.metric || 'cosine'} onChange={e => {
+                                            const list = [...(indexDef.vectorSearch?.algorithms || [])];
+                                            const params = algo.kind === 'hnsw' ? (list[i].hnswParameters || {}) : (list[i].exhaustiveKnnParameters || {});
+                                            // @ts-ignore
+                                            params.metric = e.target.value;
+                                            if(algo.kind === 'hnsw') list[i].hnswParameters = params;
+                                            else list[i].exhaustiveKnnParameters = params;
+                                            updateVectorSearch('algorithms', list);
+                                        }} style={{background:'transparent', border:'none'}}>
+                                            <option value="cosine">Cosine</option>
+                                            <option value="euclidean">Euclidean</option>
+                                            <option value="dotProduct">Dot Product</option>
+                                        </Select>
+                                    </td>
+                                    <td>{algo.kind === 'hnsw' && 
+                                        <Input type="number" value={algo.hnswParameters?.m} onChange={e => {
+                                            const list = [...(indexDef.vectorSearch?.algorithms || [])];
+                                            // @ts-ignore
+                                            list[i].hnswParameters = { ...list[i].hnswParameters, m: parseInt(e.target.value) };
+                                            updateVectorSearch('algorithms', list);
+                                        }} style={{width:'60px', background:'transparent', border:'none'}}/>
+                                    }</td>
+                                    <td>{algo.kind === 'hnsw' && 
+                                        <Input type="number" value={algo.hnswParameters?.efConstruction} onChange={e => {
+                                            const list = [...(indexDef.vectorSearch?.algorithms || [])];
+                                            // @ts-ignore
+                                            list[i].hnswParameters = { ...list[i].hnswParameters, efConstruction: parseInt(e.target.value) };
+                                            updateVectorSearch('algorithms', list);
+                                        }} style={{width:'60px', background:'transparent', border:'none'}}/>
+                                    }</td>
+                                    <td><button className="icon-btn" onClick={() => {
+                                        const list = [...(indexDef.vectorSearch?.algorithms || [])];
+                                        list.splice(i, 1);
+                                        updateVectorSearch('algorithms', list);
+                                    }}><i className="fas fa-trash"></i></button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
-            {/* Profiles */}
-            <div style={{ marginBottom: '24px' }}>
-                <h4 style={{ borderBottom: '1px solid #444', paddingBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-                    Profiles
-                    <Button variant="secondary" onClick={() => updateVectorSearch('profiles', [...(indexDef.vectorSearch?.profiles || []), { name: 'new-profile', algorithmConfigurationName: '' }])}>
-                        <i className="fas fa-plus"></i> Add
-                    </Button>
-                </h4>
-                 <table className="data-grid">
-                    <thead><tr><th>Name</th><th>Algorithm</th><th>Vectorizer</th><th></th></tr></thead>
-                    <tbody>
-                        {indexDef.vectorSearch?.profiles?.map((prof, i) => (
-                            <tr key={i}>
-                                <td><Input value={prof.name} onChange={e => {
-                                    const list = [...(indexDef.vectorSearch?.profiles || [])];
-                                    list[i].name = e.target.value;
-                                    updateVectorSearch('profiles', list);
-                                }} style={{background:'transparent', border:'none'}}/></td>
-                                <td>
-                                    <Select value={prof.algorithmConfigurationName} onChange={e => {
-                                         const list = [...(indexDef.vectorSearch?.profiles || [])];
-                                         list[i].algorithmConfigurationName = e.target.value;
-                                         updateVectorSearch('profiles', list);
-                                    }} style={{background:'transparent', border:'none'}}>
-                                        <option value="">Select Algo...</option>
-                                        {indexDef.vectorSearch?.algorithms?.map(a => <option key={a.name} value={a.name}>{a.name}</option>)}
-                                    </Select>
-                                </td>
-                                <td>
-                                     <Select value={prof.vectorizer} onChange={e => {
-                                         const list = [...(indexDef.vectorSearch?.profiles || [])];
-                                         list[i].vectorizer = e.target.value;
-                                         updateVectorSearch('profiles', list);
-                                    }} style={{background:'transparent', border:'none'}}>
-                                        <option value="">(None)</option>
-                                        {/* TODO: Add Vectorizers list */}
-                                    </Select>
-                                </td>
-                                <td><button className="icon-btn" onClick={() => {
-                                    const list = [...(indexDef.vectorSearch?.profiles || [])];
-                                    list.splice(i, 1);
-                                    updateVectorSearch('profiles', list);
-                                }}><i className="fas fa-trash"></i></button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                {/* Profiles */}
+                <div style={{ marginBottom: '24px' }}>
+                    <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', color: '#ccc', borderBottom: '1px solid #444', paddingBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Profiles</h4>
+                    <table className="data-grid" style={{ width: '100%' }}>
+                        <thead><tr><th>Name</th><th>Algorithm</th><th>Vectorizer</th><th></th></tr></thead>
+                        <tbody>
+                            {indexDef.vectorSearch?.profiles?.map((prof, i) => (
+                                <tr key={i}>
+                                    <td><Input value={prof.name} onChange={e => {
+                                        const list = [...(indexDef.vectorSearch?.profiles || [])];
+                                        list[i].name = e.target.value;
+                                        updateVectorSearch('profiles', list);
+                                    }} style={{background:'transparent', border:'none'}}/></td>
+                                    <td>
+                                        <Select value={prof.algorithmConfigurationName} onChange={e => {
+                                            const list = [...(indexDef.vectorSearch?.profiles || [])];
+                                            list[i].algorithmConfigurationName = e.target.value;
+                                            updateVectorSearch('profiles', list);
+                                        }} style={{background:'transparent', border:'none'}}>
+                                            <option value="">Select Algo...</option>
+                                            {indexDef.vectorSearch?.algorithms?.map(a => <option key={a.name} value={a.name}>{a.name}</option>)}
+                                        </Select>
+                                    </td>
+                                    <td>
+                                        <Select value={prof.vectorizer} onChange={e => {
+                                            const list = [...(indexDef.vectorSearch?.profiles || [])];
+                                            list[i].vectorizer = e.target.value;
+                                            updateVectorSearch('profiles', list);
+                                        }} style={{background:'transparent', border:'none'}}>
+                                            <option value="">(None)</option>
+                                            {/* TODO: Add Vectorizers list */}
+                                        </Select>
+                                    </td>
+                                    <td><button className="icon-btn" onClick={() => {
+                                        const list = [...(indexDef.vectorSearch?.profiles || [])];
+                                        list.splice(i, 1);
+                                        updateVectorSearch('profiles', list);
+                                    }}><i className="fas fa-trash"></i></button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
 
     const renderSuggestersTab = () => (
-        <div style={{ padding: '16px', flex: 1, overflow: 'auto' }}>
-            <h4 style={{ borderBottom: '1px solid #444', paddingBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-                Suggesters
-                <Button variant="secondary" onClick={() => setIndexDef({...indexDef, suggesters: [...(indexDef.suggesters || []), { name: 'sg', sourceFields: [] }]})}>
-                    <i className="fas fa-plus"></i> Add
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '8px', backgroundColor: '#333', borderBottom: '1px solid #444' }}>
+                <Button onClick={() => setIndexDef({...indexDef, suggesters: [...(indexDef.suggesters || []), { name: 'sg', sourceFields: [] }]})}>
+                    <i className="fas fa-plus"></i> Add Suggester
                 </Button>
-            </h4>
-            <div style={{ display: 'grid', gap: '16px' }}>
-                {indexDef.suggesters?.map((sg, i) => (
-                    <div key={i} style={{ padding: '12px', backgroundColor: '#2d2d2d', borderRadius: '4px' }}>
-                        <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ fontSize: '11px', color: '#aaa' }}>Name</label>
-                                <Input value={sg.name} onChange={e => {
-                                    const list = [...(indexDef.suggesters || [])];
-                                    list[i].name = e.target.value;
-                                    setIndexDef({ ...indexDef, suggesters: list });
-                                }} />
+            </div>
+            <div style={{ padding: '16px', flex: 1, overflow: 'auto' }}>
+                <div style={{ display: 'grid', gap: '16px' }}>
+                    {indexDef.suggesters?.map((sg, i) => (
+                        <div key={i} style={{ padding: '12px', backgroundColor: '#2d2d2d', borderRadius: '4px' }}>
+                            <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
+                                <div style={{ flex: 1 }}>
+                                    <label style={{ fontSize: '11px', color: '#aaa' }}>Name</label>
+                                    <Input value={sg.name} onChange={e => {
+                                        const list = [...(indexDef.suggesters || [])];
+                                        list[i].name = e.target.value;
+                                        setIndexDef({ ...indexDef, suggesters: list });
+                                    }} />
+                                </div>
+                                <Button variant="icon" onClick={() => {
+                                     const list = [...(indexDef.suggesters || [])];
+                                     list.splice(i, 1);
+                                     setIndexDef({ ...indexDef, suggesters: list });
+                                }}><i className="fas fa-trash"></i></Button>
                             </div>
-                            <Button variant="icon" onClick={() => {
-                                 const list = [...(indexDef.suggesters || [])];
-                                 list.splice(i, 1);
-                                 setIndexDef({ ...indexDef, suggesters: list });
-                            }}><i className="fas fa-trash"></i></Button>
+                            <div>
+                                 <label style={{ fontSize: '11px', color: '#aaa' }}>Source Fields (Comma separated)</label>
+                                 <Input value={sg.sourceFields.join(', ')} onChange={e => {
+                                    const list = [...(indexDef.suggesters || [])];
+                                    list[i].sourceFields = e.target.value.split(',').map(s => s.trim()).filter(s => s);
+                                    setIndexDef({ ...indexDef, suggesters: list });
+                                 }} placeholder="field1, field2" />
+                            </div>
                         </div>
-                        <div>
-                             <label style={{ fontSize: '11px', color: '#aaa' }}>Source Fields (Comma separated)</label>
-                             <Input value={sg.sourceFields.join(', ')} onChange={e => {
-                                const list = [...(indexDef.suggesters || [])];
-                                list[i].sourceFields = e.target.value.split(',').map(s => s.trim()).filter(s => s);
-                                setIndexDef({ ...indexDef, suggesters: list });
-                             }} placeholder="field1, field2" />
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );
 
     const renderScoringTab = () => (
-         <div style={{ padding: '16px', flex: 1, overflow: 'auto' }}>
-            <h4 style={{ borderBottom: '1px solid #444', paddingBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-                Scoring Profiles
-                <Button variant="secondary" onClick={() => setIndexDef({...indexDef, scoringProfiles: [...(indexDef.scoringProfiles || []), { name: 'profile1', textWeights: { weights: {} } }]})}>
-                    <i className="fas fa-plus"></i> Add
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '8px', backgroundColor: '#333', borderBottom: '1px solid #444' }}>
+                <Button onClick={() => setIndexDef({...indexDef, scoringProfiles: [...(indexDef.scoringProfiles || []), { name: 'profile1', textWeights: { weights: {} } }]})}>
+                    <i className="fas fa-plus"></i> Add Scoring Profile
                 </Button>
-            </h4>
-             <div style={{ display: 'grid', gap: '16px' }}>
-                {indexDef.scoringProfiles?.map((sp, i) => (
-                    <div key={i} style={{ padding: '12px', backgroundColor: '#2d2d2d', borderRadius: '4px' }}>
-                         <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
-                             <div style={{ flex: 1 }}>
-                                <label style={{ fontSize: '11px', color: '#aaa' }}>Name</label>
-                                <Input value={sp.name} onChange={e => {
-                                    const list = [...(indexDef.scoringProfiles || [])];
-                                    list[i].name = e.target.value;
-                                    setIndexDef({ ...indexDef, scoringProfiles: list });
-                                }} />
-                            </div>
-                             <Button variant="icon" onClick={() => {
-                                 const list = [...(indexDef.scoringProfiles || [])];
-                                 list.splice(i, 1);
-                                 setIndexDef({ ...indexDef, scoringProfiles: list });
-                            }}><i className="fas fa-trash"></i></Button>
-                        </div>
-                        <div>
-                            <label style={{ fontSize: '11px', color: '#aaa' }}>Text Weights (JSON)</label>
-                             <textarea 
-                                style={{ width: '100%', height: '80px', backgroundColor: '#1e1e1e', color: '#d4d4d4', border: '1px solid #3c3c3c', fontFamily: 'Consolas' }}
-                                value={JSON.stringify(sp.textWeights?.weights || {}, null, 2)}
-                                onChange={e => {
-                                    try {
-                                        const parsed = JSON.parse(e.target.value);
+            </div>
+            <div style={{ padding: '16px', flex: 1, overflow: 'auto' }}>
+                 <div style={{ display: 'grid', gap: '16px' }}>
+                    {indexDef.scoringProfiles?.map((sp, i) => (
+                        <div key={i} style={{ padding: '12px', backgroundColor: '#2d2d2d', borderRadius: '4px' }}>
+                             <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
+                                 <div style={{ flex: 1 }}>
+                                    <label style={{ fontSize: '11px', color: '#aaa' }}>Name</label>
+                                    <Input value={sp.name} onChange={e => {
                                         const list = [...(indexDef.scoringProfiles || [])];
-                                        list[i].textWeights = { weights: parsed };
+                                        list[i].name = e.target.value;
                                         setIndexDef({ ...indexDef, scoringProfiles: list });
-                                    } catch {}
-                                }}
-                             />
+                                    }} />
+                                </div>
+                                 <Button variant="icon" onClick={() => {
+                                     const list = [...(indexDef.scoringProfiles || [])];
+                                     list.splice(i, 1);
+                                     setIndexDef({ ...indexDef, scoringProfiles: list });
+                                }}><i className="fas fa-trash"></i></Button>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#aaa' }}>Text Weights (JSON)</label>
+                                 <textarea 
+                                    style={{ width: '100%', height: '80px', backgroundColor: '#1e1e1e', color: '#d4d4d4', border: '1px solid #3c3c3c', fontFamily: 'Consolas' }}
+                                    value={JSON.stringify(sp.textWeights?.weights || {}, null, 2)}
+                                    onChange={e => {
+                                        try {
+                                            const parsed = JSON.parse(e.target.value);
+                                            const list = [...(indexDef.scoringProfiles || [])];
+                                            list[i].textWeights = { weights: parsed };
+                                            setIndexDef({ ...indexDef, scoringProfiles: list });
+                                        } catch {}
+                                    }}
+                                 />
+                            </div>
                         </div>
-                    </div>
-                ))}
-             </div>
-        </div>
-    );
-
-    const renderCorsTab = () => (
-         <div style={{ padding: '16px', flex: 1 }}>
-            <h4 style={{ borderBottom: '1px solid #444', paddingBottom: '8px' }}>CORS Options</h4>
-            <div style={{ maxWidth: '500px' }}>
-                <div style={{ marginBottom: '16px' }}>
-                     <label style={{ display:'block', marginBottom:'8px', fontSize:'13px' }}>Allowed Origins</label>
-                     <div style={{ display:'flex', gap:'8px' }}>
-                         <Input 
-                            value={indexDef.corsOptions?.allowedOrigins.join(', ')} 
-                            onChange={e => setIndexDef({
-                                ...indexDef,
-                                corsOptions: { ...indexDef.corsOptions, allowedOrigins: e.target.value.split(',').map(s=>s.trim()) }
-                            })}
-                            placeholder="*, http://localhost:3000"
-                        />
-                     </div>
-                     <small style={{ color:'#888' }}>Comma separated list of origins or *</small>
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                     <label style={{ display:'block', marginBottom:'8px', fontSize:'13px' }}>Max Age (Seconds)</label>
-                     <Input 
-                        type="number"
-                        value={indexDef.corsOptions?.maxAgeInSeconds} 
-                        onChange={e => setIndexDef({
-                            ...indexDef,
-                             corsOptions: { ...indexDef.corsOptions!, maxAgeInSeconds: parseInt(e.target.value) }
-                        })}
-                    />
-                </div>
+                    ))}
+                 </div>
             </div>
         </div>
     );
+
+    const renderCorsTab = () => {
+        const corsMode = !indexDef.corsOptions 
+            ? 'none' 
+            : indexDef.corsOptions.allowedOrigins.includes('*') 
+                ? 'all' 
+                : 'custom';
+
+        const setCorsMode = (mode: string) => {
+            if (mode === 'none') {
+                setIndexDef({ ...indexDef, corsOptions: undefined });
+            } else if (mode === 'all') {
+                setIndexDef({ 
+                    ...indexDef, 
+                    corsOptions: { 
+                        allowedOrigins: ['*'], 
+                        maxAgeInSeconds: indexDef.corsOptions?.maxAgeInSeconds || 300 
+                    } 
+                });
+            } else if (mode === 'custom') {
+                 setIndexDef({ 
+                    ...indexDef, 
+                    corsOptions: { 
+                        allowedOrigins: [], 
+                        maxAgeInSeconds: indexDef.corsOptions?.maxAgeInSeconds || 300 
+                    } 
+                });
+            }
+        };
+
+        return (
+         <div style={{ padding: '16px', flex: 1 }}>
+            <div style={{ maxWidth: '600px' }}>
+                <div style={{ marginBottom: '24px', display: 'flex', gap: '24px' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                        <input 
+                            type="radio" 
+                            name="corsMode" 
+                            checked={corsMode === 'none'} 
+                            onChange={() => setCorsMode('none')} 
+                        />
+                        <span>None (Disabled)</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                        <input 
+                            type="radio" 
+                            name="corsMode" 
+                            checked={corsMode === 'all'} 
+                            onChange={() => setCorsMode('all')} 
+                        />
+                        <span>All (*)</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                        <input 
+                            type="radio" 
+                            name="corsMode" 
+                            checked={corsMode === 'custom'} 
+                            onChange={() => setCorsMode('custom')} 
+                        />
+                        <span>Custom</span>
+                    </label>
+                </div>
+
+                {corsMode !== 'none' && (
+                    <>
+                        <div style={{ marginBottom: '16px' }}>
+                            <label style={{ display:'block', marginBottom:'8px', fontSize:'13px' }}>Allowed Origins</label>
+                            <Input 
+                                value={indexDef.corsOptions?.allowedOrigins.join(', ')} 
+                                onChange={e => setIndexDef({
+                                    ...indexDef,
+                                    corsOptions: { 
+                                        ...indexDef.corsOptions!, 
+                                        allowedOrigins: e.target.value.split(',').map(s=>s.trim()) 
+                                    }
+                                })}
+                                placeholder={corsMode === 'all' ? "*" : "http://localhost:3000, https://..."}
+                                disabled={corsMode === 'all'}
+                            />
+                            {corsMode === 'custom' && <small style={{ color:'#888' }}>Comma separated list of origins</small>}
+                        </div>
+                        <div style={{ marginBottom: '16px' }}>
+                            <label style={{ display:'block', marginBottom:'8px', fontSize:'13px' }}>Max Age (Seconds)</label>
+                            <Input 
+                                type="number"
+                                value={indexDef.corsOptions?.maxAgeInSeconds} 
+                                onChange={e => setIndexDef({
+                                    ...indexDef,
+                                    corsOptions: { ...indexDef.corsOptions!, maxAgeInSeconds: parseInt(e.target.value) }
+                                })}
+                            />
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+        );
+    };
 
     // --- Main Render ---
     return (

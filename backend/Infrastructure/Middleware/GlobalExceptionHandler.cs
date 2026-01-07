@@ -18,7 +18,11 @@ public class GlobalExceptionHandler : IExceptionHandler
 		CancellationToken cancellationToken)
 	{
 		_logger.LogError(
-			exception, "An unhandled exception has occurred: {Message}", exception.Message);
+			exception,
+			"An unhandled exception has occurred while processing {Method} {Path}. Error: {Message}",
+			httpContext.Request.Method,
+			httpContext.Request.Path,
+			exception.Message);
 
 		var problemDetails = new ProblemDetails
 		{

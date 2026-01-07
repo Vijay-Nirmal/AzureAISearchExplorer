@@ -3,6 +3,7 @@ using AzureAISearchExplorer.Backend.Infrastructure.Logging;
 using AzureAISearchExplorer.Backend.Infrastructure.Middleware;
 using AzureAISearchExplorer.Backend.Infrastructure.Services;
 using AzureAISearchExplorer.Backend.Shared.Interfaces;
+using Microsoft.Extensions.Azure;
 using System.ClientModel.Primitives;
 
 namespace AzureAISearchExplorer.Backend.Extensions;
@@ -49,6 +50,8 @@ public static class InfrastructureExtensions
 		{
 			options.SerializerOptions.Converters.Add(new JsonModelConverter());
 		});
+
+		services.AddSingleton<AzureEventSourceLogForwarder>();
 
 		return services;
 	}
