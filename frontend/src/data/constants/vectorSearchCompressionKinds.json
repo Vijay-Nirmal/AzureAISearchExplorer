@@ -1,0 +1,10 @@
+[
+  {
+    "value": "binaryQuantization",
+    "description": "Binary quantization compression. Optionally supports rescoring and truncation."
+  },
+  {
+    "value": "scalarQuantization",
+    "description": "Scalar quantization compression. Supports quantized data type, optional rescoring, and truncation."
+  }
+]

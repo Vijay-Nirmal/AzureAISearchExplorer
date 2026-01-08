@@ -1,0 +1,18 @@
+[
+  {
+    "value": "cosine",
+    "description": "Measures the angle between vectors; ignores magnitude. Smaller angle = more similar."
+  },
+  {
+    "value": "euclidean",
+    "description": "Straight-line distance in vector space. Smaller distance = more similar."
+  },
+  {
+    "value": "dotProduct",
+    "description": "Sum of element-wise products. Larger value = more similar."
+  },
+  {
+    "value": "hamming",
+    "description": "For bit-packed binary vectors only. Counts differing bit positions. Fewer differences = more similar."
+  }
+]

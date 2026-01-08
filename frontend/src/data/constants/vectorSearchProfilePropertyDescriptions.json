@@ -1,0 +1,7 @@
+{
+  "profiles": "Defines combinations of configurations to use with vector search.",
+  "name": "The name to associate with this particular vector search profile.",
+  "algorithm": "The name of the vector search algorithm configuration that specifies the algorithm and optional parameters.",
+  "compression": "The name of the compression method configuration that specifies the compression method and optional parameters.",
+  "vectorizer": "The name of the vectorization being configured for use with vector search."
+}

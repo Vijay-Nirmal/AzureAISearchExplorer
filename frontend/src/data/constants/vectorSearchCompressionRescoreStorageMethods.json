@@ -1,0 +1,10 @@
+[
+  {
+    "value": "preserveOriginals",
+    "description": "Preserves original full-precision vectors (more storage, best quality; supports rescoring/oversampling)."
+  },
+  {
+    "value": "discardOriginals",
+    "description": "Discards original full-precision vectors (less storage; rescoring/oversampling not available)."
+  }
+]

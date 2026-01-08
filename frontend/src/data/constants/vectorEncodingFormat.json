@@ -1,0 +1,6 @@
+[
+  {
+    "value": "packedBit",
+    "description": "Encoding format representing bits packed into a wider data type."
+  }
+]

@@ -1,0 +1,7 @@
+[
+    { "value": "asciifolding", "description": "Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the \"Basic Latin\" Unicode block) into their ASCII equivalents, if such equivalents exist" },
+    { "value": "elision", "description": "Removes elisions. For example, \"l'avion\" (the plane) will be converted to \"avion\" (plane)" },
+    { "value": "lowercase", "description": "Normalizes token text to lowercase" },
+    { "value": "standard", "description": "Standard normalizer, which consists of lowercase and asciifolding" },
+    { "value": "uppercase", "description": "Normalizes token text to uppercase" }
+]

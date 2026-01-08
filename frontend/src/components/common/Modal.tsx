@@ -6,9 +6,10 @@ interface ModalProps {
     title: string;
     children: React.ReactNode;
     footer?: React.ReactNode;
+    width?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer, width = '600px' }) => {
     if (!isOpen) return null;
 
     return (
@@ -19,7 +20,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
         }} onClick={onClose}>
             <div style={{
                 backgroundColor: '#252526', border: '1px solid #454545',
-                borderRadius: '4px', width: '600px', maxWidth: '90vw', maxHeight: '80vh',
+                borderRadius: '4px', width: width, maxWidth: '90vw', maxHeight: '80vh',
                 display: 'flex', flexDirection: 'column',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
             }} onClick={e => e.stopPropagation()}>

@@ -1,0 +1,6 @@
+[
+  {
+    "value": "int8",
+    "description": "Quantize vector values to 8-bit integers."
+  }
+]

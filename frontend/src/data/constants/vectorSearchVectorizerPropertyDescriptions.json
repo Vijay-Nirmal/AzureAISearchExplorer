@@ -1,0 +1,34 @@
+{
+  "vectorizers": "Contains configuration options on how to vectorize text vector queries.",
+  "name": "The name to associate with this vectorizer configuration.",
+  "kind": "The vectorizer kind being configured.",
+
+  "azureOpenAIParameters": "Contains the parameters specific to Azure OpenAI embedding vectorization.",
+  "azureOpenAI_odataType": "A URI fragment specifying the type of skill (typically fixed).",
+  "azureOpenAI_apiKey": "API key of the designated Azure OpenAI resource.",
+  "azureOpenAI_authIdentity": "The managed identity used for outbound connections.",
+  "azureOpenAI_userAssignedIdentity": "Fully qualified Azure resource ID of a user-assigned managed identity.",
+  "azureOpenAI_context": "Scope at which operations take place (default: /document).",
+  "azureOpenAI_deploymentId": "ID of the Azure OpenAI model deployment.",
+  "azureOpenAI_description": "Description of the skill.",
+  "azureOpenAI_dimensions": "Number of embedding dimensions (supported for text-embedding-3 and later).",
+  "azureOpenAI_inputs": "Inputs to the embedding skill.",
+  "azureOpenAI_modelName": "Name of the embedding model.",
+  "azureOpenAI_skillName": "Optional skill name (defaults to an auto-generated name if omitted).",
+  "azureOpenAI_outputs": "Outputs of the embedding skill.",
+  "azureOpenAI_resourceUri": "Resource URI of the Azure OpenAI resource.",
+
+  "customWebApiParameters": "Specifies the properties of the user-defined vectorizer.",
+  "webApi_authIdentity": "Managed identity used for outbound connections. If authResourceId is provided and identity is omitted, system-assigned identity is used.",
+  "webApi_authResourceId": "Application ID / resource ID used to create the access token scope for the target endpoint.",
+  "webApi_httpHeaders": "Headers required to make the HTTP request (JSON object).",
+  "webApi_httpMethod": "HTTP method used for the request.",
+  "webApi_timeout": "Request timeout (duration). Default is 30 seconds.",
+  "webApi_uri": "URI of the Web API providing the vectorizer.",
+
+  "mapping_name": "The name of the mapping.",
+  "mapping_source": "The source of the mapping.",
+  "mapping_sourceContext": "The source context used for selecting recursive inputs.",
+  "mapping_inputs": "Recursive inputs used when creating a complex type.",
+  "mapping_targetName": "Target name for the output (optional; defaults to name)."
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "value": "azureOpenAI",
+    "description": "Uses Azure OpenAI embeddings to vectorize text queries."
+  },
+  {
+    "value": "customWebApi",
+    "description": "Uses a custom Web API endpoint to vectorize text queries."
+  }
+]

@@ -28,6 +28,8 @@ applyTo: "frontend/**"
   - `Breadcrumbs`: Use for navigation paths.
   - `TruncatedTextCell`: Use for table cells with potential overflow text.
   - `JsonViewerModal`: Use for viewing JSON data with syntax highlighting (uses Monaco Editor).
+  - `InfoIcon`: small 'i' icon to display a small 'i' icon near all the field properties to explain about that property
+  - `SelectWithDescription`: dropdown that supports showing a description alongside the value
 - **New Components**:
   - **Reusability**: If a UI element is generic or used in multiple places, create it as a reusable component in `src/components/common/`. If it doesn't exist, create it.
   - Use CSS Modules for styling.
@@ -52,6 +54,17 @@ applyTo: "frontend/**"
 - `src/components/pages/`: Page-specific components.
 - `src/context/`: React Context definitions.
 - `src/styles/`: Global styles and variables.
+
+## Constants and Data Files
+- **Location**: `src/data/constants/`
+- **Guidelines**: 
+  - Do not use a single large constants file. 
+  - Split constants into separate JSON files (e.g., `dataTypes.json`, `lexicalAnalyzer.json`, `vectorEncodingFormat.json`).
+  - Prefer **one JSON per domain** that includes both the value and its description (when needed).
+    - Good: `dataTypes.json` as `[{ "value": "Edm.String", "description": "Text" }]`
+    - Good: `lexicalAnalyzer.json` as `[{ "value": "en.lucene", "description": "Lucene analyzer for English." }]`
+    - Good: `vectorEncodingFormat.json` as `[{ "value": "packedBit", "description": "..." }]`
+    - Avoid: separate files like `dataTypes.json` + `dataTypeDescriptions.json` for the same concept.
 
 ## Running the App
 - To start the frontend independently: `npm run start:frontend` (from the root directory)

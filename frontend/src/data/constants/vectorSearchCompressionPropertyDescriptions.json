@@ -1,0 +1,10 @@
+{
+  "compressions": "Contains configuration options specific to the compression method used during indexing or querying.",
+  "name": "The name to associate with this compression configuration.",
+  "kind": "The compression kind being configured for vector search.",
+  "truncationDimension": "Number of dimensions to truncate vectors to. Use only for MRL embeddings (e.g., text-embedding-3-large (small)).",
+  "enableRescoring": "If true, results are rescored using full-precision vectors after initial search on compressed vectors.",
+  "defaultOversampling": "Oversampling factor (>= 1). Only applicable when rescoring is enabled; higher can improve recall but increases latency.",
+  "rescoreStorageMethod": "Storage method for original vectors (immutable in the service).",
+  "quantizedDataType": "For scalar quantization: the target data type for quantized vector values."
+}

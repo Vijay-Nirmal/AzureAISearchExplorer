@@ -1,0 +1,10 @@
+[
+  {
+    "value": "hnsw",
+    "description": "Hierarchical Navigable Small World graph. Fast approximate nearest neighbor search."
+  },
+  {
+    "value": "exhaustiveKnn",
+    "description": "Brute-force KNN. Exact results, typically slower for large datasets."
+  }
+]

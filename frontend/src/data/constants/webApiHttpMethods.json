@@ -1,0 +1,7 @@
+[
+  { "value": "POST", "description": "Recommended for sending text payloads." },
+  { "value": "GET", "description": "Use only if your API supports query string payloads." },
+  { "value": "PUT", "description": "Replace semantics (rare for vectorizers)." },
+  { "value": "PATCH", "description": "Partial update semantics (rare for vectorizers)." },
+  { "value": "DELETE", "description": "Not typical for vectorizers." }
+]

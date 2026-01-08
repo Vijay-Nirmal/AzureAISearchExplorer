@@ -1,0 +1,9 @@
+{
+  "algorithms": "Contains configuration options specific to the algorithm used during indexing or querying.",
+  "name": "The name to associate with this algorithm configuration.",
+  "kind": "The algorithm kind. HNSW is approximate; Exhaustive KNN is exact.",
+  "metric": "The similarity metric to use for vector comparisons.",
+  "m": "HNSW only. Number of bi-directional links created per new element. Higher can improve recall at the cost of memory.",
+  "efConstruction": "HNSW only. Index-time candidate list size. Higher can improve index quality but increases indexing time.",
+  "efSearch": "HNSW only. Query-time candidate list size. Higher can improve recall but slows search."
+}

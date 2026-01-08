@@ -1,0 +1,10 @@
+[
+  {
+    "value": "none",
+    "description": "No managed identity. Clears any previously configured identity."
+  },
+  {
+    "value": "userAssigned",
+    "description": "Use a user-assigned managed identity (requires a resource ID)."
+  }
+]

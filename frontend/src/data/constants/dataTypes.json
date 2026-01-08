@@ -1,0 +1,23 @@
+[
+  { "value": "Edm.String", "description": "Text" },
+  { "value": "Edm.Int32", "description": "Integer (32-bit)" },
+  { "value": "Edm.Int64", "description": "Integer (64-bit)" },
+  { "value": "Edm.Double", "description": "Decimal Number" },
+  { "value": "Edm.Boolean", "description": "True/False" },
+  { "value": "Edm.DateTimeOffset", "description": "Date & Time" },
+  { "value": "Edm.GeographyPoint", "description": "Geo Location" },
+  { "value": "Edm.ComplexType", "description": "Nested Object" },
+  { "value": "Collection(Edm.String)", "description": "List of Text" },
+  { "value": "Collection(Edm.Int32)", "description": "List of Integers (32-bit)" },
+  { "value": "Collection(Edm.Int64)", "description": "List of Integers (64-bit)" },
+  { "value": "Collection(Edm.Double)", "description": "List of Decimals" },
+  { "value": "Collection(Edm.Boolean)", "description": "List of Booleans" },
+  { "value": "Collection(Edm.DateTimeOffset)", "description": "List of Dates" },
+  { "value": "Collection(Edm.GeographyPoint)", "description": "List of Geo Locations" },
+  { "value": "Collection(Edm.ComplexType)", "description": "List of Objects" },
+  { "value": "Collection(Edm.Single)", "description": "single-precision floating point number" },
+  { "value": "Collection(Edm.Half)", "description": "half-precision floating point number" },
+  { "value": "Collection(Edm.Int16)", "description": "16-bit signed integer" },
+  { "value": "Collection(Edm.SByte)", "description": "8-bit signed integer" },
+  { "value": "Collection(Edm.Byte)", "description": "8-bit unsigned integer" }
+]
