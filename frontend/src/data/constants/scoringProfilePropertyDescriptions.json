@@ -1,0 +1,9 @@
+{
+  "scoringProfiles": "Scoring profiles define custom scoring logic using text weights and/or scoring functions.",
+  "defaultScoringProfile": "The name of the scoring profile to use if none is specified in the query. If this property is not set and no scoring profile is specified in the query, then default scoring (tf-idf) will be used.",
+  "name": "The name of the scoring profile.",
+  "functionAggregation": "How to combine the results of individual scoring functions. Defaults to sum. Ignored if there are no scoring functions.",
+  "functions": "The collection of functions that influence the scoring of documents.",
+  "textWeights": "Boost scoring based on text matches in certain index fields. Provide per-field numeric weights.",
+  "text": "Boost scoring based on text matches in certain index fields. Provide per-field numeric weights. (Service/REST name: text)"
+}

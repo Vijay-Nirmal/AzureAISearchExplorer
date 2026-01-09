@@ -1,0 +1,10 @@
+[
+  {
+    "value": "BoostedRerankerScore",
+    "description": "Sort by boosted reranker score (semantic ranking with boosting)."
+  },
+  {
+    "value": "RerankerScore",
+    "description": "Sort by semantic reranker score."
+  }
+]

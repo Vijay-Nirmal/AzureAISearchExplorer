@@ -1,0 +1,6 @@
+[
+  {
+    "value": "analyzingInfixMatching",
+    "description": "Matches consecutive whole terms and prefixes in a field (infix matching)."
+  }
+]

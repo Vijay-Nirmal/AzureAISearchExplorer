@@ -1,0 +1,14 @@
+{
+  "semantic": "Defines parameters for a search index that influence semantic capabilities.",
+  "configurations": "The semantic configurations for the index.",
+  "defaultConfiguration": "Name of the default semantic configuration. When set, you don’t need to pass it on each query.",
+
+  "name": "The name of the semantic configuration.",
+  "prioritizedFields": "Defines which fields are used for semantic ranking, captions, highlights, and answers. At least one of title, content, or keywords must be set.",
+  "rankingOrder": "Specifies which semantic scoring value is used when ordering results.",
+
+  "titleField": "Field used as the document title for semantic. Leave blank if you don’t have a title field.",
+  "prioritizedContentFields": "Content fields used for semantic ranking/captions/answers. Earlier fields have higher priority.",
+  "prioritizedKeywordsFields": "Keyword fields used for semantic ranking/highlights. Earlier fields have higher priority.",
+  "fieldName": "The name of the field in the index."
+}

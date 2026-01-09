@@ -1,0 +1,12 @@
+[
+  {
+    "value": "#Microsoft.Azure.Search.MappingCharFilter",
+    "label": "MappingCharFilter",
+    "description": "Maps characters/strings using rules like \"a=>b\" (all occurrences of 'a' become 'b')."
+  },
+  {
+    "value": "#Microsoft.Azure.Search.PatternReplaceCharFilter",
+    "label": "PatternReplaceCharFilter",
+    "description": "Replaces text using a regular expression pattern and a replacement string."
+  }
+]

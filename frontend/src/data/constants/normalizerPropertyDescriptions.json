@@ -1,0 +1,7 @@
+{
+  "normalizers": "Normalizers transform text for exact-match operations (filter/sort/facet) and for keyword fields. This tab defines custom normalizers that can be referenced by fields.",
+  "odataType": "A URI fragment specifying the type of normalizer.",
+  "name": "The name of the normalizer. Allowed characters: letters, digits, spaces, dashes, underscores. Must start/end with alphanumeric. Max 128 chars. Cannot end with '.microsoft' or '.lucene'. Cannot be named 'asciifolding', 'standard', 'lowercase', 'uppercase', or 'elision'.",
+  "charFilters": "Character filters prepare input text before token processing. Filters run in the order listed.",
+  "tokenFilters": "Token filters modify or remove tokens. Filters run in the order listed."
+}

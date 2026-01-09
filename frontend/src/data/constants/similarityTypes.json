@@ -1,0 +1,14 @@
+[
+  {
+    "value": "default",
+    "description": "Uses the service default. If similarity is not set (or null), ClassicSimilarity is used."
+  },
+  {
+    "value": "classic",
+    "description": "Legacy similarity algorithm based on Lucene TFIDFSimilarity (ClassicSimilarity)."
+  },
+  {
+    "value": "bm25",
+    "description": "Okapi BM25 similarity with optional b (length normalization) and k1 (term frequency saturation)."
+  }
+]

@@ -6,7 +6,20 @@ import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
 import { JsonView } from '../../common/JsonView';
 import { IndexFieldsTab } from './IndexFieldsTab';
+import { IndexSuggestersTab } from './IndexSuggestersTab';
 import { IndexVectorSearchTab } from './IndexVectorSearchTab';
+import { IndexScoringProfilesTab } from './IndexScoringProfilesTab';
+import { IndexAnalyzersTab } from './IndexAnalyzersTab';
+import { IndexCharFiltersTab } from './IndexCharFiltersTab';
+import { IndexNormalizersTab } from './IndexNormalizersTab';
+import { IndexTokenizersTab } from './IndexTokenizersTab';
+import { IndexTokenFiltersTab } from './IndexTokenFiltersTab';
+import { IndexSemanticTab } from './IndexSemanticTab';
+import { IndexSimilarityTab } from './IndexSimilarityTab';
+import { IndexEncryptionKeyTab } from './IndexEncryptionKeyTab';
+import { InfoIcon } from '../../common/InfoIcon';
+
+import searchIndexPropertyDescriptions from '../../../data/constants/searchIndexPropertyDescriptions.json';
 import type { 
     SearchIndex
 } from '../../../types/IndexModels';
@@ -21,6 +34,9 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
     const isEdit = !!indexName;
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('fields');
+
+    const [isEditingDescription, setIsEditingDescription] = useState(false);
+    const [descriptionDraft, setDescriptionDraft] = useState('');
 
     // Index Definition State
     const [indexDef, setIndexDef] = useState<SearchIndex>({
@@ -65,6 +81,11 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
                     if (!data.scoringProfiles) data.scoringProfiles = [];
                     // if (!data.corsOptions) data.corsOptions = { allowedOrigins: [] };
                     setIndexDef(data);
+
+                    // if user isn't currently editing, keep the draft in sync with loaded value
+                    if (!isEditingDescription) {
+                        setDescriptionDraft(data.description || '');
+                    }
                 } catch (error) {
                     console.error("Failed to fetch index definition", error);
                     alert("Failed to load index definition");
@@ -74,7 +95,7 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
             }
         };
         fetchIndex();
-    }, [isEdit, activeConnectionId, indexName]);
+    }, [isEdit, activeConnectionId, indexName, isEditingDescription]);
 
     const saveIndex = async () => {
          // ... existing code ...
@@ -94,143 +115,150 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
     
     // --- Tab Renderers ---
 
-    const renderHeader = () => (
-        <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
-                    {isEdit ? indexDef.name : 'Create Index'}
-                </h2>
-                {!isEdit && (
-                    <div style={{ width: '300px' }}>
-                        <Input
-                            value={indexDef.name}
-                            onChange={e => setIndexDef({ ...indexDef, name: e.target.value })}
-                            placeholder="Index name (e.g. my-index)"
-                            style={{ width: '100%' }}
-                        />
-                    </div>
-                )}
-            </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-                <Button variant="primary" onClick={saveIndex} disabled={loading}><i className="fas fa-save"></i> Save</Button>
-                <Button onClick={onBack}>Cancel</Button>
-            </div>
-        </div>
-    );
+    const renderHeader = () => {
+        const descriptionText = (indexDef.description || '').trim();
 
-    const renderTabs = () => (
-        <div style={{ padding: '0 16px', borderBottom: '1px solid var(--border-color)' }}>
-            <div style={{ display: 'flex', gap: '2px' }}>
-                {['fields', 'vector', 'suggesters', 'scoring', 'cors', 'json'].map(tab => (
-                    <div
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        style={{
-                            padding: '8px 16px',
-                            cursor: 'pointer',
-                            borderBottom: activeTab === tab ? '3px solid var(--accent-color)' : '3px solid transparent',
-                            fontWeight: activeTab === tab ? 600 : 400,
-                            color: activeTab === tab ? '#fff' : '#888',
-                            textTransform: 'capitalize'
-                        }}
-                    >
-                        {tab === 'vector' ? 'Vector Search' : tab === 'scoring' ? 'Scoring Profiles' : tab}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+        return (
+            <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
+                    <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0, lineHeight: 1.15, flexShrink: 0 }}>
+                        {isEdit ? indexDef.name : 'Create Index'}
+                    </h2>
 
-    const renderSuggestersTab = () => (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '8px', backgroundColor: '#333', borderBottom: '1px solid #444' }}>
-                <Button onClick={() => setIndexDef({...indexDef, suggesters: [...(indexDef.suggesters || []), { name: 'sg', sourceFields: [] }]})}>
-                    <i className="fas fa-plus"></i> Add Suggester
-                </Button>
-            </div>
-            <div style={{ padding: '16px', flex: 1, overflow: 'auto' }}>
-                <div style={{ display: 'grid', gap: '16px' }}>
-                    {indexDef.suggesters?.map((sg, i) => (
-                        <div key={i} style={{ padding: '12px', backgroundColor: '#2d2d2d', borderRadius: '4px' }}>
-                            <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
-                                <div style={{ flex: 1 }}>
-                                    <label style={{ fontSize: '11px', color: '#aaa' }}>Name</label>
-                                    <Input value={sg.name} onChange={e => {
-                                        const list = [...(indexDef.suggesters || [])];
-                                        list[i].name = e.target.value;
-                                        setIndexDef({ ...indexDef, suggesters: list });
-                                    }} />
+                    {!isEdit && (
+                        <div style={{ width: '300px', flexShrink: 0 }}>
+                            <Input
+                                value={indexDef.name}
+                                onChange={e => setIndexDef({ ...indexDef, name: e.target.value })}
+                                placeholder="Index name (e.g. my-index)"
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                    )}
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, color: '#aaa', fontSize: '12px', lineHeight: 1.2 }}>
+                        {!isEditingDescription && descriptionText.length > 0 && (
+                            <span
+                                style={{
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    maxWidth: '55vw'
+                                }}
+                                title={descriptionText}
+                            >
+                                — {descriptionText}
+                            </span>
+                        )}
+
+                        {isEditingDescription && (
+                            <>
+                                <div style={{ width: '520px', maxWidth: '55vw' }}>
+                                    <Input
+                                        value={descriptionDraft}
+                                        onChange={e => setDescriptionDraft(e.target.value)}
+                                        placeholder="Index description"
+                                        style={{ width: '100%' }}
+                                    />
                                 </div>
-                                <Button variant="icon" onClick={() => {
-                                     const list = [...(indexDef.suggesters || [])];
-                                     list.splice(i, 1);
-                                     setIndexDef({ ...indexDef, suggesters: list });
-                                }}><i className="fas fa-trash"></i></Button>
-                            </div>
-                            <div>
-                                 <label style={{ fontSize: '11px', color: '#aaa' }}>Source Fields (Comma separated)</label>
-                                 <Input value={sg.sourceFields.join(', ')} onChange={e => {
-                                    const list = [...(indexDef.suggesters || [])];
-                                    list[i].sourceFields = e.target.value.split(',').map(s => s.trim()).filter(s => s);
-                                    setIndexDef({ ...indexDef, suggesters: list });
-                                 }} placeholder="field1, field2" />
-                            </div>
+                                <Button
+                                    variant="icon"
+                                    onClick={() => {
+                                        const next = descriptionDraft.trim();
+                                        setIndexDef(prev => ({ ...prev, description: next ? next : undefined }));
+                                        setIsEditingDescription(false);
+                                    }}
+                                    title="Save description"
+                                >
+                                    <i className="fas fa-check"></i>
+                                </Button>
+                                <Button
+                                    variant="icon"
+                                    onClick={() => {
+                                        setDescriptionDraft(indexDef.description || '');
+                                        setIsEditingDescription(false);
+                                    }}
+                                    title="Cancel"
+                                >
+                                    <i className="fas fa-times"></i>
+                                </Button>
+                            </>
+                        )}
+
+                        {!isEditingDescription && (
+                            <Button
+                                variant="icon"
+                                onClick={() => {
+                                    setDescriptionDraft(indexDef.description || '');
+                                    setIsEditingDescription(true);
+                                }}
+                                title={descriptionText ? 'Edit description' : 'Add description'}
+                                style={{ opacity: 0.9, flexShrink: 0 }}
+                            >
+                                <i className="fas fa-pen"></i>
+                            </Button>
+                        )}
+                    </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                    <Button variant="primary" onClick={saveIndex} disabled={loading}><i className="fas fa-save"></i> Save</Button>
+                    <Button onClick={onBack}>Cancel</Button>
+                </div>
+            </div>
+        );
+    };
+
+    const renderTabs = () => {
+        const tabs: Array<{ id: string; label: string; tooltipKey?: keyof typeof searchIndexPropertyDescriptions }> = [
+            { id: 'fields', label: 'Fields', tooltipKey: 'fields' },
+            { id: 'vector', label: 'Vector Search', tooltipKey: 'vectorSearch' },
+            { id: 'suggesters', label: 'Suggesters', tooltipKey: 'suggesters' },
+            { id: 'scoring', label: 'Scoring Profiles', tooltipKey: 'scoringProfiles' },
+            { id: 'analyzers', label: 'Analyzers', tooltipKey: 'analyzers' },
+            { id: 'charFilters', label: 'Char Filters', tooltipKey: 'charFilters' },
+            { id: 'normalizers', label: 'Normalizers', tooltipKey: 'normalizers' },
+            { id: 'tokenizers', label: 'Tokenizers', tooltipKey: 'tokenizers' },
+            { id: 'tokenFilters', label: 'Token Filters', tooltipKey: 'tokenFilters' },
+            { id: 'semantic', label: 'Semantic', tooltipKey: 'semantic' },
+            { id: 'similarity', label: 'Similarity', tooltipKey: 'similarity' },
+            { id: 'encryptionKey', label: 'Encryption Key', tooltipKey: 'encryptionKey' },
+            { id: 'cors', label: 'CORS', tooltipKey: 'corsOptions' },
+            { id: 'json', label: 'JSON' }
+        ];
+
+        return (
+            <div style={{ padding: '0 12px', borderBottom: '1px solid var(--border-color)', overflowX: 'auto' }}>
+                <div style={{ display: 'flex', gap: '1px', minWidth: 'max-content' }}>
+                    {tabs.map(tab => (
+                        <div
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            style={{
+                                padding: '6px 10px',
+                                cursor: 'pointer',
+                                borderBottom: activeTab === tab.id ? '2px solid var(--accent-color)' : '2px solid transparent',
+                                fontWeight: activeTab === tab.id ? 600 : 400,
+                                color: activeTab === tab.id ? '#fff' : '#888',
+                                flexShrink: 0,
+                                lineHeight: 1.1,
+                                fontSize: '12px'
+                            }}
+                        >
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                {tab.label}
+                                {tab.tooltipKey && !!searchIndexPropertyDescriptions[tab.tooltipKey] && (
+                                    <span onClick={(e) => e.stopPropagation()}>
+                                        <InfoIcon tooltip={searchIndexPropertyDescriptions[tab.tooltipKey]} />
+                                    </span>
+                                )}
+                            </span>
                         </div>
                     ))}
                 </div>
             </div>
-        </div>
-    );
-
-    const renderScoringTab = () => (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '8px', backgroundColor: '#333', borderBottom: '1px solid #444' }}>
-                <Button onClick={() => setIndexDef({...indexDef, scoringProfiles: [...(indexDef.scoringProfiles || []), { name: 'profile1', textWeights: { weights: {} } }]})}>
-                    <i className="fas fa-plus"></i> Add Scoring Profile
-                </Button>
-            </div>
-            <div style={{ padding: '16px', flex: 1, overflow: 'auto' }}>
-                 <div style={{ display: 'grid', gap: '16px' }}>
-                    {indexDef.scoringProfiles?.map((sp, i) => (
-                        <div key={i} style={{ padding: '12px', backgroundColor: '#2d2d2d', borderRadius: '4px' }}>
-                             <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
-                                 <div style={{ flex: 1 }}>
-                                    <label style={{ fontSize: '11px', color: '#aaa' }}>Name</label>
-                                    <Input value={sp.name} onChange={e => {
-                                        const list = [...(indexDef.scoringProfiles || [])];
-                                        list[i].name = e.target.value;
-                                        setIndexDef({ ...indexDef, scoringProfiles: list });
-                                    }} />
-                                </div>
-                                 <Button variant="icon" onClick={() => {
-                                     const list = [...(indexDef.scoringProfiles || [])];
-                                     list.splice(i, 1);
-                                     setIndexDef({ ...indexDef, scoringProfiles: list });
-                                }}><i className="fas fa-trash"></i></Button>
-                            </div>
-                            <div>
-                                <label style={{ fontSize: '11px', color: '#aaa' }}>Text Weights (JSON)</label>
-                                 <textarea 
-                                    style={{ width: '100%', height: '80px', backgroundColor: '#1e1e1e', color: '#d4d4d4', border: '1px solid #3c3c3c', fontFamily: 'Consolas' }}
-                                    value={JSON.stringify(sp.textWeights?.weights || {}, null, 2)}
-                                    onChange={e => {
-                                        try {
-                                            const parsed = JSON.parse(e.target.value);
-                                            const list = [...(indexDef.scoringProfiles || [])];
-                                            list[i].textWeights = { weights: parsed };
-                                            setIndexDef({ ...indexDef, scoringProfiles: list });
-                                        } catch {
-                                            // Ignore invalid JSON while user is typing
-                                        }
-                                    }}
-                                 />
-                            </div>
-                        </div>
-                    ))}
-                 </div>
-            </div>
-        </div>
-    );
+        );
+    };
 
     const renderCorsTab = () => {
         const corsMode = !indexDef.corsOptions 
@@ -343,8 +371,36 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
                     {activeTab === 'vector' && (
                         <IndexVectorSearchTab indexDef={indexDef} setIndexDef={setIndexDef} />
                     )}
-                    {activeTab === 'suggesters' && renderSuggestersTab()}
-                    {activeTab === 'scoring' && renderScoringTab()}
+                    {activeTab === 'suggesters' && (
+                        <IndexSuggestersTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'scoring' && (
+                        <IndexScoringProfilesTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'analyzers' && (
+                        <IndexAnalyzersTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'charFilters' && (
+                        <IndexCharFiltersTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'normalizers' && (
+                        <IndexNormalizersTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'tokenizers' && (
+                        <IndexTokenizersTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'tokenFilters' && (
+                        <IndexTokenFiltersTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'semantic' && (
+                        <IndexSemanticTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'similarity' && (
+                        <IndexSimilarityTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
+                    {activeTab === 'encryptionKey' && (
+                        <IndexEncryptionKeyTab indexDef={indexDef} setIndexDef={setIndexDef} />
+                    )}
                     {activeTab === 'cors' && renderCorsTab()}
                     {activeTab === 'json' && (
                         <div style={{ flex: 1, padding: '0', overflow: 'hidden' }}>

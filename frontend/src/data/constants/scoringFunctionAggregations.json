@@ -1,0 +1,7 @@
+[
+  { "value": "sum", "description": "Boost scores by the sum of all scoring function results." },
+  { "value": "average", "description": "Boost scores by the average of all scoring function results." },
+  { "value": "minimum", "description": "Boost scores by the minimum of all scoring function results." },
+  { "value": "maximum", "description": "Boost scores by the maximum of all scoring function results." },
+  { "value": "firstMatching", "description": "Boost scores using the first applicable scoring function in the scoring profile." }
+]

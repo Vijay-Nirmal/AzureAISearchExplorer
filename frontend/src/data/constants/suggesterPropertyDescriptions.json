@@ -1,0 +1,6 @@
+{
+  "suggesters": "Suggesters enable typeahead/autocomplete over selected fields.",
+  "name": "The name of the suggester.",
+  "searchMode": "Capabilities of the suggester (search behavior).",
+  "sourceFields": "List of searchable field names that the suggester applies to."
+}

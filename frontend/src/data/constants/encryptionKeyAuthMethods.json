@@ -1,0 +1,10 @@
+[
+  {
+    "value": "managedIdentity",
+    "description": "No accessCredentials. The service uses its managed identity to access Key Vault."
+  },
+  {
+    "value": "aadAppCredentials",
+    "description": "Provide applicationId + applicationSecret for an Azure AD application with Key Vault access."
+  }
+]

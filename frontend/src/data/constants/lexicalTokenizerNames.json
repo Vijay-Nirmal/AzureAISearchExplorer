@@ -1,0 +1,15 @@
+[
+  { "value": "classic", "description": "Grammar-based tokenizer suitable for most European-language documents." },
+  { "value": "edgeNGram", "description": "Tokenizes the input from an edge into n-grams." },
+  { "value": "keyword_v2", "description": "Emits the entire input as a single token." },
+  { "value": "letter", "description": "Divides text at non-letters." },
+  { "value": "lowercase", "description": "Divides text at non-letters and converts to lower case." },
+  { "value": "microsoft_language_tokenizer", "description": "Divides text using language-specific rules." },
+  { "value": "microsoft_language_stemming_tokenizer", "description": "Divides text using language-specific rules and reduces words to base forms." },
+  { "value": "nGram", "description": "Tokenizes input into n-grams." },
+  { "value": "path_hierarchy_v2", "description": "Tokenizer for path-like hierarchies." },
+  { "value": "pattern", "description": "Tokenizer that uses regex pattern matching to construct distinct tokens." },
+  { "value": "standard_v2", "description": "Standard Lucene analyzer tokenizer (standard tokenizer)." },
+  { "value": "uax_url_email", "description": "Tokenizes urls and emails as one token." },
+  { "value": "whitespace", "description": "Divides text at whitespace." }
+]

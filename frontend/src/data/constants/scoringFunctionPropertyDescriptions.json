@@ -1,0 +1,17 @@
+{
+  "type": "The type of scoring function. Valid values include magnitude, freshness, distance, and tag. The function type must be lower case.",
+  "boost": "A multiplier for the raw score. Must be a positive number not equal to 1.0.",
+  "fieldName": "The name of the field used as input to the scoring function.",
+  "interpolation": "How boosting is interpolated across document scores; defaults to linear.",
+
+  "distance.boostingDistance": "The distance in kilometers from the reference location where the boosting range ends.",
+  "distance.referencePointParameter": "The name of the parameter passed in search queries to specify the reference location.",
+
+  "freshness.boostingDuration": "The expiration period after which boosting will stop for a particular document (ISO 8601 duration, e.g. P30D).",
+
+  "magnitude.boostingRangeStart": "The field value at which boosting starts.",
+  "magnitude.boostingRangeEnd": "The field value at which boosting ends.",
+  "magnitude.constantBoostBeyondRange": "Whether to apply a constant boost for field values beyond the range end value; default is false.",
+
+  "tag.tagsParameter": "The name of the parameter passed in search queries to specify the list of tags to compare against the target field."
+}

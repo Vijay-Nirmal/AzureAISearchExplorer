@@ -1,0 +1,7 @@
+[
+  {
+    "value": "#Microsoft.Azure.Search.CustomNormalizer",
+    "label": "CustomNormalizer",
+    "description": "A custom normalizer composed of character and token filters."
+  }
+]

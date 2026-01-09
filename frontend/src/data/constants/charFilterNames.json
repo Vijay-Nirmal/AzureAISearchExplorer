@@ -1,0 +1,6 @@
+[
+  {
+    "value": "html_strip",
+    "description": "Attempts to strip out HTML constructs."
+  }
+]

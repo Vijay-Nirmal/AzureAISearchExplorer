@@ -1,0 +1,8 @@
+{
+  "charFilters": "Char filters are reusable components used by analyzers to transform text before tokenization.",
+  "odataType": "A URI fragment specifying the type of char filter.",
+  "name": "The name of the char filter. It must only contain letters, digits, spaces, dashes or underscores; it must start/end with an alphanumeric character; max length 128.",
+  "mappings": "A list of mappings in the format \"a=>b\". All occurrences of 'a' are replaced with 'b'.",
+  "pattern": "A regular expression pattern.",
+  "replacement": "The replacement text."
+}

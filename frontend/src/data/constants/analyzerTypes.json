@@ -1,0 +1,6 @@
+[
+  { "value": "#Microsoft.Azure.Search.CustomAnalyzer", "description": "Custom analyzer composed of a tokenizer plus optional character and token filters." },
+  { "value": "#Microsoft.Azure.Search.StandardAnalyzer", "description": "Lucene standard analyzer with optional max token length and stopwords." },
+  { "value": "#Microsoft.Azure.Search.PatternAnalyzer", "description": "Analyzer that uses a regex pattern to split text into tokens." },
+  { "value": "#Microsoft.Azure.Search.StopAnalyzer", "description": "Analyzer that removes stop words from the token stream." }
+]
