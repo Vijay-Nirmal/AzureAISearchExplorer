@@ -66,6 +66,21 @@ applyTo: "frontend/**"
     - Good: `vectorEncodingFormat.json` as `[{ "value": "packedBit", "description": "..." }]`
     - Avoid: separate files like `dataTypes.json` + `dataTypeDescriptions.json` for the same concept.
 
+## Config-driven editors ($ref reuse)
+
+Some UI editors are generated from config JSON under `src/data/constants/config/` (see `src/components/common/configDriven/`).
+
+- **Type reuse**: `schema.types[]` can contain `{ "$ref": "..." }` entries pointing to separate type definition JSON files.
+- **Enum reuse**: For `enum` / `enumArray` fields, `options` can be either inline or `{ "$ref": "..." }` (Prefferable is $ref).
+  - Use `$ref` when the same option set is shared across multiple types.
+
+### Folder conventions
+
+- Group related config under a domain folder `src/data/constants/config/<Domain>` (e.g. `src/data/constants/config/TokenFilter/`).
+- Put reusable type definitions in `.../<Domain>/types/`.
+- Put reusable enum option sets in `.../<Domain>/enums/`.
+- For $ref paths, Preferred: domain-relative paths like `TokenFilter/types/MyType.json` or `TokenFilter/enums/MyEnum.json`.
+
 ## Running the App
 - To start the frontend independently: `npm run start:frontend` (from the root directory)
 - To build the frontend: `npm run build:frontend` (from the root directory)

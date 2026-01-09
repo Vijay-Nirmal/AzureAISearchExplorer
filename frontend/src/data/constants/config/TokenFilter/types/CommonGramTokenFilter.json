@@ -1,0 +1,28 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.CommonGramTokenFilter",
+  "label": "CommonGramTokenFilter",
+  "description": "Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "commonWords",
+      "label": "Common Words",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The set of common words."
+    },
+    {
+      "key": "ignoreCase",
+      "label": "Ignore Case",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether common words matching will be case insensitive. Default is false."
+    },
+    {
+      "key": "queryMode",
+      "label": "Query Mode",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value that indicates whether the token filter is in query mode. When in query mode, the token filter generates bigrams and then removes common words and single terms followed by a common word. Default is false."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.LimitTokenFilter",
+  "label": "LimitTokenFilter",
+  "description": "Limits the number of tokens while indexing. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "consumeAllTokens",
+      "label": "Consume All Tokens",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether all tokens from the input must be consumed even if maxTokenCount is reached. Default is false."
+    },
+    {
+      "key": "maxTokenCount",
+      "label": "Max Token Count",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "tooltip": "The maximum number of tokens to produce. Default is 1."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.TruncateTokenFilter",
+  "label": "TruncateTokenFilter",
+  "description": "Truncates the terms to a specific length. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "length",
+      "label": "Length",
+      "type": "number",
+      "default": 300,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The length at which terms will be truncated. Default and maximum is 300."
+    }
+  ]
+}

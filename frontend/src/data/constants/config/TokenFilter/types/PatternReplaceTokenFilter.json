@@ -1,0 +1,22 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.PatternReplaceTokenFilter",
+  "label": "PatternReplaceTokenFilter",
+  "description": "A token filter that replaces characters in the input string using a regular expression. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "pattern",
+      "label": "Pattern",
+      "type": "string",
+      "required": true,
+      "placeholder": "e.g. (aa)\\s+(bb)",
+      "tooltip": "A regular expression pattern."
+    },
+    {
+      "key": "replacement",
+      "label": "Replacement",
+      "type": "string",
+      "placeholder": "e.g. $1#$2",
+      "tooltip": "The replacement text."
+    }
+  ]
+}

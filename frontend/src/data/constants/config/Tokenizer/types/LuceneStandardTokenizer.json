@@ -1,0 +1,15 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.StandardTokenizer",
+  "label": "LuceneStandardTokenizer",
+  "description": "Breaks text following the Unicode Text Segmentation rules. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "maxTokenLength",
+      "label": "Max Token Length",
+      "type": "number",
+      "default": 255,
+      "min": 1,
+      "tooltip": "The maximum token length. Default is 255. Tokens longer than the maximum length are split."
+    }
+  ]
+}

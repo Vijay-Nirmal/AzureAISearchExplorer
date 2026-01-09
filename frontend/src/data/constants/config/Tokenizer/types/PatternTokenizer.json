@@ -1,0 +1,29 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.PatternTokenizer",
+  "label": "PatternTokenizer",
+  "description": "Tokenizer that uses regex pattern matching to construct distinct tokens. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "pattern",
+      "label": "Pattern",
+      "type": "string",
+      "default": "\\W+",
+      "tooltip": "A regular expression pattern to match token separators. Default is an expression that matches one or more non-word characters."
+    },
+    {
+      "key": "group",
+      "label": "Group",
+      "type": "number",
+      "default": -1,
+      "min": -1,
+      "tooltip": "The zero-based ordinal of the matching group in the regular expression pattern to extract into tokens. Use -1 if you want to use the entire pattern to split the input into tokens, irrespective of matching groups. Default is -1."
+    },
+    {
+      "key": "flags",
+      "label": "Flags",
+      "type": "enumArray",
+      "tooltip": "Regular expression flags.",
+      "options": { "$ref": "Tokenizer/enums/RegexFlags.json" }
+    }
+  ]
+}

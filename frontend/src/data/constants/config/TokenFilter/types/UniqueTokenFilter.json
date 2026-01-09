@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.UniqueTokenFilter",
+  "label": "UniqueTokenFilter",
+  "description": "Filters out tokens with same text as the previous token. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "onlyOnSamePosition",
+      "label": "Only On Same Position",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to remove duplicates only at the same position. Default is false."
+    }
+  ]
+}

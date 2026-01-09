@@ -1,0 +1,21 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.KeywordMarkerTokenFilter",
+  "label": "KeywordMarkerTokenFilter",
+  "description": "Marks terms as keywords. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "ignoreCase",
+      "label": "Ignore Case",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to ignore case. If true, all words are converted to lower case first. Default is false."
+    },
+    {
+      "key": "keywords",
+      "label": "Keywords",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "A list of words to mark as keywords."
+    }
+  ]
+}

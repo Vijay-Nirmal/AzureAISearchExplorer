@@ -1,0 +1,22 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.CjkBigramTokenFilter",
+  "label": "CjkBigramTokenFilter",
+  "description": "Forms bigrams of CJK terms that are generated from the standard tokenizer. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "ignoreScripts",
+      "label": "Ignore Scripts",
+      "type": "enumArray",
+      "orderMatters": false,
+      "tooltip": "The scripts to ignore.",
+      "options": { "$ref": "TokenFilter/enums/CjkBigramIgnoreScripts.json" }
+    },
+    {
+      "key": "outputUnigrams",
+      "label": "Output Unigrams",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to output both unigrams and bigrams (if true), or just bigrams (if false). Default is false."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter",
+  "label": "DictionaryDecompounderTokenFilter",
+  "description": "Decomposes compound words found in many Germanic languages. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "maxSubwordSize",
+      "label": "Max Subword Size",
+      "type": "number",
+      "default": 15,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The maximum subword size. Only subwords shorter than this are outputted. Default is 15. Maximum is 300."
+    },
+    {
+      "key": "minSubwordSize",
+      "label": "Min Subword Size",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The minimum subword size. Only subwords longer than this are outputted. Default is 2. Maximum is 300."
+    },
+    {
+      "key": "minWordSize",
+      "label": "Min Word Size",
+      "type": "number",
+      "default": 5,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The minimum word size. Only words longer than this get processed. Default is 5. Maximum is 300."
+    },
+    {
+      "key": "onlyLongestMatch",
+      "label": "Only Longest Match",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to add only the longest matching subword to the output. Default is false."
+    },
+    {
+      "key": "wordList",
+      "label": "Word List",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The list of words to match against."
+    }
+  ]
+}

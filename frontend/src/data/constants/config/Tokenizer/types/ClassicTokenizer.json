@@ -1,0 +1,16 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.ClassicTokenizer",
+  "label": "ClassicTokenizer",
+  "description": "Grammar-based tokenizer that is suitable for processing most European-language documents. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "maxTokenLength",
+      "label": "Max Token Length",
+      "type": "number",
+      "default": 255,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The maximum token length. Default is 255. Tokens longer than the maximum length are split. The maximum token length that can be used is 300 characters."
+    }
+  ]
+}

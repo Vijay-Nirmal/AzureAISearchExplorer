@@ -1,0 +1,28 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.SynonymTokenFilter",
+  "label": "SynonymTokenFilter",
+  "description": "Matches single or multi-word synonyms in a token stream. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "expand",
+      "label": "Expand",
+      "type": "boolean",
+      "default": true,
+      "tooltip": "A value indicating whether all words in the list of synonyms (if => notation is not used) will map to one another. Default is true."
+    },
+    {
+      "key": "ignoreCase",
+      "label": "Ignore Case",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to case-fold input for matching. Default is false."
+    },
+    {
+      "key": "synonyms",
+      "label": "Synonyms",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "A list of synonyms in one of two formats: (1) 'incredible, unbelievable, fabulous => amazing' or (2) 'incredible, unbelievable, fabulous, amazing'."
+    }
+  ]
+}

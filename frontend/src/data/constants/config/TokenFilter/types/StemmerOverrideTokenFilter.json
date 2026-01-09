@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.StemmerOverrideTokenFilter",
+  "label": "StemmerOverrideTokenFilter",
+  "description": "Provides the ability to override other stemming filters with custom dictionary-based stemming. Must be placed before any stemming filters. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "rules",
+      "label": "Rules",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "A list of stemming rules in the format: \"word => stem\", for example: \"ran => run\"."
+    }
+  ]
+}

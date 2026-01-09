@@ -1,0 +1,21 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.KeepTokenFilter",
+  "label": "KeepTokenFilter",
+  "description": "A token filter that only keeps tokens with text contained in a specified list of words. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "keepWords",
+      "label": "Keep Words",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The list of words to keep."
+    },
+    {
+      "key": "keepWordsCase",
+      "label": "Keep Words Case",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to lower case all words first. Default is false."
+    }
+  ]
+}

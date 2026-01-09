@@ -1,0 +1,21 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.PatternCaptureTokenFilter",
+  "label": "PatternCaptureTokenFilter",
+  "description": "Uses Java regexes to emit multiple tokens - one for each capture group in one or more patterns. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "patterns",
+      "label": "Patterns",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "A list of patterns to match against each token."
+    },
+    {
+      "key": "preserveOriginal",
+      "label": "Preserve Original",
+      "type": "boolean",
+      "default": true,
+      "tooltip": "A value indicating whether to return the original token even if one of the patterns matches. Default is true."
+    }
+  ]
+}

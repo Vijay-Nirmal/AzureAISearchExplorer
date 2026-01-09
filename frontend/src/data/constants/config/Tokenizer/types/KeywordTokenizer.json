@@ -1,0 +1,15 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.KeywordTokenizer",
+  "label": "KeywordTokenizer",
+  "description": "Emits the entire input as a single token. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "bufferSize",
+      "label": "Buffer Size",
+      "type": "number",
+      "default": 256,
+      "min": 1,
+      "tooltip": "The read buffer size in bytes. Default is 256."
+    }
+  ]
+}

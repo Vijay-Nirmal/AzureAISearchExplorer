@@ -1,0 +1,6 @@
+[
+  { "value": "han", "description": "Ignore Han script when forming bigrams of CJK terms." },
+  { "value": "hiragana", "description": "Ignore Hiragana script when forming bigrams of CJK terms." },
+  { "value": "katakana", "description": "Ignore Katakana script when forming bigrams of CJK terms." },
+  { "value": "hangul", "description": "Ignore Hangul script when forming bigrams of CJK terms." }
+]

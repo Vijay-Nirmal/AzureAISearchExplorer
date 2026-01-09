@@ -1,0 +1,41 @@
+{
+  "entity": {
+    "title": "Tokenizers",
+    "description": "The tokenizers for the index.",
+    "discriminatorKey": "@odata.type",
+    "nameKey": "name"
+  },
+  "commonFields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 _-]*[A-Za-z0-9])?$",
+      "placeholder": "e.g. tok-standard",
+      "tooltip": "The name of the tokenizer. It must only contain letters, digits, spaces, dashes or underscores, can only start and end with alphanumeric characters, and is limited to 128 characters."
+    },
+    {
+      "key": "@odata.type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "A URI fragment specifying the type of tokenizer."
+    }
+  ],
+  "types": [
+    { "$ref": "Tokenizer/types/ClassicTokenizer.json" },
+    { "$ref": "Tokenizer/types/EdgeNGramTokenizer.json" },
+    { "$ref": "Tokenizer/types/KeywordTokenizer.json" },
+    { "$ref": "Tokenizer/types/KeywordTokenizerV2.json" },
+    { "$ref": "Tokenizer/types/LuceneStandardTokenizer.json" },
+    { "$ref": "Tokenizer/types/LuceneStandardTokenizerV2.json" },
+    { "$ref": "Tokenizer/types/MicrosoftLanguageStemmingTokenizer.json" },
+    { "$ref": "Tokenizer/types/MicrosoftLanguageTokenizer.json" },
+    { "$ref": "Tokenizer/types/NGramTokenizer.json" },
+    { "$ref": "Tokenizer/types/PathHierarchyTokenizerV2.json" },
+    { "$ref": "Tokenizer/types/PatternTokenizer.json" },
+    { "$ref": "Tokenizer/types/UaxUrlEmailTokenizer.json" }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.PathHierarchyTokenizerV2",
+  "label": "PathHierarchyTokenizerV2",
+  "description": "Tokenizer for path-like hierarchies. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "delimiter",
+      "label": "Delimiter",
+      "type": "string",
+      "default": "/",
+      "maxLength": 1,
+      "tooltip": "The delimiter character to use. Default is \"/\"."
+    },
+    {
+      "key": "replacement",
+      "label": "Replacement",
+      "type": "string",
+      "default": "/",
+      "maxLength": 1,
+      "tooltip": "A value that, if set, replaces the delimiter character. Default is \"/\"."
+    },
+    {
+      "key": "reverse",
+      "label": "Reverse",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to generate tokens in reverse order. Default is false."
+    },
+    {
+      "key": "skip",
+      "label": "Skip",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "tooltip": "The number of initial tokens to skip. Default is 0."
+    },
+    {
+      "key": "maxTokenLength",
+      "label": "Max Token Length",
+      "type": "number",
+      "default": 300,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The maximum token length. Default and maximum is 300."
+    }
+  ]
+}

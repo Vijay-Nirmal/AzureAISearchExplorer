@@ -1,0 +1,21 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.PhoneticTokenFilter",
+  "label": "PhoneticTokenFilter",
+  "description": "Create tokens for phonetic matches. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "encoder",
+      "label": "Encoder",
+      "type": "string",
+      "placeholder": "metaphone",
+      "tooltip": "The phonetic encoder to use. Default is \"metaphone\"."
+    },
+    {
+      "key": "replace",
+      "label": "Replace",
+      "type": "boolean",
+      "default": true,
+      "tooltip": "A value indicating whether encoded tokens should replace original tokens. If false, encoded tokens are added as synonyms. Default is true."
+    }
+  ]
+}

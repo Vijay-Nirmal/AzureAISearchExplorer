@@ -1,0 +1,54 @@
+{
+  "entity": {
+    "title": "Token Filters",
+    "description": "The token filters for the index.",
+    "discriminatorKey": "@odata.type",
+    "nameKey": "name"
+  },
+  "commonFields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 _-]*[A-Za-z0-9])?$",
+      "placeholder": "e.g. tf-ascii",
+      "tooltip": "The name of the token filter. It must only contain letters, digits, spaces, dashes or underscores, can only start and end with alphanumeric characters, and is limited to 128 characters."
+    },
+    {
+      "key": "@odata.type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "A URI fragment specifying the type of token filter."
+    }
+  ],
+  "types": [
+    { "$ref": "TokenFilter/types/AsciiFoldingTokenFilter.json" },
+    { "$ref": "TokenFilter/types/CjkBigramTokenFilter.json" },
+    { "$ref": "TokenFilter/types/CommonGramTokenFilter.json" },
+    { "$ref": "TokenFilter/types/DictionaryDecompounderTokenFilter.json" },
+    { "$ref": "TokenFilter/types/EdgeNGramTokenFilter.json" },
+    { "$ref": "TokenFilter/types/EdgeNGramTokenFilterV2.json" },
+    { "$ref": "TokenFilter/types/ElisionTokenFilter.json" },
+    { "$ref": "TokenFilter/types/KeepTokenFilter.json" },
+    { "$ref": "TokenFilter/types/KeywordMarkerTokenFilter.json" },
+    { "$ref": "TokenFilter/types/LengthTokenFilter.json" },
+    { "$ref": "TokenFilter/types/LimitTokenFilter.json" },
+    { "$ref": "TokenFilter/types/NGramTokenFilter.json" },
+    { "$ref": "TokenFilter/types/NGramTokenFilterV2.json" },
+    { "$ref": "TokenFilter/types/PatternCaptureTokenFilter.json" },
+    { "$ref": "TokenFilter/types/PatternReplaceTokenFilter.json" },
+    { "$ref": "TokenFilter/types/PhoneticTokenFilter.json" },
+    { "$ref": "TokenFilter/types/ShingleTokenFilter.json" },
+    { "$ref": "TokenFilter/types/SnowballTokenFilter.json" },
+    { "$ref": "TokenFilter/types/StemmerOverrideTokenFilter.json" },
+    { "$ref": "TokenFilter/types/StemmerTokenFilter.json" },
+    { "$ref": "TokenFilter/types/StopwordsTokenFilter.json" },
+    { "$ref": "TokenFilter/types/SynonymTokenFilter.json" },
+    { "$ref": "TokenFilter/types/TruncateTokenFilter.json" },
+    { "$ref": "TokenFilter/types/UniqueTokenFilter.json" },
+    { "$ref": "TokenFilter/types/WordDelimiterTokenFilter.json" }
+  ]
+}

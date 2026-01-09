@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.ElisionTokenFilter",
+  "label": "ElisionTokenFilter",
+  "description": "Removes elisions. For example, \"l'avion\" (the plane) will be converted to \"avion\" (plane). Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "articles",
+      "label": "Articles",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The set of articles to remove."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.StopwordsTokenFilter",
+  "label": "StopwordsTokenFilter",
+  "description": "Removes stop words from a token stream. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "ignoreCase",
+      "label": "Ignore Case",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to ignore case. If true, all words are converted to lower case first. Default is false."
+    },
+    {
+      "key": "removeTrailing",
+      "label": "Remove Trailing",
+      "type": "boolean",
+      "default": true,
+      "tooltip": "A value indicating whether to ignore the last search term if it's a stop word. Default is true."
+    },
+    {
+      "key": "stopwords",
+      "label": "Stopwords",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The list of stopwords. This property and the stopwordsList property cannot both be set."
+    },
+    {
+      "key": "stopwordsList",
+      "label": "Stopwords List",
+      "type": "enum",
+      "default": "english",
+      "tooltip": "A predefined list of language-specific stopwords to use. This property and the stopwords property cannot both be set. Default is English.",
+      "options": { "$ref": "TokenFilter/enums/StopwordsLists.json" }
+    }
+  ]
+}

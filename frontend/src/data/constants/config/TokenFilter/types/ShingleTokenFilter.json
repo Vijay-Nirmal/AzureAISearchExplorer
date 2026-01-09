@@ -1,0 +1,51 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.ShingleTokenFilter",
+  "label": "ShingleTokenFilter",
+  "description": "Creates combinations of tokens as a single token. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "filterToken",
+      "label": "Filter Token",
+      "type": "string",
+      "default": "_",
+      "tooltip": "The string to insert for each position at which there is no token. Default is an underscore (\"_\")."
+    },
+    {
+      "key": "maxShingleSize",
+      "label": "Max Shingle Size",
+      "type": "number",
+      "default": 2,
+      "min": 2,
+      "tooltip": "The maximum shingle size. Default and minimum value is 2."
+    },
+    {
+      "key": "minShingleSize",
+      "label": "Min Shingle Size",
+      "type": "number",
+      "default": 2,
+      "min": 2,
+      "tooltip": "The minimum shingle size. Default and minimum value is 2. Must be less than the value of maxShingleSize."
+    },
+    {
+      "key": "outputUnigrams",
+      "label": "Output Unigrams",
+      "type": "boolean",
+      "default": true,
+      "tooltip": "A value indicating whether the output stream will contain the input tokens (unigrams) as well as shingles. Default is true."
+    },
+    {
+      "key": "outputUnigramsIfNoShingles",
+      "label": "Output Unigrams If No Shingles",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether to output unigrams for those times when no shingles are available. This property takes precedence when outputUnigrams is set to false. Default is false."
+    },
+    {
+      "key": "tokenSeparator",
+      "label": "Token Separator",
+      "type": "string",
+      "default": " ",
+      "tooltip": "The string to use when joining adjacent tokens to form a shingle. Default is a single space (\" \")."
+    }
+  ]
+}

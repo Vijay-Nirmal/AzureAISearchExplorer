@@ -1,0 +1,15 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.SnowballTokenFilter",
+  "label": "SnowballTokenFilter",
+  "description": "A filter that stems words using a Snowball-generated stemmer. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "language",
+      "label": "Language",
+      "type": "string",
+      "required": true,
+      "placeholder": "e.g. English",
+      "tooltip": "The language to use."
+    }
+  ]
+}

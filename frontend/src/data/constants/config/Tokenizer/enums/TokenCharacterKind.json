@@ -1,0 +1,7 @@
+[
+  { "value": "letter", "description": "Keeps letters in tokens." },
+  { "value": "digit", "description": "Keeps digits in tokens." },
+  { "value": "whitespace", "description": "Keeps whitespace in tokens." },
+  { "value": "punctuation", "description": "Keeps punctuation in tokens." },
+  { "value": "symbol", "description": "Keeps symbols in tokens." }
+]

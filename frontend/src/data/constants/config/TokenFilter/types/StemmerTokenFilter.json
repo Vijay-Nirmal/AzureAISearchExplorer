@@ -1,0 +1,15 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.StemmerTokenFilter",
+  "label": "StemmerTokenFilter",
+  "description": "Language specific stemming filter. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "language",
+      "label": "Language",
+      "type": "enum",
+      "required": true,
+      "tooltip": "The language to use.",
+      "options": { "$ref": "TokenFilter/enums/StemmerLanguages.json" }
+    }
+  ]
+}

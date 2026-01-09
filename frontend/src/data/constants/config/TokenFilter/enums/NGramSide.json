@@ -1,0 +1,4 @@
+[
+  { "value": "front", "description": "Generate n-grams from the front of the input." },
+  { "value": "back", "description": "Generate n-grams from the back of the input." }
+]

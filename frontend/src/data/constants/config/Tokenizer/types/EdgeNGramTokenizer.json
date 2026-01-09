@@ -1,0 +1,32 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.EdgeNGramTokenizer",
+  "label": "EdgeNGramTokenizer",
+  "description": "Tokenizes the input from an edge into n-grams of the given size(s). Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "maxGram",
+      "label": "Max Gram",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The maximum n-gram length. Default is 2. Maximum is 300."
+    },
+    {
+      "key": "minGram",
+      "label": "Min Gram",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The minimum n-gram length. Default is 1. Maximum is 300. Must be less than the value of maxGram."
+    },
+    {
+      "key": "tokenChars",
+      "label": "Token Characters",
+      "type": "enumArray",
+      "tooltip": "Character classes to keep in the tokens.",
+      "options": { "$ref": "Tokenizer/enums/TokenCharacterKind.json" }
+    }
+  ]
+}

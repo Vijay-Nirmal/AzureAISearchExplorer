@@ -1,0 +1,33 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2",
+  "label": "EdgeNGramTokenFilterV2",
+  "description": "Generates n-grams of the given size(s) starting from the front or the back of an input token. Implemented using Apache Lucene.",
+  "fields": [
+    {
+      "key": "maxGram",
+      "label": "Max Gram",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The maximum n-gram length. Default is 2. Maximum is 300."
+    },
+    {
+      "key": "minGram",
+      "label": "Min Gram",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 300,
+      "tooltip": "The minimum n-gram length. Default is 1. Maximum is 300. Must be less than the value of maxGram."
+    },
+    {
+      "key": "side",
+      "label": "Side",
+      "type": "enum",
+      "default": "front",
+      "tooltip": "Specifies which side of the input the n-gram should be generated from. Default is \"front\".",
+      "options": { "$ref": "TokenFilter/enums/NGramSide.json" }
+    }
+  ]
+}

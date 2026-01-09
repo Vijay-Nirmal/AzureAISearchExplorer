@@ -1,0 +1,10 @@
+[
+  { "value": "CANON_EQ", "description": "Enables canonical equivalence." },
+  { "value": "CASE_INSENSITIVE", "description": "Enables case-insensitive matching." },
+  { "value": "COMMENTS", "description": "Permits whitespace and comments in the pattern." },
+  { "value": "DOTALL", "description": "Enables dotall mode." },
+  { "value": "LITERAL", "description": "Enables literal parsing of the pattern." },
+  { "value": "MULTILINE", "description": "Enables multiline mode." },
+  { "value": "UNICODE_CASE", "description": "Enables Unicode-aware case folding." },
+  { "value": "UNIX_LINES", "description": "Enables Unix lines mode." }
+]
