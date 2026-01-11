@@ -1,0 +1,62 @@
+[
+  {
+    "value": "da",
+    "description": "Danish"
+  },
+  {
+    "value": "nl",
+    "description": "Dutch"
+  },
+  {
+    "value": "en",
+    "description": "English"
+  },
+  {
+    "value": "fi",
+    "description": "Finnish"
+  },
+  {
+    "value": "fr",
+    "description": "French"
+  },
+  {
+    "value": "de",
+    "description": "German"
+  },
+  {
+    "value": "el",
+    "description": "Greek"
+  },
+  {
+    "value": "it",
+    "description": "Italian"
+  },
+  {
+    "value": "no",
+    "description": "Norwegian (Bokmaal)"
+  },
+  {
+    "value": "pl",
+    "description": "Polish"
+  },
+  {
+    "value": "pt-PT",
+    "description": "Portuguese (Portugal)"
+  },
+  {
+    "value": "ru",
+    "description": "Russian"
+  },
+  {
+    "value": "es",
+    "description": "Spanish"
+  },
+  {
+    "value": "sv",
+    "description": "Swedish"
+  },
+  {
+    "value": "tr",
+    "description": "Turkish"
+  }
+]

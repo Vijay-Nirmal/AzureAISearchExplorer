@@ -10,18 +10,6 @@ Under the hood it uses Azure AI Search REST APIs, making it useful for learning,
 - **Service Overview**: View comprehensive service statistics, quotas, and limits.
   - **Management Plane Integration**: Inspect service properties (SKU, Location, Tags) and scale Replicas/Partitions directly from the UI.
 
-## Config-driven UI (schemas)
-
-Some editors in the frontend are driven by JSON schemas under `frontend/src/data/constants/config/`.
-
-- Schemas support `$ref` so **type definitions** can live in separate files and be reused across entities.
-- `enum` / `enumArray` field options can also be referenced via `$ref` so option sets can be shared across multiple types.
-
-Example structure (Token Filters):
-- `frontend/src/data/constants/config/tokenFilterEditorConfig.json` (main schema)
-- `frontend/src/data/constants/config/TokenFilter/types/` (reusable type definitions)
-- `frontend/src/data/constants/config/TokenFilter/enums/` (reusable enum option sets)
-
 ## Running Instructions
 
 - Install dependencies: `npm run install:all`

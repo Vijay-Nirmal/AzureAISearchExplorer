@@ -1,0 +1,77 @@
+{
+  "discriminatorValue": "#Microsoft.Skills.Text.CustomEntityLookupSkill",
+  "label": "CustomEntityLookupSkill",
+  "description": "A skill looks for text from a custom, user-defined list of words and phrases.",
+  "fields": [
+    {
+      "key": "context",
+      "label": "Context",
+      "type": "string",
+      "tooltip": "Represents the level at which operations take place, such as the document root or document content (for example, /document or /document/content). The default is /document."
+    },
+    {
+      "key": "defaultLanguageCode",
+      "label": "Default Language Code",
+      "type": "enum",
+      "tooltip": "A value indicating which language code to use. Default is en.",
+      "options": { "$ref": "Skillset/Skills/enums/CustomEntityLookupSkillLanguage.json" }
+    },
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the skill which describes the inputs, outputs, and usage of the skill."
+    },
+    {
+      "key": "entitiesDefinitionUri",
+      "label": "Entities Definition URI",
+      "type": "string",
+      "tooltip": "Path to a JSON or CSV file containing all the target text to match against. This entity definition is read at the beginning of an indexer run. Any updates to this file during an indexer run will not take effect until subsequent runs. This config must be accessible over HTTPS."
+    },
+    {
+      "key": "globalDefaultAccentSensitive",
+      "label": "Global Default Accent Sensitive",
+      "type": "boolean",
+      "tooltip": "A global flag for AccentSensitive. If AccentSensitive is not set in CustomEntity, this value will be the default value."
+    },
+    {
+      "key": "globalDefaultCaseSensitive",
+      "label": "Global Default Case Sensitive",
+      "type": "boolean",
+      "tooltip": "A global flag for CaseSensitive. If CaseSensitive is not set in CustomEntity, this value will be the default value."
+    },
+    {
+      "key": "globalDefaultFuzzyEditDistance",
+      "label": "Global Default Fuzzy Edit Distance",
+      "type": "number",
+      "tooltip": "A global flag for FuzzyEditDistance. If FuzzyEditDistance is not set in CustomEntity, this value will be the default value."
+    },
+    {
+      "key": "inlineEntitiesDefinition",
+      "label": "Inline Entities Definition",
+      "type": "objectArray",
+      "tooltip": "The inline CustomEntity definition.",
+      "schema": { "$ref": "Skillset/types/CustomEntity.json" }
+    },
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "Inputs of the skills could be a column in the source data set, or the output of an upstream skill.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'."
+    },
+    {
+      "key": "outputs",
+      "label": "Outputs",
+      "type": "objectArray",
+      "tooltip": "The output of a skill is either a field in a search index, or a value that can be consumed as an input by another skill.",
+      "schema": { "$ref": "Skillset/types/OutputFieldMappingEntry.json" }
+    }
+  ]
+}

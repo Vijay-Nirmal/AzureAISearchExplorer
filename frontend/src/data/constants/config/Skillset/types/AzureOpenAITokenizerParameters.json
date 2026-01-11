@@ -1,0 +1,20 @@
+{
+  "discriminatorValue": "AzureOpenAITokenizerParameters",
+  "label": "AzureOpenAITokenizerParameters",
+  "description": "Azure OpenAI Tokenizer parameters.",
+  "fields": [
+    {
+      "key": "allowedSpecialTokens",
+      "label": "Allowed Special Tokens",
+      "type": "stringArray",
+      "tooltip": "(Optional) Only applies if the unit is set to azureOpenAITokens. This parameter defines a collection of special tokens that are permitted within the tokenization process."
+    },
+    {
+      "key": "encoderModelName",
+      "label": "Encoder Model Name",
+      "type": "enum",
+      "tooltip": "Only applies if the unit is set to azureOpenAITokens. Options include 'R50k_base', 'P50k_base', 'P50k_edit' and 'CL100k_base'. The default value is 'CL100k_base'.",
+      "options": { "$ref": "Skillset/Skills/enums/SplitSkillEncoderModelName.json" }
+    }
+  ]
+}

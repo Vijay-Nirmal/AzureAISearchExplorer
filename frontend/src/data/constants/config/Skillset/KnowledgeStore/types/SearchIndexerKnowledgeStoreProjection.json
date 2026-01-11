@@ -1,0 +1,28 @@
+{
+  "discriminatorValue": "SearchIndexerKnowledgeStoreProjection",
+  "label": "SearchIndexerKnowledgeStoreProjection",
+  "description": "Container object for various projection selectors.",
+  "fields": [
+    {
+      "key": "files",
+      "label": "Files",
+      "type": "objectArray",
+      "tooltip": "Projections to Azure File storage.",
+      "schema": { "$ref": "Skillset/KnowledgeStore/types/SearchIndexerKnowledgeStoreFileProjectionSelector.json" }
+    },
+    {
+      "key": "objects",
+      "label": "Objects",
+      "type": "objectArray",
+      "tooltip": "Projections to Azure Blob storage.",
+      "schema": { "$ref": "Skillset/KnowledgeStore/types/SearchIndexerKnowledgeStoreObjectProjectionSelector.json" }
+    },
+    {
+      "key": "tables",
+      "label": "Tables",
+      "type": "objectArray",
+      "tooltip": "Projections to Azure Table storage.",
+      "schema": { "$ref": "Skillset/KnowledgeStore/types/SearchIndexerKnowledgeStoreTableProjectionSelector.json" }
+    }
+  ]
+}

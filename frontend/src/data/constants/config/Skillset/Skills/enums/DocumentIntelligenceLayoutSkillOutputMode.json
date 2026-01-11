@@ -1,0 +1,6 @@
+[
+  {
+    "value": "oneToMany",
+    "description": "Produces multiple output records per input."
+  }
+]

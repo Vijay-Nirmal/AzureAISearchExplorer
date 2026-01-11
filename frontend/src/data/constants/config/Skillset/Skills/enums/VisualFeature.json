@@ -1,0 +1,30 @@
+[
+  {
+    "value": "adult",
+    "description": "Visual features recognized as adult persons."
+  },
+  {
+    "value": "brands",
+    "description": "Visual features recognized as commercial brands."
+  },
+  {
+    "value": "categories",
+    "description": "Categories."
+  },
+  {
+    "value": "description",
+    "description": "Description."
+  },
+  {
+    "value": "faces",
+    "description": "Visual features recognized as people faces."
+  },
+  {
+    "value": "objects",
+    "description": "Visual features recognized as objects."
+  },
+  {
+    "value": "tags",
+    "description": "Tags."
+  }
+]

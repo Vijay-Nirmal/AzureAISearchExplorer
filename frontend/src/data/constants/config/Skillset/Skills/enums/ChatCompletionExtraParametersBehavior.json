@@ -1,0 +1,14 @@
+[
+  {
+    "value": "pass-through",
+    "description": "Passes any extra parameters directly to the model."
+  },
+  {
+    "value": "drop",
+    "description": "Drops all extra parameters."
+  },
+  {
+    "value": "error",
+    "description": "Raises an error if any extra parameter is present."
+  }
+]

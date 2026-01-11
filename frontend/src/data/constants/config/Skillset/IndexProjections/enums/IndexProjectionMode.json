@@ -1,0 +1,10 @@
+[
+  {
+    "value": "skipIndexingParentDocuments",
+    "description": "The source document will be skipped from writing into the indexer's target index."
+  },
+  {
+    "value": "includeIndexingParentDocuments",
+    "description": "The source document will be written into the indexer's target index. This is the default pattern."
+  }
+]

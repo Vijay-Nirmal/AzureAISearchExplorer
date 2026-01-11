@@ -1,0 +1,46 @@
+[
+  {
+    "value": "text-embedding-ada-002",
+    "description": "TextEmbeddingAda002 model."
+  },
+  {
+    "value": "text-embedding-3-large",
+    "description": "TextEmbedding3Large model."
+  },
+  {
+    "value": "text-embedding-3-small",
+    "description": "TextEmbedding3Small model."
+  },
+  {
+    "value": "gpt-4o",
+    "description": "Gpt4o model."
+  },
+  {
+    "value": "gpt-4o-mini",
+    "description": "Gpt4oMini model."
+  },
+  {
+    "value": "gpt-4.1",
+    "description": "Gpt41 model."
+  },
+  {
+    "value": "gpt-4.1-mini",
+    "description": "Gpt41Mini model."
+  },
+  {
+    "value": "gpt-4.1-nano",
+    "description": "Gpt41Nano model."
+  },
+  {
+    "value": "gpt-5",
+    "description": "Gpt5 model."
+  },
+  {
+    "value": "gpt-5-mini",
+    "description": "Gpt5Mini model."
+  },
+  {
+    "value": "gpt-5-nano",
+    "description": "Gpt5Nano model."
+  }
+]

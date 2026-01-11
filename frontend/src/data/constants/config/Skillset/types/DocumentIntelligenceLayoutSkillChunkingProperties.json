@@ -1,0 +1,26 @@
+{
+  "discriminatorValue": "DocumentIntelligenceLayoutSkillChunkingProperties",
+  "label": "DocumentIntelligenceLayoutSkillChunkingProperties",
+  "description": "Controls the cardinality for chunking the content.",
+  "fields": [
+    {
+      "key": "maximumLength",
+      "label": "Maximum Length",
+      "type": "number",
+      "tooltip": "The maximum chunk length in characters. Default is 500."
+    },
+    {
+      "key": "overlapLength",
+      "label": "Overlap Length",
+      "type": "number",
+      "tooltip": "The length of overlap provided between two text chunks. Default is 0."
+    },
+    {
+      "key": "unit",
+      "label": "Unit",
+      "type": "enum",
+      "tooltip": "The unit of the chunk.",
+      "options": { "$ref": "Skillset/Skills/enums/ChunkingUnit.json" }
+    }
+  ]
+}

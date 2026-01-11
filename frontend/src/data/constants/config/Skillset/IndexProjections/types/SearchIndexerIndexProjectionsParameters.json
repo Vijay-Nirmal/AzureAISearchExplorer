@@ -1,0 +1,16 @@
+{
+  "discriminatorValue": "SearchIndexerIndexProjectionsParameters",
+  "label": "SearchIndexerIndexProjectionsParameters",
+  "description": "A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type.",
+  "fields": [
+    {
+      "key": "projectionMode",
+      "label": "Projection Mode",
+      "type": "enum",
+      "tooltip": "Defines behavior of the index projections in relation to the rest of the indexer.",
+      "options": {
+        "$ref": "Skillset/IndexProjections/enums/IndexProjectionMode.json"
+      }
+    }
+  ]
+}

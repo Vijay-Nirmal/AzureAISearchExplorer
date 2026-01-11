@@ -1,0 +1,10 @@
+[
+  {
+    "value": "celebrities",
+    "description": "Details recognized as celebrities."
+  },
+  {
+    "value": "landmarks",
+    "description": "Details recognized as landmarks."
+  }
+]

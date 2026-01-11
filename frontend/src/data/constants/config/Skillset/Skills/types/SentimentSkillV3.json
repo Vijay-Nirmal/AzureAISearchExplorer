@@ -1,0 +1,57 @@
+{
+  "discriminatorValue": "#Microsoft.Skills.Text.V3.SentimentSkill",
+  "label": "SentimentSkillV3",
+  "description": "Using the Text Analytics API, evaluates unstructured text and for each record, provides sentiment labels (such as \"negative\", \"neutral\" and \"positive\") based on the highest confidence score found by the service at a sentence and document-level.",
+  "fields": [
+    {
+      "key": "context",
+      "label": "Context",
+      "type": "string",
+      "tooltip": "Represents the level at which operations take place, such as the document root or document content (for example, /document or /document/content). The default is /document."
+    },
+    {
+      "key": "defaultLanguageCode",
+      "label": "Default Language Code",
+      "type": "string",
+      "tooltip": "A value indicating which language code to use. Default is en."
+    },
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the skill which describes the inputs, outputs, and usage of the skill."
+    },
+    {
+      "key": "includeOpinionMining",
+      "label": "Include Opinion Mining",
+      "type": "boolean",
+      "tooltip": "If set to true, the skill output will include information from Text Analytics for opinion mining, namely targets (nouns or verbs) and their associated assessment (adjective) in the text. Default is false."
+    },
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "Inputs of the skills could be a column in the source data set, or the output of an upstream skill.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "modelVersion",
+      "label": "Model Version",
+      "type": "string",
+      "tooltip": "The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary."
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'."
+    },
+    {
+      "key": "outputs",
+      "label": "Outputs",
+      "type": "objectArray",
+      "tooltip": "The output of a skill is either a field in a search index, or a value that can be consumed as an input by another skill.",
+      "schema": { "$ref": "Skillset/types/OutputFieldMappingEntry.json" }
+    }
+  ]
+}

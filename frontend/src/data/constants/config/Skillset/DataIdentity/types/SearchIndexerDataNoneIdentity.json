@@ -1,0 +1,6 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.DataNoneIdentity",
+  "label": "SearchIndexerDataNoneIdentity",
+  "description": "Clears the identity property of a datasource.",
+  "fields": []
+}

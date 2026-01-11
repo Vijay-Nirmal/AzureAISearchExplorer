@@ -1,0 +1,46 @@
+{
+  "discriminatorValue": "SearchResourceEncryptionKey",
+  "label": "SearchResourceEncryptionKey",
+  "description": "A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest, such as indexes and synonym maps.",
+  "fields": [
+    {
+      "key": "accessCredentials.applicationId",
+      "label": "Access Credentials Application ID",
+      "type": "string",
+      "tooltip": "An AAD Application ID that was granted the required access permissions to the Azure Key Vault that is to be used when encrypting your data at rest. The Application ID should not be confused with the Object ID for your AAD Application."
+    },
+    {
+      "key": "accessCredentials.applicationSecret",
+      "label": "Access Credentials Application Secret",
+      "type": "string",
+      "tooltip": "The authentication key of the specified AAD application."
+    },
+    {
+      "key": "identity",
+      "label": "Identity",
+      "type": "object",
+      "tooltip": "An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If \"none\" is specified, the value of this property is cleared.",
+      "schema": {
+        "$ref": "Skillset/DataIdentity/dataIdentityConfig.json"
+      }
+    },
+    {
+      "key": "keyVaultKeyName",
+      "label": "Key Vault Key Name",
+      "type": "string",
+      "tooltip": "The name of your Azure Key Vault key to be used to encrypt your data at rest."
+    },
+    {
+      "key": "keyVaultKeyVersion",
+      "label": "Key Vault Key Version",
+      "type": "string",
+      "tooltip": "The version of your Azure Key Vault key to be used to encrypt your data at rest."
+    },
+    {
+      "key": "keyVaultUri",
+      "label": "Key Vault URI",
+      "type": "string",
+      "tooltip": "The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your data at rest. An example URI might be https://my-keyvault-name.vault.azure.net."
+    }
+  ]
+}

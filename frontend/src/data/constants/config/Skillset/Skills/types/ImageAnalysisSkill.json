@@ -1,0 +1,60 @@
+{
+  "discriminatorValue": "#Microsoft.Skills.Vision.ImageAnalysisSkill",
+  "label": "ImageAnalysisSkill",
+  "description": "A skill that analyzes image files. It extracts a rich set of visual features based on the image content.",
+  "fields": [
+    {
+      "key": "context",
+      "label": "Context",
+      "type": "string",
+      "tooltip": "Represents the level at which operations take place, such as the document root or document content (for example, /document or /document/content). The default is /document."
+    },
+    {
+      "key": "defaultLanguageCode",
+      "label": "Default Language Code",
+      "type": "enum",
+      "tooltip": "A value indicating which language code to use. Default is en.",
+      "options": { "$ref": "Skillset/Skills/enums/ImageAnalysisSkillLanguage.json" }
+    },
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the skill which describes the inputs, outputs, and usage of the skill."
+    },
+    {
+      "key": "details",
+      "label": "Details",
+      "type": "enumArray",
+      "tooltip": "A string indicating which domain-specific details to return.",
+      "options": { "$ref": "Skillset/Skills/enums/ImageDetail.json" }
+    },
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "Inputs of the skills could be a column in the source data set, or the output of an upstream skill.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'."
+    },
+    {
+      "key": "outputs",
+      "label": "Outputs",
+      "type": "objectArray",
+      "tooltip": "The output of a skill is either a field in a search index, or a value that can be consumed as an input by another skill.",
+      "schema": { "$ref": "Skillset/types/OutputFieldMappingEntry.json" }
+    },
+    {
+      "key": "visualFeatures",
+      "label": "Visual Features",
+      "type": "enumArray",
+      "tooltip": "A list of visual features.",
+      "options": { "$ref": "Skillset/Skills/enums/VisualFeature.json" }
+    }
+  ]
+}

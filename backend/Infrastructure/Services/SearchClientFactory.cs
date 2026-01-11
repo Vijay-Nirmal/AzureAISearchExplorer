@@ -54,4 +54,23 @@ public class SearchClientFactory
 			return new SearchClient(endpoint, indexName, credential);
 		}
 	}
+
+	public async Task<SearchIndexerClient> CreateIndexerClientAsync(string connectionId)
+	{
+		var profile = await _repository.GetByIdAsync(connectionId);
+		if (profile == null)
+			throw new ArgumentException("Connection profile not found", nameof(connectionId));
+
+		var endpoint = new Uri(profile.Endpoint);
+
+		if (profile.AuthType == "ApiKey" && !string.IsNullOrEmpty(profile.ApiKey))
+		{
+			return new SearchIndexerClient(endpoint, new AzureKeyCredential(profile.ApiKey));
+		}
+		else
+		{
+			var credential = await _authService.GetCredentialAsync(profile);
+			return new SearchIndexerClient(endpoint, credential);
+		}
+	}
 }

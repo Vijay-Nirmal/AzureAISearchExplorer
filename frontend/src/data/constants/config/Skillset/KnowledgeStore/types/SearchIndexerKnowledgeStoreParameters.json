@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "SearchIndexerKnowledgeStoreParameters",
+  "label": "SearchIndexerKnowledgeStoreParameters",
+  "description": "A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type.",
+  "fields": [
+    {
+      "key": "synthesizeGeneratedKeyName",
+      "label": "Synthesize Generated Key Name",
+      "type": "boolean",
+      "tooltip": "Whether or not projections should synthesize a generated key name if one isn't already present."
+    }
+  ]
+}

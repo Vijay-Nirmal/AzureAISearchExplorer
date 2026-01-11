@@ -1,0 +1,8 @@
+[
+  { "value": "h1", "description": "Use H1 headers." },
+  { "value": "h2", "description": "Use H2 headers." },
+  { "value": "h3", "description": "Use H3 headers." },
+  { "value": "h4", "description": "Use H4 headers." },
+  { "value": "h5", "description": "Use H5 headers." },
+  { "value": "h6", "description": "Use H6 headers." }
+]

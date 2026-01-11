@@ -1,0 +1,19 @@
+{
+  "discriminatorValue": "OutputFieldMappingEntry",
+  "label": "OutputFieldMappingEntry",
+  "description": "Output field mapping for a skill.",
+  "fields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the output defined by the skill."
+    },
+    {
+      "key": "targetName",
+      "label": "Target Name",
+      "type": "string",
+      "tooltip": "The target name of the output. It is optional and default to name."
+    }
+  ]
+}

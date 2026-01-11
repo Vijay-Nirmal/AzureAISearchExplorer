@@ -9,7 +9,14 @@ import tokenFilterEditorConfig from '../../../data/constants/config/tokenFilterE
 import type { SearchIndex } from '../../../types/IndexModels';
 import type { ConfigDrivenSchema } from '../../common/configDriven/configDrivenTypes';
 import { ConfigDrivenObjectForm } from '../../common/configDriven/ConfigDrivenObjectForm';
-import { applyDefaultsForType, getResolvedTypeDefinitions, getTypeDefinition, normalizeBySchema, summarizeBySchema } from '../../common/configDriven/configDrivenUtils';
+import {
+    applyDefaultsForType,
+    getResolvedEntity,
+    getResolvedTypeDefinitions,
+    getTypeDefinition,
+    normalizeBySchema,
+    summarizeBySchema
+} from '../../common/configDriven/configDrivenUtils';
 
 interface IndexTokenFiltersTabProps {
     indexDef: SearchIndex;
@@ -19,6 +26,7 @@ interface IndexTokenFiltersTabProps {
 type TokenFilterDraft = Record<string, unknown>;
 
 const schema = tokenFilterEditorConfig as unknown as ConfigDrivenSchema;
+const entity = getResolvedEntity(schema);
 
 const getTypeLabel = (odataType: string | undefined): string => {
     const def = getTypeDefinition(schema, odataType);
@@ -50,8 +58,8 @@ export const IndexTokenFiltersTab: React.FC<IndexTokenFiltersTabProps> = ({ inde
         const baseName = `tokenfilter-${existing.length + 1}`;
 
         const draft = defaultType
-            ? applyDefaultsForType(schema, defaultType, { [schema.entity.nameKey]: baseName })
-            : ({ [schema.entity.nameKey]: baseName } as Record<string, unknown>);
+            ? applyDefaultsForType(schema, defaultType, { [entity.nameKey]: baseName })
+            : ({ [entity.nameKey]: baseName } as Record<string, unknown>);
 
         setEditingIndex(null);
         setTempTokenFilter(draft);
@@ -114,8 +122,8 @@ export const IndexTokenFiltersTab: React.FC<IndexTokenFiltersTabProps> = ({ inde
     const renderEditorModal = () => {
         if (!tokenFilterModalOpen || !tempTokenFilter) return null;
 
-        const discriminatorKey = schema.entity.discriminatorKey;
-        const nameKey = schema.entity.nameKey;
+        const discriminatorKey = entity.discriminatorKey;
+        const nameKey = entity.nameKey;
         const odataType = String(tempTokenFilter[discriminatorKey] || '');
         const typeDef = getTypeDefinition(schema, odataType);
 
@@ -192,8 +200,8 @@ export const IndexTokenFiltersTab: React.FC<IndexTokenFiltersTabProps> = ({ inde
                     <tbody>
                         {tokenFilters.map((tf, i) => {
                             const obj = (tf && typeof tf === 'object') ? (tf as Record<string, unknown>) : null;
-                            const name = obj ? String(obj[schema.entity.nameKey] || '-') : '-';
-                            const odataType = obj ? String(obj[schema.entity.discriminatorKey] || '') : '';
+                            const name = obj ? String(obj[entity.nameKey] || '-') : '-';
+                            const odataType = obj ? String(obj[entity.discriminatorKey] || '') : '';
                             return (
                                 <tr key={i} style={{ borderBottom: '1px solid var(--border-color)' }}>
                                     <td style={{ padding: '4px' }}>{name}</td>

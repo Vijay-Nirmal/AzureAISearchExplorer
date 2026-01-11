@@ -1,0 +1,44 @@
+{
+  "discriminatorValue": "SearchIndexerKnowledgeStoreTableProjectionSelector",
+  "label": "SearchIndexerKnowledgeStoreTableProjectionSelector",
+  "description": "Description for what data to store in Azure Tables.",
+  "fields": [
+    {
+      "key": "generatedKeyName",
+      "label": "Generated Key Name",
+      "type": "string",
+      "tooltip": "Name of generated key to store projection under."
+    },
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "Nested inputs for complex projections.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "referenceKeyName",
+      "label": "Reference Key Name",
+      "type": "string",
+      "tooltip": "Name of reference key to different projection."
+    },
+    {
+      "key": "source",
+      "label": "Source",
+      "type": "string",
+      "tooltip": "Source data to project."
+    },
+    {
+      "key": "sourceContext",
+      "label": "Source Context",
+      "type": "string",
+      "tooltip": "Source context for complex projections."
+    },
+    {
+      "key": "tableName",
+      "label": "Table Name",
+      "type": "string",
+      "tooltip": "Name of the Azure table to store projected data in."
+    }
+  ]
+}

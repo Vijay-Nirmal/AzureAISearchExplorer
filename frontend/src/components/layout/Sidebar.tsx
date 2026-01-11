@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Sidebar.module.css';
 import { useLayout } from '../../context/LayoutContext';
 import { Select } from '../common/Select';
@@ -27,11 +27,12 @@ export const Sidebar: React.FC = () => {
   const { openTab, activeTabId, toggleBottomPanel, activeConnectionId, setActiveConnectionId } = useLayout();
   const [connections, setConnections] = useState<ConnectionProfile[]>([]);
 
-  useEffect(() => {
-    loadConnections();
+  const loadConnectionsRef = useRef<(() => Promise<void>) | null>(null);
+  const handleConnectionSaved = useCallback(() => {
+    void loadConnectionsRef.current?.();
   }, []);
 
-  const loadConnections = async () => {
+  const loadConnections = useCallback(async () => {
     try {
       const data = await connectionService.getAll();
       setConnections(data);
@@ -43,13 +44,27 @@ export const Sidebar: React.FC = () => {
             title: 'Add Connection', 
             icon: 'fa-solid fa-plug', 
             component: 'add-connection',
-            props: { onSave: loadConnections }
+            props: { onSave: handleConnectionSaved }
         });
       }
     } catch (error) {
       console.error('Failed to load connections', error);
     }
-  };
+  }, [activeConnectionId, handleConnectionSaved, openTab, setActiveConnectionId]);
+
+  useEffect(() => {
+    loadConnectionsRef.current = loadConnections;
+  }, [loadConnections]);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      void loadConnections();
+    }, 0);
+
+    return () => {
+      window.clearTimeout(id);
+    };
+  }, [loadConnections]);
 
   const handleNavClick = (id: string, title: string, icon: string) => {
     openTab({ id, title, icon, component: id });
@@ -63,7 +78,7 @@ export const Sidebar: React.FC = () => {
           title: 'Add Connection', 
           icon: 'fa-solid fa-plug', 
           component: 'add-connection',
-          props: { onSave: loadConnections }
+          props: { onSave: handleConnectionSaved }
       });
     } else {
       setActiveConnectionId(value);
@@ -77,7 +92,7 @@ export const Sidebar: React.FC = () => {
               title: 'Edit Connection', 
               icon: 'fa-solid fa-pencil', 
               component: 'add-connection',
-              props: { connectionId: activeConnectionId, onSave: loadConnections }
+          props: { connectionId: activeConnectionId, onSave: handleConnectionSaved }
           });
       }
   };
@@ -105,7 +120,7 @@ export const Sidebar: React.FC = () => {
                     title: 'Add Connection', 
                     icon: 'fa-solid fa-plug', 
                     component: 'add-connection',
-                    props: { onSave: loadConnections }
+              props: { onSave: handleConnectionSaved }
                 })}
                 className={styles.addConnectionBtn}
              >
@@ -150,6 +165,13 @@ export const Sidebar: React.FC = () => {
             icon="fa-solid fa-table" 
             isActive={activeTabId === 'indexes'}
             onClick={() => handleNavClick('indexes', 'Indexes', 'fa-solid fa-table')}
+          />
+          <NavItem 
+            id="skillsets" 
+            title="Skillsets" 
+            icon="fa-solid fa-wand-magic-sparkles" 
+            isActive={activeTabId === 'skillsets'}
+            onClick={() => handleNavClick('skillsets', 'Skillsets', 'fa-solid fa-wand-magic-sparkles')}
           />
           {/* Add other items as needed */}
         </div>

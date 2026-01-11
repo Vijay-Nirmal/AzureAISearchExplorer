@@ -1,0 +1,79 @@
+{
+  "discriminatorValue": "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill",
+  "label": "AzureOpenAIEmbeddingSkill",
+  "description": "Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource.",
+  "fields": [
+    {
+      "key": "apiKey",
+      "label": "API Key",
+      "type": "string",
+      "tooltip": "API key of the designated Azure OpenAI resource."
+    },
+    {
+      "key": "authIdentity",
+      "label": "Auth Identity",
+      "type": "object",
+      "tooltip": "The user-assigned managed identity used for outbound connections.",
+      "schema": {
+        "$ref": "Skillset/DataIdentity/dataIdentityConfig.json"
+      }
+    },
+    {
+      "key": "context",
+      "label": "Context",
+      "type": "string",
+      "tooltip": "Represents the level at which operations take place, such as the document root or document content (for example, /document or /document/content). The default is /document."
+    },
+    {
+      "key": "deploymentId",
+      "label": "Deployment ID",
+      "type": "string",
+      "tooltip": "ID of the Azure OpenAI model deployment on the designated resource."
+    },
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the skill which describes the inputs, outputs, and usage of the skill."
+    },
+    {
+      "key": "dimensions",
+      "label": "Dimensions",
+      "type": "number",
+      "tooltip": "The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models."
+    },
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "Inputs of the skills could be a column in the source data set, or the output of an upstream skill.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "modelName",
+      "label": "Model Name",
+      "type": "enum",
+      "tooltip": "The name of the embedding model that is deployed at the provided deploymentId path.",
+      "options": { "$ref": "Skillset/Skills/enums/AzureOpenAIModelName.json" }
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'."
+    },
+    {
+      "key": "outputs",
+      "label": "Outputs",
+      "type": "objectArray",
+      "tooltip": "The output of a skill is either a field in a search index, or a value that can be consumed as an input by another skill.",
+      "schema": { "$ref": "Skillset/types/OutputFieldMappingEntry.json" }
+    },
+    {
+      "key": "resourceUri",
+      "label": "Resource URI",
+      "type": "string",
+      "tooltip": "The resource URI of the Azure OpenAI resource."
+    }
+  ]
+}

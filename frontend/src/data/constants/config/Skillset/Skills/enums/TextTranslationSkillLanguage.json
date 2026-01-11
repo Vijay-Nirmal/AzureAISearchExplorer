@@ -1,0 +1,290 @@
+[
+  {
+    "value": "af",
+    "description": "Afrikaans"
+  },
+  {
+    "value": "ar",
+    "description": "Arabic"
+  },
+  {
+    "value": "bn",
+    "description": "Bangla"
+  },
+  {
+    "value": "bs",
+    "description": "Bosnian (Latin)"
+  },
+  {
+    "value": "bg",
+    "description": "Bulgarian"
+  },
+  {
+    "value": "yue",
+    "description": "Cantonese (Traditional)"
+  },
+  {
+    "value": "ca",
+    "description": "Catalan"
+  },
+  {
+    "value": "zh-Hans",
+    "description": "Chinese Simplified"
+  },
+  {
+    "value": "zh-Hant",
+    "description": "Chinese Traditional"
+  },
+  {
+    "value": "hr",
+    "description": "Croatian"
+  },
+  {
+    "value": "cs",
+    "description": "Czech"
+  },
+  {
+    "value": "da",
+    "description": "Danish"
+  },
+  {
+    "value": "nl",
+    "description": "Dutch"
+  },
+  {
+    "value": "en",
+    "description": "English"
+  },
+  {
+    "value": "et",
+    "description": "Estonian"
+  },
+  {
+    "value": "fj",
+    "description": "Fijian"
+  },
+  {
+    "value": "fil",
+    "description": "Filipino"
+  },
+  {
+    "value": "fi",
+    "description": "Finnish"
+  },
+  {
+    "value": "fr",
+    "description": "French"
+  },
+  {
+    "value": "de",
+    "description": "German"
+  },
+  {
+    "value": "el",
+    "description": "Greek"
+  },
+  {
+    "value": "ht",
+    "description": "Haitian Creole"
+  },
+  {
+    "value": "he",
+    "description": "Hebrew"
+  },
+  {
+    "value": "hi",
+    "description": "Hindi"
+  },
+  {
+    "value": "mww",
+    "description": "Hmong Daw"
+  },
+  {
+    "value": "hu",
+    "description": "Hungarian"
+  },
+  {
+    "value": "is",
+    "description": "Icelandic"
+  },
+  {
+    "value": "id",
+    "description": "Indonesian"
+  },
+  {
+    "value": "it",
+    "description": "Italian"
+  },
+  {
+    "value": "ja",
+    "description": "Japanese"
+  },
+  {
+    "value": "sw",
+    "description": "Kiswahili"
+  },
+  {
+    "value": "tlh",
+    "description": "Klingon"
+  },
+  {
+    "value": "tlh-Latn",
+    "description": "Klingon (Latin script)"
+  },
+  {
+    "value": "tlh-Piqd",
+    "description": "Klingon (Klingon script)"
+  },
+  {
+    "value": "ko",
+    "description": "Korean"
+  },
+  {
+    "value": "lv",
+    "description": "Latvian"
+  },
+  {
+    "value": "lt",
+    "description": "Lithuanian"
+  },
+  {
+    "value": "mg",
+    "description": "Malagasy"
+  },
+  {
+    "value": "ms",
+    "description": "Malay"
+  },
+  {
+    "value": "mt",
+    "description": "Maltese"
+  },
+  {
+    "value": "nb",
+    "description": "Norwegian"
+  },
+  {
+    "value": "fa",
+    "description": "Persian"
+  },
+  {
+    "value": "pl",
+    "description": "Polish"
+  },
+  {
+    "value": "pt",
+    "description": "Portuguese"
+  },
+  {
+    "value": "pt-br",
+    "description": "Portuguese (Brazil)"
+  },
+  {
+    "value": "pt-PT",
+    "description": "Portuguese (Portugal)"
+  },
+  {
+    "value": "otq",
+    "description": "Queretaro Otomi"
+  },
+  {
+    "value": "ro",
+    "description": "Romanian"
+  },
+  {
+    "value": "ru",
+    "description": "Russian"
+  },
+  {
+    "value": "sm",
+    "description": "Samoan"
+  },
+  {
+    "value": "sr-Cyrl",
+    "description": "Serbian (Cyrillic)"
+  },
+  {
+    "value": "sr-Latn",
+    "description": "Serbian (Latin)"
+  },
+  {
+    "value": "sk",
+    "description": "Slovak"
+  },
+  {
+    "value": "sl",
+    "description": "Slovenian"
+  },
+  {
+    "value": "es",
+    "description": "Spanish"
+  },
+  {
+    "value": "sv",
+    "description": "Swedish"
+  },
+  {
+    "value": "ty",
+    "description": "Tahitian"
+  },
+  {
+    "value": "ta",
+    "description": "Tamil"
+  },
+  {
+    "value": "te",
+    "description": "Telugu"
+  },
+  {
+    "value": "th",
+    "description": "Thai"
+  },
+  {
+    "value": "to",
+    "description": "Tongan"
+  },
+  {
+    "value": "tr",
+    "description": "Turkish"
+  },
+  {
+    "value": "uk",
+    "description": "Ukrainian"
+  },
+  {
+    "value": "ur",
+    "description": "Urdu"
+  },
+  {
+    "value": "vi",
+    "description": "Vietnamese"
+  },
+  {
+    "value": "cy",
+    "description": "Welsh"
+  },
+  {
+    "value": "yua",
+    "description": "Yucatec Maya"
+  },
+  {
+    "value": "ga",
+    "description": "Irish"
+  },
+  {
+    "value": "kn",
+    "description": "Kannada"
+  },
+  {
+    "value": "mi",
+    "description": "Maori"
+  },
+  {
+    "value": "ml",
+    "description": "Malayalam"
+  },
+  {
+    "value": "pa",
+    "description": "Punjabi"
+  }
+]

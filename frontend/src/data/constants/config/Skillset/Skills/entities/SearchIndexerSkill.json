@@ -1,0 +1,6 @@
+{
+  "title": "Skill",
+  "description": "A skill in a skillset.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "name"
+}

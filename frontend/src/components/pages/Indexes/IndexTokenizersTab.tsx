@@ -11,6 +11,7 @@ import type { ConfigDrivenSchema } from '../../common/configDriven/configDrivenT
 import { ConfigDrivenObjectForm } from '../../common/configDriven/ConfigDrivenObjectForm';
 import {
     applyDefaultsForType,
+    getResolvedEntity,
     getResolvedTypeDefinitions,
     getTypeDefinition,
     normalizeBySchema,
@@ -25,6 +26,7 @@ interface IndexTokenizersTabProps {
 type TokenizerDraft = Record<string, unknown>;
 
 const schema = tokenizerEditorConfig as unknown as ConfigDrivenSchema;
+const entity = getResolvedEntity(schema);
 
 const getTypeLabel = (odataType: string | undefined): string => {
     const def = getTypeDefinition(schema, odataType);
@@ -56,8 +58,8 @@ export const IndexTokenizersTab: React.FC<IndexTokenizersTabProps> = ({ indexDef
         const baseName = `tokenizer-${existing.length + 1}`;
 
         const draft = defaultType
-            ? applyDefaultsForType(schema, defaultType, { [schema.entity.nameKey]: baseName })
-            : ({ [schema.entity.nameKey]: baseName } as Record<string, unknown>);
+            ? applyDefaultsForType(schema, defaultType, { [entity.nameKey]: baseName })
+            : ({ [entity.nameKey]: baseName } as Record<string, unknown>);
 
         setEditingIndex(null);
         setTempTokenizer(draft);
@@ -120,8 +122,8 @@ export const IndexTokenizersTab: React.FC<IndexTokenizersTabProps> = ({ indexDef
     const renderEditorModal = () => {
         if (!tokenizerModalOpen || !tempTokenizer) return null;
 
-        const discriminatorKey = schema.entity.discriminatorKey;
-        const nameKey = schema.entity.nameKey;
+        const discriminatorKey = entity.discriminatorKey;
+        const nameKey = entity.nameKey;
         const odataType = String(tempTokenizer[discriminatorKey] || '');
         const typeDef = getTypeDefinition(schema, odataType);
 
@@ -203,8 +205,8 @@ export const IndexTokenizersTab: React.FC<IndexTokenizersTabProps> = ({ indexDef
                     <tbody>
                         {tokenizers.map((t, i) => {
                             const obj = t && typeof t === 'object' ? (t as Record<string, unknown>) : null;
-                            const name = obj ? String(obj[schema.entity.nameKey] || '-') : '-';
-                            const odataType = obj ? String(obj[schema.entity.discriminatorKey] || '') : '';
+                            const name = obj ? String(obj[entity.nameKey] || '-') : '-';
+                            const odataType = obj ? String(obj[entity.discriminatorKey] || '') : '';
                             return (
                                 <tr key={i} style={{ borderBottom: '1px solid var(--border-color)' }}>
                                     <td style={{ padding: '4px' }}>{name}</td>

@@ -1,0 +1,32 @@
+{
+  "discriminatorValue": "InputFieldMappingEntry",
+  "label": "InputFieldMappingEntry",
+  "description": "Input field mapping for a skill.",
+  "fields": [
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "The recursive inputs used when creating a complex type.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the input."
+    },
+    {
+      "key": "source",
+      "label": "Source",
+      "type": "string",
+      "tooltip": "The source of the input."
+    },
+    {
+      "key": "sourceContext",
+      "label": "Source Context",
+      "type": "string",
+      "tooltip": "The source context used for selecting recursive inputs."
+    }
+  ]
+}

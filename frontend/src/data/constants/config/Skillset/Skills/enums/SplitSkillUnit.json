@@ -1,0 +1,10 @@
+[
+  {
+    "value": "characters",
+    "description": "The length will be measured by character."
+  },
+  {
+    "value": "azureOpenAITokens",
+    "description": "The length will be measured by an AzureOpenAI tokenizer from the tiktoken library."
+  }
+]

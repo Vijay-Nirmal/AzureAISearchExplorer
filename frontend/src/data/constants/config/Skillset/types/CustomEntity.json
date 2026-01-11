@@ -1,0 +1,80 @@
+{
+  "discriminatorValue": "CustomEntity",
+  "label": "CustomEntity",
+  "description": "An object that contains information about the matches that were found, and related metadata.",
+  "fields": [
+    {
+      "key": "accentSensitive",
+      "label": "Accent Sensitive",
+      "type": "boolean",
+      "tooltip": "Defaults to false. Boolean value denoting whether comparisons with the entity name should be sensitive to accent."
+    },
+    {
+      "key": "aliases",
+      "label": "Aliases",
+      "type": "objectArray",
+      "tooltip": "An array of complex objects that can be used to specify alternative spellings or synonyms to the root entity name.",
+      "schema": { "$ref": "Skillset/types/CustomEntityAlias.json" }
+    },
+    {
+      "key": "caseSensitive",
+      "label": "Case Sensitive",
+      "type": "boolean",
+      "tooltip": "Defaults to false. Boolean value denoting whether comparisons with the entity name should be sensitive to character casing. Sample case insensitive matches of \"Microsoft\" could be: microsoft, microSoft, MICROSOFT."
+    },
+    {
+      "key": "defaultAccentSensitive",
+      "label": "Default Accent Sensitive",
+      "type": "boolean",
+      "tooltip": "Changes the default accent sensitivity value for this entity. It be used to change the default value of all aliases accentSensitive values."
+    },
+    {
+      "key": "defaultCaseSensitive",
+      "label": "Default Case Sensitive",
+      "type": "boolean",
+      "tooltip": "Changes the default case sensitivity value for this entity. It be used to change the default value of all aliases caseSensitive values."
+    },
+    {
+      "key": "defaultFuzzyEditDistance",
+      "label": "Default Fuzzy Edit Distance",
+      "type": "number",
+      "tooltip": "Changes the default fuzzy edit distance value for this entity. It can be used to change the default value of all aliases fuzzyEditDistance values."
+    },
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output."
+    },
+    {
+      "key": "fuzzyEditDistance",
+      "label": "Fuzzy Edit Distance",
+      "type": "number",
+      "tooltip": "Defaults to 0. Maximum value of 5. Denotes the acceptable number of divergent characters that would still constitute a match with the entity name. The smallest possible fuzziness for any given match is returned. For instance, if the edit distance is set to 3, \"Windows10\" would still match \"Windows\", \"Windows10\" and \"Windows 7\". When case sensitivity is set to false, case differences do NOT count towards fuzziness tolerance, but otherwise do."
+    },
+    {
+      "key": "id",
+      "label": "ID",
+      "type": "string",
+      "tooltip": "This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output."
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The top-level entity descriptor. Matches in the skill output will be grouped by this name, and it should represent the \"normalized\" form of the text being found."
+    },
+    {
+      "key": "subtype",
+      "label": "Subtype",
+      "type": "string",
+      "tooltip": "This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output."
+    },
+    {
+      "key": "type",
+      "label": "Type",
+      "type": "string",
+      "tooltip": "This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output."
+    }
+  ]
+}

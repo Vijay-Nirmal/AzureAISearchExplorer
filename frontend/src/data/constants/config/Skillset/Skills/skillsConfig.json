@@ -1,0 +1,88 @@
+{
+  "entity": {
+    "$ref": "Skillset/Skills/entities/SearchIndexerSkill.json"
+  },
+  "commonFields": [
+    {
+      "key": "@odata.type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "Select the skill type."
+    }
+  ],
+  "types": [
+    {
+      "$ref": "Skillset/Skills/types/AzureMachineLearningSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/AzureOpenAIEmbeddingSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/ChatCompletionSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/ConditionalSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/ContentUnderstandingSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/CustomEntityLookupSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/DocumentExtractionSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/DocumentIntelligenceLayoutSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/EntityLinkingSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/EntityRecognitionSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/EntityRecognitionSkillV3.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/ImageAnalysisSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/KeyPhraseExtractionSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/LanguageDetectionSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/MergeSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/OcrSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/PIIDetectionSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/SentimentSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/SentimentSkillV3.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/ShaperSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/SplitSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/TextTranslationSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/VisionVectorizeSkill.json"
+    },
+    {
+      "$ref": "Skillset/Skills/types/WebApiSkill.json"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "discriminatorValue": "ChatCompletionCommonModelParameters",
+  "label": "ChatCompletionCommonModelParameters",
+  "description": "Common language model parameters for Chat Completions. If omitted, default values are used.",
+  "fields": [
+    {
+      "key": "frequencyPenalty",
+      "label": "Frequency Penalty",
+      "type": "number",
+      "tooltip": "A float in the range [-2,2] that reduces or increases likelihood of repeated tokens. Default is 0."
+    },
+    {
+      "key": "maxTokens",
+      "label": "Max Tokens",
+      "type": "number",
+      "tooltip": "Maximum number of tokens to generate."
+    },
+    {
+      "key": "model",
+      "label": "Model",
+      "type": "string",
+      "tooltip": "The name of the model to use (e.g., 'gpt-4o', etc.). Default is null if not specified."
+    },
+    {
+      "key": "presencePenalty",
+      "label": "Presence Penalty",
+      "type": "number",
+      "tooltip": "A float in the range [-2,2] that penalizes new tokens based on their existing presence. Default is 0."
+    },
+    {
+      "key": "seed",
+      "label": "Seed",
+      "type": "number",
+      "tooltip": "Random seed for controlling deterministic outputs. If omitted, randomization is used."
+    },
+    {
+      "key": "stop",
+      "label": "Stop",
+      "type": "stringArray",
+      "tooltip": "List of stop sequences that will cut off text generation. Default is none."
+    },
+    {
+      "key": "temperature",
+      "label": "Temperature",
+      "type": "number",
+      "tooltip": "Sampling temperature. Default is 0.7."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "entity": {
+    "title": "Knowledge Store",
+    "description": "Additional projections to Azure Storage (blobs, tables, files) of enriched data.",
+    "discriminatorKey": "@odata.type",
+    "nameKey": "storageConnectionString"
+  },
+  "commonFields": [],
+  "types": [
+    { "$ref": "Skillset/KnowledgeStore/types/SearchIndexerKnowledgeStore.json" }
+  ]
+}

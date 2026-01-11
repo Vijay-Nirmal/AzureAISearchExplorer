@@ -1,0 +1,44 @@
+{
+  "discriminatorValue": "SearchIndexerKnowledgeStoreFileProjectionSelector",
+  "label": "SearchIndexerKnowledgeStoreFileProjectionSelector",
+  "description": "Projection definition for what data to store in Azure Files.",
+  "fields": [
+    {
+      "key": "generatedKeyName",
+      "label": "Generated Key Name",
+      "type": "string",
+      "tooltip": "Name of generated key to store projection under."
+    },
+    {
+      "key": "inputs",
+      "label": "Inputs",
+      "type": "objectArray",
+      "tooltip": "Nested inputs for complex projections.",
+      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
+    },
+    {
+      "key": "referenceKeyName",
+      "label": "Reference Key Name",
+      "type": "string",
+      "tooltip": "Name of reference key to different projection."
+    },
+    {
+      "key": "source",
+      "label": "Source",
+      "type": "string",
+      "tooltip": "Source data to project."
+    },
+    {
+      "key": "sourceContext",
+      "label": "Source Context",
+      "type": "string",
+      "tooltip": "Source context for complex projections."
+    },
+    {
+      "key": "storageContainer",
+      "label": "Storage Container",
+      "type": "string",
+      "tooltip": "Blob container to store projections in."
+    }
+  ]
+}

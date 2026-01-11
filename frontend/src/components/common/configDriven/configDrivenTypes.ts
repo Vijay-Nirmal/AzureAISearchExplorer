@@ -5,6 +5,8 @@ export type ConfigDrivenFieldType =
     | 'enum'
     | 'stringArray'
     | 'enumArray'
+    | 'object'
+    | 'objectArray'
     | 'discriminator';
 
 export interface ConfigDrivenRef {
@@ -39,6 +41,14 @@ export interface ConfigDrivenField {
     // For enum/enumArray fields, options can be defined inline or referenced via $ref.
     options?: ConfigDrivenOption[] | ConfigDrivenRef;
     optionsRef?: string;
+
+    // For object/objectArray fields, schema can be defined inline or referenced via $ref.
+    // This enables nested object editing (including polymorphic entities).
+    // The reference can point to either:
+    // - a full ConfigDrivenSchema (polymorphic entity or structured nested editor)
+    // - a single ConfigDrivenTypeDefinition (non-polymorphic nested object)
+    schema?: ConfigDrivenSchema | ConfigDrivenTypeDefinition | ConfigDrivenRef;
+    schemaRef?: string;
 }
 
 export interface ConfigDrivenTypeDefinition {
@@ -58,7 +68,7 @@ export interface ConfigDrivenEntityDefinition {
 }
 
 export interface ConfigDrivenSchema {
-    entity: ConfigDrivenEntityDefinition;
+    entity: ConfigDrivenEntityDefinition | ConfigDrivenRef;
     commonFields: ConfigDrivenField[];
     // Types can be defined inline or referenced via $ref to a JSON file.
     types: ConfigDrivenTypeEntry[];

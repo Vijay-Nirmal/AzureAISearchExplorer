@@ -1,0 +1,38 @@
+[
+  {
+    "value": "da",
+    "description": "Danish"
+  },
+  {
+    "value": "de",
+    "description": "German"
+  },
+  {
+    "value": "en",
+    "description": "English"
+  },
+  {
+    "value": "es",
+    "description": "Spanish"
+  },
+  {
+    "value": "fi",
+    "description": "Finnish"
+  },
+  {
+    "value": "fr",
+    "description": "French"
+  },
+  {
+    "value": "it",
+    "description": "Italian"
+  },
+  {
+    "value": "ko",
+    "description": "Korean"
+  },
+  {
+    "value": "pt",
+    "description": "Portuguese"
+  }
+]

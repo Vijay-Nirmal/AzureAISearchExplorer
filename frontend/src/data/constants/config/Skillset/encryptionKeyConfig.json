@@ -1,0 +1,12 @@
+{
+  "entity": {
+    "title": "Encryption Key",
+    "description": "Customer-managed encryption key settings.",
+    "discriminatorKey": "@odata.type",
+    "nameKey": "keyVaultUri"
+  },
+  "commonFields": [],
+  "types": [
+    { "$ref": "Skillset/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+  ]
+}

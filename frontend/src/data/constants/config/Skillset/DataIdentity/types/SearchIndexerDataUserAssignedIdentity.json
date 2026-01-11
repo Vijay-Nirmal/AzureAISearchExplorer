@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.DataUserAssignedIdentity",
+  "label": "SearchIndexerDataUserAssignedIdentity",
+  "description": "Specifies the identity for a datasource to use.",
+  "fields": [
+    {
+      "key": "userAssignedIdentity",
+      "label": "User Assigned Identity",
+      "type": "string",
+      "tooltip": "The fully qualified Azure resource Id of a user assigned managed identity typically in the form \"/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId\" that should have been assigned to the search service."
+    }
+  ]
+}

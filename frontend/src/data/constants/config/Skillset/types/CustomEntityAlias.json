@@ -1,0 +1,31 @@
+{
+  "discriminatorValue": "CustomEntityAlias",
+  "label": "CustomEntityAlias",
+  "description": "A complex object that can be used to specify alternative spellings or synonyms to the root entity name.",
+  "fields": [
+    {
+      "key": "accentSensitive",
+      "label": "Accent Sensitive",
+      "type": "boolean",
+      "tooltip": "Determine if the alias is accent sensitive."
+    },
+    {
+      "key": "caseSensitive",
+      "label": "Case Sensitive",
+      "type": "boolean",
+      "tooltip": "Determine if the alias is case sensitive."
+    },
+    {
+      "key": "fuzzyEditDistance",
+      "label": "Fuzzy Edit Distance",
+      "type": "number",
+      "tooltip": "Determine the fuzzy edit distance of the alias."
+    },
+    {
+      "key": "text",
+      "label": "Text",
+      "type": "string",
+      "tooltip": "The text of the alias."
+    }
+  ]
+}

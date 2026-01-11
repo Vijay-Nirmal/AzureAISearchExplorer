@@ -1,0 +1,25 @@
+{
+  "discriminatorValue": "SearchIndexerIndexProjection",
+  "label": "SearchIndexerIndexProjection",
+  "description": "Definition of additional projections to secondary search indexes.",
+  "fields": [
+    {
+      "key": "parameters",
+      "label": "Parameters",
+      "type": "object",
+      "tooltip": "A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type.",
+      "schema": {
+        "$ref": "Skillset/IndexProjections/types/SearchIndexerIndexProjectionsParameters.json"
+      }
+    },
+    {
+      "key": "selectors",
+      "label": "Selectors",
+      "type": "objectArray",
+      "tooltip": "A list of projections to be performed to secondary search indexes.",
+      "schema": {
+        "$ref": "Skillset/IndexProjections/types/SearchIndexerIndexProjectionSelector.json"
+      }
+    }
+  ]
+}

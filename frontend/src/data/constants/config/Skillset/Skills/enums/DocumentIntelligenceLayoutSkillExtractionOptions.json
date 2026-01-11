@@ -1,0 +1,10 @@
+[
+  {
+    "value": "images",
+    "description": "Specify that image content should be extracted from the document."
+  },
+  {
+    "value": "locationMetadata",
+    "description": "Specify that location metadata should be extracted from the document."
+  }
+]

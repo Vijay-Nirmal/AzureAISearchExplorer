@@ -4,6 +4,7 @@ import { Card } from '../common/Card';
 import { AddConnectionPage } from '../pages/AddConnectionPage';
 import { ServiceOverviewPage } from '../pages/ServiceOverviewPage';
 import IndexesPage from '../pages/Indexes/IndexesPage';
+import SkillsetsPage from '../pages/Skillsets/SkillsetsPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -11,7 +12,7 @@ export const ContentArea: React.FC = () => {
 
   if (!activeTab) {
     return (
-      <div style={{ padding: '20px', color: '#888', textAlign: 'center', marginTop: '20%' }}>
+      <div style={{ padding: '20px', color: 'var(--text-color)', opacity: 0.7, textAlign: 'center', marginTop: '20%' }}>
         <i className="fa-solid fa-search" style={{ fontSize: '48px', marginBottom: '16px' }}></i>
         <p>Select an item from the sidebar to get started.</p>
       </div>
@@ -28,6 +29,9 @@ export const ContentArea: React.FC = () => {
           case 'indexes':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <IndexesPage />;
+            case 'skillsets':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <SkillsetsPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>

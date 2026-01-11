@@ -1,0 +1,31 @@
+{
+  "discriminatorValue": "ChatCompletionSchema",
+  "label": "ChatCompletionSchema",
+  "description": "Object defining the custom schema the model will use to structure its output.",
+  "fields": [
+    {
+      "key": "additionalProperties",
+      "label": "Additional Properties",
+      "type": "boolean",
+      "tooltip": "Controls whether it is allowable for an object to contain additional keys / values that were not defined in the JSON Schema. Default is false."
+    },
+    {
+      "key": "properties",
+      "label": "Properties",
+      "type": "string",
+      "tooltip": "A JSON-formatted string that defines the output schema's properties and constraints for the model."
+    },
+    {
+      "key": "required",
+      "label": "Required",
+      "type": "stringArray",
+      "tooltip": "An array of the property names that are required to be part of the model's response. All properties must be included for structured outputs."
+    },
+    {
+      "key": "type",
+      "label": "Type",
+      "type": "string",
+      "tooltip": "Type of schema representation. Usually 'object'. Default is 'object'."
+    }
+  ]
+}

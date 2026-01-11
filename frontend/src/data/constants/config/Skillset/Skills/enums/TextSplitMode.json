@@ -1,0 +1,10 @@
+[
+  {
+    "value": "pages",
+    "description": "Split the text into individual pages."
+  },
+  {
+    "value": "sentences",
+    "description": "Split the text into individual sentences."
+  }
+]

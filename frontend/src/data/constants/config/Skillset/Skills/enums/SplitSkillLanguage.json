@@ -1,0 +1,134 @@
+[
+  {
+    "value": "am",
+    "description": "Amharic"
+  },
+  {
+    "value": "bs",
+    "description": "Bosnian"
+  },
+  {
+    "value": "cs",
+    "description": "Czech"
+  },
+  {
+    "value": "da",
+    "description": "Danish"
+  },
+  {
+    "value": "de",
+    "description": "German"
+  },
+  {
+    "value": "en",
+    "description": "English"
+  },
+  {
+    "value": "es",
+    "description": "Spanish"
+  },
+  {
+    "value": "et",
+    "description": "Estonian"
+  },
+  {
+    "value": "fi",
+    "description": "Finnish"
+  },
+  {
+    "value": "fr",
+    "description": "French"
+  },
+  {
+    "value": "he",
+    "description": "Hebrew"
+  },
+  {
+    "value": "hi",
+    "description": "Hindi"
+  },
+  {
+    "value": "hr",
+    "description": "Croatian"
+  },
+  {
+    "value": "hu",
+    "description": "Hungarian"
+  },
+  {
+    "value": "id",
+    "description": "Indonesian"
+  },
+  {
+    "value": "is",
+    "description": "Icelandic"
+  },
+  {
+    "value": "it",
+    "description": "Italian"
+  },
+  {
+    "value": "ja",
+    "description": "Japanese"
+  },
+  {
+    "value": "ko",
+    "description": "Korean"
+  },
+  {
+    "value": "lv",
+    "description": "Latvian"
+  },
+  {
+    "value": "nb",
+    "description": "Norwegian"
+  },
+  {
+    "value": "nl",
+    "description": "Dutch"
+  },
+  {
+    "value": "pl",
+    "description": "Polish"
+  },
+  {
+    "value": "pt",
+    "description": "Portuguese (Portugal)"
+  },
+  {
+    "value": "pt-br",
+    "description": "Portuguese (Brazil)"
+  },
+  {
+    "value": "ru",
+    "description": "Russian"
+  },
+  {
+    "value": "sk",
+    "description": "Slovak"
+  },
+  {
+    "value": "sl",
+    "description": "Slovenian"
+  },
+  {
+    "value": "sr",
+    "description": "Serbian"
+  },
+  {
+    "value": "sv",
+    "description": "Swedish"
+  },
+  {
+    "value": "tr",
+    "description": "Turkish"
+  },
+  {
+    "value": "ur",
+    "description": "Urdu"
+  },
+  {
+    "value": "zh",
+    "description": "Chinese (Simplified)"
+  }
+]

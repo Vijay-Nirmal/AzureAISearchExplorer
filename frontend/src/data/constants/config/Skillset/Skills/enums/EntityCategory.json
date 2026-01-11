@@ -1,0 +1,30 @@
+[
+  {
+    "value": "location",
+    "description": "Entities describing a physical location."
+  },
+  {
+    "value": "organization",
+    "description": "Entities describing an organization."
+  },
+  {
+    "value": "person",
+    "description": "Entities describing a person."
+  },
+  {
+    "value": "quantity",
+    "description": "Entities describing a quantity."
+  },
+  {
+    "value": "datetime",
+    "description": "Entities describing a date and time."
+  },
+  {
+    "value": "url",
+    "description": "Entities describing a URL."
+  },
+  {
+    "value": "email",
+    "description": "Entities describing an email address."
+  }
+]

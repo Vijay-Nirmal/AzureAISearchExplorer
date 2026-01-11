@@ -153,23 +153,6 @@ export const IndexSimilarityTab: React.FC<IndexSimilarityTabProps> = ({ indexDef
             </div>
 
             <div style={{ padding: '16px', overflow: 'auto', flex: 1 }}>
-                <h4
-                    style={{
-                        margin: '0 0 12px 0',
-                        fontSize: '14px',
-                        color: 'var(--text-color)',
-                        borderBottom: '1px solid var(--border-color)',
-                        paddingBottom: '8px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                    }}
-                >
-                    Similarity <InfoIcon tooltip={similarityDescriptions.similarity} />
-                </h4>
-
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', maxWidth: '920px' }}>
                     <div>
                         <Label>Algorithm <InfoIcon tooltip={similarityDescriptions.algorithm} /></Label>

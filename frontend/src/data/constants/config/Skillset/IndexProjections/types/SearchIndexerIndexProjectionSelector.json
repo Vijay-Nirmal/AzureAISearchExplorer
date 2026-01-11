@@ -1,0 +1,34 @@
+{
+  "discriminatorValue": "SearchIndexerIndexProjectionSelector",
+  "label": "SearchIndexerIndexProjectionSelector",
+  "description": "Description for what data to store in the designated search index.",
+  "fields": [
+    {
+      "key": "mappings",
+      "label": "Mappings",
+      "type": "objectArray",
+      "tooltip": "Mappings for the projection, or which source should be mapped to which field in the target index.",
+      "schema": {
+        "$ref": "Skillset/types/OutputFieldMappingEntry.json"
+      }
+    },
+    {
+      "key": "parentKeyFieldName",
+      "label": "Parent Key Field Name",
+      "type": "string",
+      "tooltip": "Name of the field in the search index to map the parent document's key value to. Must be a string field that is filterable and not the key field."
+    },
+    {
+      "key": "sourceContext",
+      "label": "Source Context",
+      "type": "string",
+      "tooltip": "Source context for the projections. Represents the cardinality at which the document will be split into multiple sub documents."
+    },
+    {
+      "key": "targetIndexName",
+      "label": "Target Index Name",
+      "type": "string",
+      "tooltip": "Name of the search index to project to. Must have a key field with the 'keyword' analyzer set."
+    }
+  ]
+}

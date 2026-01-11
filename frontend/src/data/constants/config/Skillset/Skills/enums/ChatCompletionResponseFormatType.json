@@ -1,0 +1,14 @@
+[
+  {
+    "value": "text",
+    "description": "Plain text response format."
+  },
+  {
+    "value": "jsonObject",
+    "description": "Arbitrary JSON object response format."
+  },
+  {
+    "value": "jsonSchema",
+    "description": "JSON schema-adhering response format."
+  }
+]

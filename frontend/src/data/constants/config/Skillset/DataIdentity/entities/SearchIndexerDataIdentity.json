@@ -1,0 +1,6 @@
+{
+  "title": "Data Identity",
+  "description": "Managed identity configuration for outbound connections.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "userAssignedIdentity"
+}

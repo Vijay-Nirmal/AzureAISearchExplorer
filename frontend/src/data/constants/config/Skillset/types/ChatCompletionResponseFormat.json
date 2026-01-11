@@ -1,0 +1,21 @@
+{
+  "discriminatorValue": "ChatCompletionResponseFormat",
+  "label": "ChatCompletionResponseFormat",
+  "description": "Determines how the language model's response should be serialized. Defaults to 'text'.",
+  "fields": [
+    {
+      "key": "jsonSchemaProperties",
+      "label": "Json Schema Properties",
+      "type": "object",
+      "tooltip": "An open dictionary for extended properties. Required if 'type' == 'json_schema'",
+      "schema": { "$ref": "Skillset/types/ChatCompletionSchemaProperties.json" }
+    },
+    {
+      "key": "type",
+      "label": "Type",
+      "type": "enum",
+      "tooltip": "Specifies how the LLM should format the response.",
+      "options": { "$ref": "Skillset/Skills/enums/ChatCompletionResponseFormatType.json" }
+    }
+  ]
+}

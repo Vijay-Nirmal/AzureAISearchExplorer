@@ -1,0 +1,32 @@
+{
+  "discriminatorValue": "ChatCompletionSchemaProperties",
+  "label": "ChatCompletionSchemaProperties",
+  "description": "Properties for JSON schema response format.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "Description of the json schema the model will adhere to."
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "Name of the json schema the model will adhere to."
+    },
+    {
+      "key": "schema",
+      "label": "Schema",
+      "type": "object",
+      "tooltip": "The schema definition.",
+      "schema": { "$ref": "Skillset/types/ChatCompletionSchema.json" }
+    },
+    {
+      "key": "strict",
+      "label": "Strict",
+      "type": "boolean",
+      "tooltip": "Whether or not the model's response should use structured outputs. Default is true."
+    }
+  ]
+}
