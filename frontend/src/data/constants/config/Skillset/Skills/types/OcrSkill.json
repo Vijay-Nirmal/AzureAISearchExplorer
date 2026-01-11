@@ -4,23 +4,11 @@
   "description": "A skill that extracts text from image files.",
   "fields": [
     {
-      "key": "context",
-      "label": "Context",
-      "type": "string",
-      "tooltip": "Represents the level at which operations take place, such as the document root or document content (for example, /document or /document/content). The default is /document."
-    },
-    {
       "key": "defaultLanguageCode",
       "label": "Default Language Code",
       "type": "enum",
       "tooltip": "A value indicating which language code to use. Default is en.",
       "options": { "$ref": "Skillset/Skills/enums/OcrSkillLanguage.json" }
-    },
-    {
-      "key": "description",
-      "label": "Description",
-      "type": "string",
-      "tooltip": "The description of the skill which describes the inputs, outputs, and usage of the skill."
     },
     {
       "key": "detectOrientation",
@@ -29,31 +17,11 @@
       "tooltip": "A value indicating to turn orientation detection on or not. Default is false."
     },
     {
-      "key": "inputs",
-      "label": "Inputs",
-      "type": "objectArray",
-      "tooltip": "Inputs of the skills could be a column in the source data set, or the output of an upstream skill.",
-      "schema": { "$ref": "Skillset/types/InputFieldMappingEntry.json" }
-    },
-    {
       "key": "lineEnding",
       "label": "Line Ending",
       "type": "enum",
       "tooltip": "Defines the sequence of characters to use between the lines of text recognized by the OCR skill. The default value is \"space\".",
       "options": { "$ref": "Skillset/Skills/enums/OcrLineEnding.json" }
-    },
-    {
-      "key": "name",
-      "label": "Name",
-      "type": "string",
-      "tooltip": "The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'."
-    },
-    {
-      "key": "outputs",
-      "label": "Outputs",
-      "type": "objectArray",
-      "tooltip": "The output of a skill is either a field in a search index, or a value that can be consumed as an input by another skill.",
-      "schema": { "$ref": "Skillset/types/OutputFieldMappingEntry.json" }
     }
   ]
 }

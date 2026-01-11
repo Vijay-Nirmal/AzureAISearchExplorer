@@ -148,7 +148,7 @@ export const IndexTokenizersTab: React.FC<IndexTokenizersTabProps> = ({ indexDef
                                 This tokenizer type is not supported by the form editor yet. You can still edit it as raw JSON.
                             </div>
                             <Button
-                                variant="secondary"
+                                variant="icon"
                                 onClick={() =>
                                     editJson(
                                         `Edit JSON: ${String(tempTokenizer[nameKey] || '') || '(unnamed tokenizer)'}`,
@@ -158,8 +158,9 @@ export const IndexTokenizersTab: React.FC<IndexTokenizersTabProps> = ({ indexDef
                                         }
                                     )
                                 }
+                                title="Edit JSON"
                             >
-                                <i className="fas fa-code"></i> Edit JSON
+                                <i className="fas fa-code"></i>
                             </Button>
                         </div>
                     )}

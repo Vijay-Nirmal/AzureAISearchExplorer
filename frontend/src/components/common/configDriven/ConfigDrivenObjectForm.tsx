@@ -7,6 +7,9 @@ import { SelectWithDescription } from '../SelectWithDescription';
 import { JsonEditorModal } from '../JsonEditorModal';
 
 import type { ConfigDrivenField, ConfigDrivenSchema } from './configDrivenTypes';
+import { moveItem } from './utils/arrayUtils';
+import { deleteByPath, getByPath, setByPath } from './utils/pathUtils';
+import { ObjectArrayField } from './form/ObjectArrayField';
 import {
     applyDefaultsForType,
     buildTypeOptions,
@@ -25,6 +28,13 @@ interface ConfigDrivenObjectFormProps {
     errors?: Record<string, string>;
 
     /**
+     * Controls how fields are laid out within a type.
+     * - 'default' (default): current behavior.
+     * - 'split-complex': render non-complex fields (incl. stringArray/enumArray) in a 2-col grid, then render complex object/objectArray fields below in a single column.
+     */
+    layoutMode?: 'default' | 'split-complex';
+
+    /**
      * Controls how nested object/objectArray fields are presented.
      * - 'inline' (default): current nested fieldset rendering.
      * - 'accordion': nested sections are collapsible and full-width to avoid cramped UI.
@@ -40,81 +50,6 @@ interface ConfigDrivenObjectFormProps {
 
 const getStringArray = (v: unknown): string[] => (Array.isArray(v) ? v.map(x => String(x)) : []);
 
-const moveItem = <T,>(list: T[], from: number, to: number): T[] => {
-    if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) return list;
-    const next = [...list];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    return next;
-};
-
-const splitPath = (path: string): string[] => {
-    const t = String(path || '');
-    if (!t) return [];
-    // Treat OData/@-prefixed keys as literal (e.g. "@odata.type"), not as dot paths.
-    if (t.startsWith('@')) return [t];
-    return t.split('.').filter(Boolean);
-};
-
-const getByPath = (obj: Record<string, unknown>, path: string): unknown => {
-    const parts = splitPath(path);
-    if (parts.length === 0) return undefined;
-
-    let cur: unknown = obj;
-    for (const p of parts) {
-        if (typeof cur !== 'object' || cur === null) return undefined;
-
-        if (Array.isArray(cur)) {
-            const idx = Number(p);
-            if (!Number.isInteger(idx)) return undefined;
-            cur = cur[idx];
-            continue;
-        }
-
-        cur = (cur as Record<string, unknown>)[p];
-    }
-    return cur;
-};
-
-const setByPath = (obj: Record<string, unknown>, path: string, value: unknown): Record<string, unknown> => {
-    const parts = splitPath(path);
-    if (parts.length === 0) return obj;
-
-    const next: Record<string, unknown> = { ...obj };
-    let cur: Record<string, unknown> = next;
-
-    for (let i = 0; i < parts.length - 1; i++) {
-        const key = parts[i];
-        const existing = cur[key];
-        const child = (existing && typeof existing === 'object' && !Array.isArray(existing)) ? { ...(existing as Record<string, unknown>) } : {};
-        cur[key] = child;
-        cur = child;
-    }
-
-    cur[parts[parts.length - 1]] = value;
-    return next;
-};
-
-const deleteByPath = (obj: Record<string, unknown>, path: string): Record<string, unknown> => {
-    const parts = splitPath(path);
-    if (parts.length === 0) return obj;
-
-    const next: Record<string, unknown> = { ...obj };
-    let cur: Record<string, unknown> = next;
-
-    for (let i = 0; i < parts.length - 1; i++) {
-        const key = parts[i];
-        const existing = cur[key];
-        if (!existing || typeof existing !== 'object' || Array.isArray(existing)) return obj;
-        const child = { ...(existing as Record<string, unknown>) };
-        cur[key] = child;
-        cur = child;
-    }
-
-    delete cur[parts[parts.length - 1]];
-    return next;
-};
-
 export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
     schema,
     value,
@@ -122,7 +57,8 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
     errors,
     nestedPresentation = 'inline',
     accordionSingleOpen = false,
-    accordionDefaultExpanded = false
+    accordionDefaultExpanded = false,
+    layoutMode = 'default'
 }) => {
     const entity = useMemo(() => getResolvedEntity(schema), [schema]);
     const discriminatorKey = entity.discriminatorKey;
@@ -149,14 +85,30 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
     const [rawJsonEditorTitle, setRawJsonEditorTitle] = useState('');
 
     const [accordionOpen, setAccordionOpen] = useState<Record<string, boolean>>({});
+    const [objectArraySelectedIndex, setObjectArraySelectedIndex] = useState<Record<string, number>>({});
 
     const commonNameField = schema.commonFields.find(f => f.key === nameKey);
     const commonTypeField = schema.commonFields.find(f => f.key === discriminatorKey);
 
+    // Render common fields (except name/type) as normal fields across all types.
+    const commonRenderableFields = useMemo(() => {
+        return (schema.commonFields || []).filter(f => f.key !== nameKey && f.key !== discriminatorKey);
+    }, [schema.commonFields, nameKey, discriminatorKey]);
+
     const showNameField = !!commonNameField;
     const showTypeField = !fixedTypeDef && (!!commonTypeField || resolvedTypes.length > 1);
 
-    const typeFields = typeDef?.fields || [];
+    const typeFields = useMemo(() => typeDef?.fields || [], [typeDef]);
+
+    const allFields = useMemo(() => {
+        const byKey = new Map<string, ConfigDrivenField>();
+        for (const f of [...commonRenderableFields, ...typeFields]) {
+            if (!byKey.has(f.key)) byKey.set(f.key, f);
+        }
+        return Array.from(byKey.values());
+    }, [commonRenderableFields, typeFields]);
+
+    const isSplitComplexLayout = layoutMode === 'split-complex';
 
     const setField = (key: string, nextValue: unknown) => {
         onChange(setByPath(value, key, nextValue));
@@ -385,7 +337,7 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                                 >
                                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>{item}</div>
                                     <div style={{ display: 'flex', gap: '6px' }}>
-                                        {f.orderMatters && (
+                                        {f.orderMatters && list.length > 1 && (
                                             <>
                                                 <Button
                                                     variant="icon"
@@ -468,8 +420,8 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                     <div key={f.key}>
                         <Label>{label}</Label>
                         <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginTop: '6px' }}>
-                            <Button variant="secondary" onClick={open}>
-                                <i className="fas fa-code"></i> Edit JSON
+                            <Button variant="icon" onClick={open} title="Edit JSON">
+                                <i className="fas fa-code"></i>
                             </Button>
                             <div style={{ fontSize: '12px', color: 'var(--text-color)', opacity: 0.7 }}>
                                 {f.type === 'object'
@@ -497,9 +449,17 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
 
                     return (
                         <div key={f.key} style={{ border: '1px solid var(--border-color)', borderRadius: '6px', overflow: 'hidden' }}>
-                            <button
-                                type="button"
+                            <div
+                                role="button"
+                                tabIndex={0}
+                                aria-expanded={open}
                                 onClick={() => toggleSection(f.key)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        toggleSection(f.key);
+                                    }
+                                }}
                                 style={{
                                     width: '100%',
                                     textAlign: 'left',
@@ -526,7 +486,7 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                                     <Button
-                                        variant="secondary"
+                                        variant="icon"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
@@ -534,10 +494,10 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                                         }}
                                         title="Edit raw JSON"
                                     >
-                                        <i className="fas fa-code"></i> Edit JSON
+                                        <i className="fas fa-code"></i>
                                     </Button>
                                 </div>
-                            </button>
+                            </div>
 
                             {open && (
                                 <div style={{ padding: '12px' }}>
@@ -545,6 +505,7 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                                         schema={nestedSchema}
                                         value={nestedValue}
                                         onChange={(next) => setField(f.key, next)}
+                                        layoutMode={layoutMode}
                                         nestedPresentation={nestedPresentation}
                                         accordionSingleOpen={accordionSingleOpen}
                                         accordionDefaultExpanded={accordionDefaultExpanded}
@@ -563,6 +524,7 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                             schema={nestedSchema}
                             value={nestedValue}
                             onChange={(next) => setField(f.key, next)}
+                            layoutMode={layoutMode}
                             nestedPresentation={nestedPresentation}
                             accordionSingleOpen={accordionSingleOpen}
                             accordionDefaultExpanded={accordionDefaultExpanded}
@@ -572,166 +534,43 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                 );
             }
 
-            // objectArray: render first item only for now (structure support), to avoid complex nested list UI.
+            // objectArray: delegate rendering (default editor + optional table/modal presentation)
             const arrRaw = getByPath(value, f.key);
             const arr = Array.isArray(arrRaw) ? (arrRaw as unknown[]) : [];
 
-            const addFirstItem = () => {
-                const nestedType = getResolvedTypeDefinitions(nestedSchema)[0]?.discriminatorValue;
-                const initial = nestedType ? applyDefaultsForType(nestedSchema, nestedType, {}) : {};
-                setField(f.key, [initial]);
-            };
-
-            const clearAll = () => setField(f.key, []);
-
-            const first = arr[0] && typeof arr[0] === 'object' && !Array.isArray(arr[0]) ? (arr[0] as Record<string, unknown>) : {};
-            if (isAccordionMode) {
-                const open = isSectionOpen(f.key);
-                const summary = arr.length > 0 ? summarizeBySchema(nestedSchema, first) : '';
-                return (
-                    <div key={f.key} style={{ border: '1px solid var(--border-color)', borderRadius: '6px', overflow: 'hidden' }}>
-                        <button
-                            type="button"
-                            onClick={() => toggleSection(f.key)}
-                            style={{
-                                width: '100%',
-                                textAlign: 'left',
-                                padding: '10px 12px',
-                                background: 'var(--sidebar-bg)',
-                                border: 'none',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                gap: '12px',
-                                cursor: 'pointer',
-                                color: 'var(--text-color)'
-                            }}
-                        >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
-                                <i className={`fas ${open ? 'fa-chevron-down' : 'fa-chevron-right'}`}></i>
-                                <span style={{ fontSize: '12px', fontWeight: 600 }}>{f.label}</span>
-                                {f.tooltip ? <InfoIcon tooltip={f.tooltip} /> : null}
-                                <span style={{ marginLeft: '8px', fontSize: '12px', opacity: 0.75 }}>
-                                    Items: {arr.length}
-                                </span>
-                                {summary && (
-                                    <span style={{ marginLeft: '8px', fontSize: '12px', opacity: 0.75, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                        {summary}
-                                    </span>
-                                )}
-                            </div>
-                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                                <Button
-                                    variant="secondary"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        openRawJson(f.key, `${f.label} (JSON)`);
-                                    }}
-                                    title="Edit raw JSON"
-                                >
-                                    <i className="fas fa-code"></i> Edit JSON
-                                </Button>
-                                {arr.length === 0 ? (
-                                    <Button
-                                        variant="secondary"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            addFirstItem();
-                                            // Auto-open after add for convenience
-                                            setAccordionOpen(prev => ({ ...prev, [f.key]: true }));
-                                        }}
-                                    >
-                                        <i className="fas fa-plus"></i> Add item
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        variant="secondary"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            clearAll();
-                                        }}
-                                    >
-                                        <i className="fas fa-trash"></i> Clear
-                                    </Button>
-                                )}
-                            </div>
-                        </button>
-
-                        {open && (
-                            <div style={{ padding: '12px' }}>
-                                {arr.length === 0 ? (
-                                    <div style={{ fontSize: '12px', color: 'var(--text-color)', opacity: 0.7 }}>
-                                        No items yet.
-                                    </div>
-                                ) : (
-                                    <ConfigDrivenObjectForm
-                                        schema={nestedSchema}
-                                        value={first}
-                                        onChange={(next) => {
-                                            const nextArr = [...arr];
-                                            if (nextArr.length === 0) nextArr.push(next);
-                                            else nextArr[0] = next;
-                                            setField(f.key, nextArr);
-                                        }}
-                                        nestedPresentation={nestedPresentation}
-                                        accordionSingleOpen={accordionSingleOpen}
-                                        accordionDefaultExpanded={accordionDefaultExpanded}
-                                    />
-                                )}
-                                {fieldError && <div style={{ color: 'var(--status-error-text)', fontSize: '12px', marginTop: '8px' }}>{fieldError}</div>}
-                            </div>
-                        )}
-                    </div>
-                );
-            }
+            const gridSpanStyle: React.CSSProperties | undefined =
+                f.presentation === 'table'
+                    ? { gridColumn: '1 / -1' }
+                    : undefined;
 
             return (
-                <fieldset key={f.key} style={{ border: '1px solid var(--border-color)', padding: '12px', borderRadius: '4px' }}>
-                    <legend style={{ padding: '0 6px', fontSize: '12px', color: 'var(--text-color)' }}>{label}</legend>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
-                        <div style={{ fontSize: '12px', color: 'var(--text-color)', opacity: 0.7 }}>
-                            Items: {arr.length} (list UI will be added later)
-                        </div>
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                            <Button variant="secondary" onClick={() => openRawJson(f.key, `${f.label} (JSON)`)} title="Edit raw JSON">
-                                <i className="fas fa-code"></i> Edit JSON
-                            </Button>
-                            {arr.length === 0 ? (
-                                <Button variant="secondary" onClick={addFirstItem}>
-                                    <i className="fas fa-plus"></i> Add item
-                                </Button>
-                            ) : (
-                                <Button variant="secondary" onClick={clearAll}>
-                                    <i className="fas fa-trash"></i> Clear
-                                </Button>
-                            )}
-                        </div>
-                    </div>
-
-                    {arr.length === 0 ? (
-                        <div style={{ fontSize: '12px', color: 'var(--text-color)', opacity: 0.7 }}>
-                            No items yet.
-                        </div>
-                    ) : (
-                        <ConfigDrivenObjectForm
-                            schema={nestedSchema}
-                            value={first}
-                            onChange={(next) => {
-                                const nextArr = [...arr];
-                                if (nextArr.length === 0) nextArr.push(next);
-                                else nextArr[0] = next;
-                                setField(f.key, nextArr);
-                            }}
-                            nestedPresentation={nestedPresentation}
-                            accordionSingleOpen={accordionSingleOpen}
-                            accordionDefaultExpanded={accordionDefaultExpanded}
-                        />
-                    )}
-                    {fieldError && <div style={{ color: 'var(--status-error-text)', fontSize: '12px', marginTop: '6px' }}>{fieldError}</div>}
-                </fieldset>
+                <div key={f.key} style={gridSpanStyle}>
+                    <ObjectArrayField
+                        field={f}
+                        nestedSchema={nestedSchema}
+                        arr={arr}
+                        fieldError={fieldError}
+                        nestedPresentation={nestedPresentation}
+                        isSectionOpen={isSectionOpen}
+                        toggleSection={toggleSection}
+                        openRawJson={openRawJson}
+                        setField={setField}
+                        objectArraySelectedIndex={objectArraySelectedIndex}
+                        setObjectArraySelectedIndex={setObjectArraySelectedIndex}
+                        renderNestedForm={({ schema, value, onChange, errors }) => (
+                            <ConfigDrivenObjectForm
+                                schema={schema}
+                                value={value}
+                                onChange={onChange}
+                                errors={errors}
+                                layoutMode={layoutMode}
+                                nestedPresentation={nestedPresentation}
+                                accordionSingleOpen={accordionSingleOpen}
+                                accordionDefaultExpanded={accordionDefaultExpanded}
+                            />
+                        )}
+                    />
+                </div>
             );
         }
 
@@ -789,26 +628,50 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
                 </div>
             )}
 
-            {typeFields.length > 0 && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                    {typeFields
-                        .filter(f => f.type !== 'stringArray' && f.type !== 'enumArray')
-                        .filter(f => !isAccordionMode || (f.type !== 'object' && f.type !== 'objectArray'))
+            {!isSplitComplexLayout && (
+                <>
+                    {allFields.length > 0 && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            {allFields
+                                .filter(f => f.type !== 'stringArray' && f.type !== 'enumArray')
+                                .filter(f => !isAccordionMode || (f.type !== 'object' && f.type !== 'objectArray'))
+                                .map(renderField)}
+                        </div>
+                    )}
+
+                    {isAccordionMode && allFields.some(f => f.type === 'object' || f.type === 'objectArray') && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            {allFields
+                                .filter(f => f.type === 'object' || f.type === 'objectArray')
+                                .map(renderField)}
+                        </div>
+                    )}
+
+                    {allFields
+                        .filter(f => f.type === 'stringArray' || f.type === 'enumArray')
                         .map(renderField)}
-                </div>
+                </>
             )}
 
-            {isAccordionMode && typeFields.some(f => f.type === 'object' || f.type === 'objectArray') && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {typeFields
-                        .filter(f => f.type === 'object' || f.type === 'objectArray')
-                        .map(renderField)}
-                </div>
-            )}
+            {isSplitComplexLayout && (
+                <>
+                    {allFields.some(f => f.type !== 'object' && f.type !== 'objectArray') && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            {allFields
+                                .filter(f => f.type !== 'object' && f.type !== 'objectArray')
+                                .map(renderField)}
+                        </div>
+                    )}
 
-            {typeFields
-                .filter(f => f.type === 'stringArray' || f.type === 'enumArray')
-                .map(renderField)}
+                    {allFields.some(f => f.type === 'object' || f.type === 'objectArray') && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            {allFields
+                                .filter(f => f.type === 'object' || f.type === 'objectArray')
+                                .map(renderField)}
+                        </div>
+                    )}
+                </>
+            )}
 
             <JsonEditorModal
                 isOpen={rawJsonEditorOpen}

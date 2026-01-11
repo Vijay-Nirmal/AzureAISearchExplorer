@@ -9,7 +9,7 @@
       "type": "objectArray",
       "tooltip": "Mappings for the projection, or which source should be mapped to which field in the target index.",
       "schema": {
-        "$ref": "Skillset/types/OutputFieldMappingEntry.json"
+        "$ref": "Skillset/types/InputFieldMappingEntry.json"
       }
     },
     {

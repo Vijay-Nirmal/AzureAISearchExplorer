@@ -132,6 +132,7 @@ const SkillsetEncryptionKeyTabInner: React.FC<SkillsetEncryptionKeyTabProps> = (
               schema={schema}
               value={draft}
               onChange={(next) => setEncryptionKeyAutoNormalized(next)}
+              layoutMode="split-complex"
               errors={errors}
             />
           )}

@@ -286,6 +286,30 @@ Example (enable accordion only for a specific tab):
 />
 ```
 
+#### `layoutMode`
+
+Controls the overall field layout within a type.
+
+- `layoutMode="default"` (default)
+  - Preserves the current layout behavior.
+- `layoutMode="split-complex"`
+  - Renders **non-complex** fields (including `stringArray` and `enumArray`) in a **2-column grid**.
+  - Renders **complex** fields (`object` and `objectArray`) in a **single-column** section below.
+  - Helps reduce “wasted space” when complex fields need more horizontal room.
+
+Example:
+
+```tsx
+<ConfigDrivenObjectForm
+  schema={schema}
+  value={draft}
+  onChange={setDraft}
+  errors={validationErrors}
+  layoutMode="split-complex"
+  nestedPresentation="accordion"
+/>
+```
+
 3) Normalize/validate on save:
 
 ```ts

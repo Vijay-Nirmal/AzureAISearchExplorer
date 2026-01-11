@@ -487,7 +487,14 @@ export const summarizeBySchema = (schema: ConfigDrivenSchema, obj: Record<string
     const typeDef = resolvedTypes.length === 1
         ? resolvedTypes[0]
         : getTypeDefinition(schema, typeof getByPath(obj, discriminatorKey) === 'string' ? (getByPath(obj, discriminatorKey) as string) : undefined);
-    const fields = [...(typeDef?.fields || [])];
+
+    const fields = (() => {
+        const byKey = new Map<string, ConfigDrivenField>();
+        for (const f of [...(schema.commonFields || []), ...(typeDef?.fields || [])]) {
+            if (!byKey.has(f.key)) byKey.set(f.key, f);
+        }
+        return Array.from(byKey.values());
+    })();
 
     const parts: string[] = [];
 

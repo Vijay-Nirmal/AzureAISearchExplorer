@@ -24,6 +24,9 @@ export interface ConfigDrivenField {
     label: string;
     type: ConfigDrivenFieldType;
 
+    /** Optional UI hint for how this field should be rendered by the config-driven form. */
+    presentation?: 'default' | 'table';
+
     required?: boolean;
     tooltip?: string;
 

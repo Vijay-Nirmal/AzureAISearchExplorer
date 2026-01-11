@@ -291,8 +291,8 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
           {activeTab === 'json' && (
             <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
               <div style={{ padding: '12px', borderBottom: '1px solid var(--border-color)', display: 'flex', gap: '8px' }}>
-                <Button variant="secondary" onClick={() => setIsJsonEditorOpen(true)}>
-                  <i className="fas fa-code"></i> Edit JSON
+                <Button variant="icon" onClick={() => setIsJsonEditorOpen(true)} title="Edit JSON">
+                  <i className="fas fa-code"></i>
                 </Button>
                 <div style={{ marginLeft: 'auto', color: 'var(--text-color)', opacity: 0.75, fontSize: '12px', display: 'flex', alignItems: 'center' }}>
                   {loading ? 'Saving/Loading…' : 'Edit via modal to avoid invalid JSON state'}
