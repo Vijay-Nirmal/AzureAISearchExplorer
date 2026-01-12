@@ -14,6 +14,7 @@ import SkillsetSkillsTab from './tabs/SkillsetSkillsTab';
 import SkillsetKnowledgeStoreTab from './tabs/SkillsetKnowledgeStoreTab';
 import SkillsetIndexProjectionsTab from './tabs/SkillsetIndexProjectionsTab';
 import SkillsetEncryptionKeyTab from './tabs/SkillsetEncryptionKeyTab';
+import SkillsetVisualDesignTab from './tabs/SkillsetVisualDesignTab';
 
 import type { SearchIndexerSkillset } from '../../../types/SkillsetModels';
 
@@ -25,7 +26,7 @@ interface SkillsetBuilderProps {
   onBack: () => void;
 }
 
-type TabId = 'general' | 'cognitiveServices' | 'skills' | 'knowledgeStore' | 'indexProjections' | 'encryptionKey' | 'json';
+type TabId = 'general' | 'cognitiveServices' | 'skills' | 'knowledgeStore' | 'indexProjections' | 'encryptionKey' | 'visualDesign' | 'json';
 
 const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack }) => {
   const { activeConnectionId, setBreadcrumbs } = useLayout();
@@ -126,6 +127,7 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
         label: 'Encryption Key',
         tooltip: getFieldTooltipFromSchema(skillsetMetaSchema, SKILLSET_META_DISCRIMINATOR, 'encryptionKey')
       },
+      { id: 'visualDesign' as const, label: 'Visual Design', tooltip: 'Visualize and edit skills + index projections as a flow' },
       { id: 'json' as const, label: 'JSON', tooltip: 'JSON view to view and edit any property' }
     ];
   }, []);
@@ -286,6 +288,10 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
 
           {activeTab === 'encryptionKey' && (
             <SkillsetEncryptionKeyTab skillsetDef={skillsetDef} setSkillsetDef={setSkillsetDef} />
+          )}
+
+          {activeTab === 'visualDesign' && (
+            <SkillsetVisualDesignTab skillsetDef={skillsetDef} setSkillsetDef={setSkillsetDef} />
           )}
 
           {activeTab === 'json' && (

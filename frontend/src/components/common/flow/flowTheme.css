@@ -1,0 +1,85 @@
+/* Dark theme overrides for @xyflow/react (React Flow)
+   Imported after the library CSS in FlowCanvas.
+*/
+
+.react-flow {
+  --xy-controls-button-background-color-default: var(--active-color);
+  --xy-controls-button-background-color-hover-default: var(--hover-color);
+  --xy-controls-button-color-default: var(--text-color);
+  --xy-controls-button-color-hover-default: rgba(255, 255, 255, 0.95);
+  --xy-controls-button-border-color-default: rgba(255, 255, 255, 0.12);
+  --xy-controls-box-shadow-default: none;
+
+  --xy-minimap-background-color-default: var(--active-color);
+  --xy-minimap-mask-background-color-default: rgba(0, 0, 0, 0.35);
+  --xy-minimap-node-background-color-default: rgba(255, 255, 255, 0.08);
+
+  --xy-edge-stroke-default: rgba(255, 255, 255, 0.25);
+  --xy-edge-stroke-selected-default: rgba(0, 120, 212, 0.85);
+  --xy-connectionline-stroke-default: rgba(255, 255, 255, 0.25);
+
+  --xy-edge-label-background-color-default: rgba(0, 0, 0, 0.55);
+  --xy-edge-label-color-default: rgba(235, 235, 235, 0.85);
+
+  --xy-selection-background-color-default: rgba(0, 120, 212, 0.12);
+  --xy-selection-border-default: 1px dotted rgba(0, 120, 212, 0.8);
+}
+
+.react-flow__edges {
+  /* Help edges stay visible when they pass near nodes. */
+  z-index: 3;
+}
+
+.react-flow__edge-path {
+  stroke-linecap: round;
+}
+
+.flow-node-chrome {
+  isolation: isolate;
+}
+
+.flow-node-edit-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(30, 30, 30, 0.85);
+  color: rgba(235, 235, 235, 0.85);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flow-node-chrome:hover .flow-node-edit-btn,
+.flow-node-chrome--selected .flow-node-edit-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.flow-node-edit-btn:hover {
+  background: rgba(45, 45, 45, 0.92);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.react-flow__controls button {
+  background: var(--xy-controls-button-background-color, var(--xy-controls-button-background-color-default)) !important;
+  border-color: var(--xy-controls-button-border-color, var(--xy-controls-button-border-color-default)) !important;
+  color: var(--xy-controls-button-color, var(--xy-controls-button-color-default)) !important;
+}
+
+.react-flow__controls button:hover {
+  background: var(--xy-controls-button-background-color-hover, var(--xy-controls-button-background-color-hover-default)) !important;
+  color: var(--xy-controls-button-color-hover, var(--xy-controls-button-color-hover-default)) !important;
+}
+
+.react-flow__controls {
+  box-shadow: none !important;
+}

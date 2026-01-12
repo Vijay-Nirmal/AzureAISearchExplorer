@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.8",
     "@monaco-editor/react": "^4.7.0",
+    "@xyflow/react": "^12.10.0",
     "re-resizable": "^6.11.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
