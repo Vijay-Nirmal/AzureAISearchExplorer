@@ -1,0 +1,29 @@
+{
+  "discriminatorValue": "SynonymMap",
+  "label": "SynonymMap",
+  "description": "Represents a synonym map definition.",
+  "fields": [
+    {
+      "key": "format",
+      "label": "Format",
+      "type": "enum",
+      "default": "solr",
+      "options": { "$ref": "SynonymMap/enums/SynonymMapFormat.json" },
+      "tooltip": "The format of the synonym map. Only the 'solr' format is currently supported."
+    },
+    {
+      "key": "synonyms",
+      "label": "Synonyms",
+      "type": "string",
+      "required": true,
+      "tooltip": "A series of synonym rules in the specified synonym map format. The rules must be separated by newlines."
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    }
+  ]
+}

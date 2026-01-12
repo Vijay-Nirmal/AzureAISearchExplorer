@@ -1,0 +1,18 @@
+{
+  "entity": { "$ref": "KnowledgeBase/entities/KnowledgeBase.json" },
+  "commonFields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 _-]*[A-Za-z0-9])?$",
+      "placeholder": "e.g. kb-products",
+      "tooltip": "The name of the knowledge base."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeBase/types/KnowledgeBase.json" }
+  ]
+}

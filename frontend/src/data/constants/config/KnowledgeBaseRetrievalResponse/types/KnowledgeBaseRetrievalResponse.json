@@ -1,0 +1,31 @@
+{
+  "discriminatorValue": "KnowledgeBaseRetrievalResponse",
+  "label": "KnowledgeBaseRetrievalResponse",
+  "description": "The output contract for the retrieval response.",
+  "fields": [
+    {
+      "key": "activity",
+      "label": "Activity",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "The activity records for tracking progress and billing implications.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/Activity/activityRecordConfig.json" }
+    },
+    {
+      "key": "references",
+      "label": "References",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "The references for the retrieval data used in the response.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/References/referenceConfig.json" }
+    },
+    {
+      "key": "response",
+      "label": "Response",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "The response messages.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseMessage.json" }
+    }
+  ]
+}

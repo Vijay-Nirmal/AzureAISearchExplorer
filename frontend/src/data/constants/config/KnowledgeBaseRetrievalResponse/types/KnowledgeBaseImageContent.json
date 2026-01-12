@@ -1,0 +1,8 @@
+{
+  "discriminatorValue": "KnowledgeBaseImageContent",
+  "label": "KnowledgeBaseImageContent",
+  "description": "Image content.",
+  "fields": [
+    { "key": "url", "label": "URL", "type": "string", "tooltip": "The url of the image." }
+  ]
+}

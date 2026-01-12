@@ -1,0 +1,4 @@
+[
+  { "value": "oneToMany", "description": "Parse a markdown file into multiple search documents." },
+  { "value": "oneToOne", "description": "Parse a markdown file into exactly one search document." }
+]

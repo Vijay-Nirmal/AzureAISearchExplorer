@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "azureOpenAI",
+  "label": "KnowledgeBaseAzureOpenAIModel",
+  "description": "Specifies the Azure OpenAI resource used to do query planning.",
+  "fields": [
+    {
+      "key": "azureOpenAIParameters",
+      "label": "Azure OpenAI Parameters",
+      "type": "object",
+      "tooltip": "Azure OpenAI parameters.",
+      "schema": { "$ref": "KnowledgeBase/types/AzureOpenAIVectorizerParameters.json" }
+    }
+  ]
+}

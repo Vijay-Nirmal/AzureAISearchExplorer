@@ -1,0 +1,4 @@
+[
+  { "value": "none", "description": "Use normal text extraction (default)." },
+  { "value": "detectAngles", "description": "Detect rotated text in PDFs (may improve readability; small performance impact)." }
+]

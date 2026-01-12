@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "title": "Knowledge Base Model",
+    "description": "Model configuration used by the knowledge base.",
+    "discriminatorKey": "kind",
+    "nameKey": "kind"
+  },
+  "commonFields": [
+    {
+      "key": "kind",
+      "label": "Kind",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The AI model kind to be used."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeBase/Models/types/KnowledgeBaseAzureOpenAIModel.json" }
+  ]
+}

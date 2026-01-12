@@ -1,0 +1,19 @@
+{
+  "discriminatorValue": "IndexingSchedule",
+  "label": "IndexingSchedule",
+  "description": "Represents a schedule for indexer execution.",
+  "fields": [
+    {
+      "key": "interval",
+      "label": "Interval",
+      "type": "string",
+      "tooltip": "The interval of time between indexer executions (duration)."
+    },
+    {
+      "key": "startTime",
+      "label": "Start Time",
+      "type": "string",
+      "tooltip": "The time when an indexer should start running (date-time)."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "discriminatorValue": "IndexingParametersConfiguration",
+  "label": "IndexingParametersConfiguration",
+  "description": "Indexer configuration properties.",
+  "fields": [
+    {
+      "key": "allowSkillsetToReadFileData",
+      "label": "Allow Skillset To Read File Data",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "If true, will create a path //document//file_data that is an object representing the original file data downloaded from your blob data source."
+    },
+    {
+      "key": "dataToExtract",
+      "label": "Data To Extract",
+      "type": "enum",
+      "default": "contentAndMetadata",
+      "options": { "$ref": "Indexer/enums/BlobIndexerDataToExtract.json" },
+      "tooltip": "Specifies the data to extract from Azure blob storage."
+    },
+    {
+      "key": "delimitedTextDelimiter",
+      "label": "Delimited Text Delimiter",
+      "type": "string",
+      "tooltip": "For CSV blobs, specifies the end-of-line single-character delimiter for CSV files where each line starts a new document."
+    },
+    {
+      "key": "delimitedTextHeaders",
+      "label": "Delimited Text Headers",
+      "type": "string",
+      "tooltip": "For CSV blobs, specifies a comma-delimited list of column headers."
+    },
+    {
+      "key": "documentRoot",
+      "label": "Document Root",
+      "type": "string",
+      "tooltip": "For JSON arrays, specify a path to the array."
+    },
+    {
+      "key": "excludedFileNameExtensions",
+      "label": "Excluded File Name Extensions",
+      "type": "string",
+      "tooltip": "Comma-delimited list of filename extensions to ignore when processing from Azure blob storage."
+    },
+    {
+      "key": "executionEnvironment",
+      "label": "Execution Environment",
+      "type": "enum",
+      "default": "standard",
+      "options": { "$ref": "Indexer/enums/IndexerExecutionEnvironment.json" },
+      "tooltip": "Specifies the environment in which the indexer should execute."
+    },
+    {
+      "key": "failOnUnprocessableDocument",
+      "label": "Fail On Unprocessable Document",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "For Azure blobs, set to false if you want to continue indexing if a document fails indexing."
+    },
+    {
+      "key": "failOnUnsupportedContentType",
+      "label": "Fail On Unsupported Content Type",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "For Azure blobs, set to false if you want to continue indexing when an unsupported content type is encountered."
+    },
+    {
+      "key": "firstLineContainsHeaders",
+      "label": "First Line Contains Headers",
+      "type": "boolean",
+      "default": true,
+      "tooltip": "For CSV blobs, indicates that the first (non-blank) line of each blob contains headers."
+    },
+    {
+      "key": "imageAction",
+      "label": "Image Action",
+      "type": "enum",
+      "default": "none",
+      "options": { "$ref": "Indexer/enums/BlobIndexerImageAction.json" },
+      "tooltip": "Determines how to process embedded images and image files in Azure blob storage."
+    },
+    {
+      "key": "indexStorageMetadataOnlyForOversizedDocuments",
+      "label": "Index Storage Metadata Only For Oversized Documents",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "For Azure blobs, set this property to true to still index storage metadata for blob content that is too large to process."
+    },
+    {
+      "key": "indexedFileNameExtensions",
+      "label": "Indexed File Name Extensions",
+      "type": "string",
+      "tooltip": "Comma-delimited list of filename extensions to select when processing from Azure blob storage."
+    },
+    {
+      "key": "markdownHeaderDepth",
+      "label": "Markdown Header Depth",
+      "type": "enum",
+      "default": "h6",
+      "options": { "$ref": "Indexer/enums/MarkdownHeaderDepth.json" },
+      "tooltip": "Specifies the max header depth that will be considered while grouping markdown content."
+    },
+    {
+      "key": "markdownParsingSubmode",
+      "label": "Markdown Parsing Submode",
+      "type": "enum",
+      "default": "oneToMany",
+      "options": { "$ref": "Indexer/enums/MarkdownParsingSubmode.json" },
+      "tooltip": "Specifies whether a markdown file will be parsed into exactly one document or multiple documents."
+    },
+    {
+      "key": "parsingMode",
+      "label": "Parsing Mode",
+      "type": "enum",
+      "default": "default",
+      "options": { "$ref": "Indexer/enums/BlobIndexerParsingMode.json" },
+      "tooltip": "Represents the parsing mode for indexing from an Azure blob data source."
+    },
+    {
+      "key": "pdfTextRotationAlgorithm",
+      "label": "PDF Text Rotation Algorithm",
+      "type": "enum",
+      "default": "none",
+      "options": { "$ref": "Indexer/enums/BlobIndexerPDFTextRotationAlgorithm.json" },
+      "tooltip": "Determines algorithm for text extraction from PDF files in Azure blob storage."
+    },
+    {
+      "key": "queryTimeout",
+      "label": "Query Timeout",
+      "type": "string",
+      "default": "00:05:00",
+      "tooltip": "Increases the timeout beyond the 5-minute default for Azure SQL database data sources, specified in the format hh:mm:ss."
+    }
+  ]
+}

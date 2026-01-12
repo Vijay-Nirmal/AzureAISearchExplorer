@@ -1,0 +1,18 @@
+{
+  "entity": { "$ref": "SynonymMap/entities/SynonymMap.json" },
+  "commonFields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 _-]*[A-Za-z0-9])?$",
+      "placeholder": "e.g. sm-products",
+      "tooltip": "The name of the synonym map. It must only contain letters, digits, spaces, dashes or underscores, can only start and end with alphanumeric characters, and is limited to 128 characters."
+    }
+  ],
+  "types": [
+    { "$ref": "SynonymMap/types/SynonymMap.json" }
+  ]
+}

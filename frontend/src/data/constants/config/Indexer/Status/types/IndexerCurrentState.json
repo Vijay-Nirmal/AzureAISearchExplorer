@@ -1,0 +1,64 @@
+{
+  "discriminatorValue": "IndexerCurrentState",
+  "label": "IndexerCurrentState",
+  "description": "Represents all of the state that defines and dictates the indexer's current execution.",
+  "fields": [
+    {
+      "key": "mode",
+      "label": "Mode",
+      "type": "enum",
+      "options": { "$ref": "Indexer/Status/enums/IndexingMode.json" },
+      "tooltip": "The mode the indexer is running in."
+    },
+    {
+      "key": "allDocsInitialTrackingState",
+      "label": "All Docs Initial Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state used when indexing starts on all documents in the datasource."
+    },
+    {
+      "key": "allDocsFinalTrackingState",
+      "label": "All Docs Final Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state value when indexing finishes on all documents in the datasource."
+    },
+    {
+      "key": "resetDatasourceDocumentIds",
+      "label": "Reset Datasource Document IDs",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids."
+    },
+    {
+      "key": "resetDocumentKeys",
+      "label": "Reset Document Keys",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys."
+    },
+    {
+      "key": "resetDocsInitialTrackingState",
+      "label": "Reset Docs Initial Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state with which indexing starts on select, reset documents in the datasource."
+    },
+    {
+      "key": "resetDocsFinalTrackingState",
+      "label": "Reset Docs Final Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state value when indexing finishes on select, reset documents in the datasource."
+    },
+    {
+      "key": "resyncInitialTrackingState",
+      "label": "Resync Initial Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state used when indexing starts on selective options from the datasource."
+    },
+    {
+      "key": "resyncFinalTrackingState",
+      "label": "Resync Final Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state value when indexing finishes on selective options from the datasource."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "discriminatorValue": "AzureOpenAIVectorizerParameters",
+  "label": "AzureOpenAIVectorizerParameters",
+  "description": "Specifies the parameters for connecting to the Azure OpenAI resource.",
+  "fields": [
+    {
+      "key": "resourceUri",
+      "label": "Resource URI",
+      "type": "string",
+      "tooltip": "The resource URI of the Azure OpenAI resource."
+    },
+    {
+      "key": "deploymentId",
+      "label": "Deployment ID",
+      "type": "string",
+      "tooltip": "ID of the Azure OpenAI model deployment on the designated resource."
+    },
+    {
+      "key": "modelName",
+      "label": "Model Name",
+      "type": "enum",
+      "options": { "$ref": "Common/AI/enums/AzureOpenAIModelName.json" },
+      "tooltip": "The Azure OpenAI model name that will be called."
+    },
+    {
+      "key": "apiKey",
+      "label": "API Key",
+      "type": "string",
+      "tooltip": "API key of the designated Azure OpenAI resource."
+    },
+    {
+      "key": "authIdentity",
+      "label": "Auth Identity",
+      "type": "object",
+      "tooltip": "The user-assigned managed identity used for outbound connections.",
+      "schema": { "$ref": "Common/DataIdentity/dataIdentityConfig.json" }
+    }
+  ]
+}

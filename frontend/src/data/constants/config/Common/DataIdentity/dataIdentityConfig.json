@@ -1,0 +1,16 @@
+{
+  "entity": { "$ref": "Common/DataIdentity/entities/SearchIndexerDataIdentity.json" },
+  "commonFields": [
+    {
+      "key": "@odata.type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "Select the identity kind."
+    }
+  ],
+  "types": [
+    { "$ref": "Common/DataIdentity/types/SearchIndexerDataNoneIdentity.json" },
+    { "$ref": "Common/DataIdentity/types/SearchIndexerDataUserAssignedIdentity.json" }
+  ]
+}

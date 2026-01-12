@@ -1,0 +1,5 @@
+[
+  { "value": "indexingAllDocs", "description": "The indexer is indexing all documents in the datasource." },
+  { "value": "indexingResetDocs", "description": "The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status." },
+  { "value": "indexingResync", "description": "The indexer is resyncing and indexing selective option(s) from the datasource." }
+]

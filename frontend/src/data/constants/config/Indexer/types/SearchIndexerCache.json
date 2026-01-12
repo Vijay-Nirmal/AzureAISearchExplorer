@@ -1,0 +1,33 @@
+{
+  "discriminatorValue": "SearchIndexerCache",
+  "label": "SearchIndexerCache",
+  "description": "Adds caching to an enrichment pipeline.",
+  "fields": [
+    {
+      "key": "id",
+      "label": "ID",
+      "type": "string",
+      "tooltip": "A guid for the SearchIndexerCache."
+    },
+    {
+      "key": "storageConnectionString",
+      "label": "Storage Connection String",
+      "type": "string",
+      "tooltip": "The connection string to the storage account where the cache data will be persisted."
+    },
+    {
+      "key": "enableReprocessing",
+      "label": "Enable Reprocessing",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "Specifies whether incremental reprocessing is enabled."
+    },
+    {
+      "key": "identity",
+      "label": "Identity",
+      "type": "object",
+      "tooltip": "The user-assigned managed identity used for connections to the enrichment cache.",
+      "schema": { "$ref": "Common/DataIdentity/dataIdentityConfig.json" }
+    }
+  ]
+}

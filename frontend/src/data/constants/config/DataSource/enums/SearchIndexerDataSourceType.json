@@ -1,0 +1,10 @@
+[
+  { "value": "azuresql", "description": "Indicates an Azure SQL datasource." },
+  { "value": "cosmosdb", "description": "Indicates a CosmosDB datasource." },
+  { "value": "azureblob", "description": "Indicates an Azure Blob datasource." },
+  { "value": "azuretable", "description": "Indicates an Azure Table datasource." },
+  { "value": "mysql", "description": "Indicates a MySql datasource." },
+  { "value": "adlsgen2", "description": "Indicates an ADLS Gen2 datasource." },
+  { "value": "onelake", "description": "Indicates a Microsoft Fabric OneLake datasource." },
+  { "value": "sharepoint", "description": "Indicates a SharePoint datasource." }
+]

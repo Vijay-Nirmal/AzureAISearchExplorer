@@ -1,0 +1,24 @@
+{
+  "discriminatorValue": "agenticReasoning",
+  "label": "KnowledgeBaseAgenticReasoningActivityRecord",
+  "description": "Represents an agentic reasoning activity record.",
+  "fields": [
+    { "key": "id", "label": "ID", "type": "number", "tooltip": "The ID of the activity record." },
+    { "key": "elapsedMs", "label": "Elapsed (ms)", "type": "number", "tooltip": "The elapsed time in milliseconds for the retrieval activity." },
+    { "key": "reasoningTokens", "label": "Reasoning Tokens", "type": "number", "tooltip": "The number of input tokens for agentic reasoning." },
+    {
+      "key": "retrievalReasoningEffort",
+      "label": "Retrieval Reasoning Effort",
+      "type": "object",
+      "tooltip": "The retrieval reasoning effort configuration.",
+      "schema": { "$ref": "KnowledgeBase/RetrievalReasoningEffort/retrievalReasoningEffortConfig.json" }
+    },
+    {
+      "key": "error",
+      "label": "Error",
+      "type": "object",
+      "tooltip": "The error detail explaining why the operation failed.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseErrorDetail.json" }
+    }
+  ]
+}

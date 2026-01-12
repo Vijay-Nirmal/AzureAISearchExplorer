@@ -1,0 +1,50 @@
+{
+  "discriminatorValue": "SearchIndexerStatus",
+  "label": "SearchIndexerStatus",
+  "description": "Represents the current status and execution history of an indexer.",
+  "fields": [
+    {
+      "key": "status",
+      "label": "Status",
+      "type": "enum",
+      "options": { "$ref": "Indexer/Status/enums/IndexerStatus.json" },
+      "tooltip": "Overall indexer status."
+    },
+    {
+      "key": "currentState",
+      "label": "Current State",
+      "type": "object",
+      "schema": { "$ref": "Indexer/Status/types/IndexerCurrentState.json" },
+      "tooltip": "All of the state that defines and dictates the indexer's current execution."
+    },
+    {
+      "key": "lastResult",
+      "label": "Last Result",
+      "type": "object",
+      "schema": { "$ref": "Indexer/Status/types/IndexerExecutionResult.json" },
+      "tooltip": "The result of the most recent or an in-progress indexer execution."
+    },
+    {
+      "key": "executionHistory",
+      "label": "Execution History",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "Indexer/Status/types/IndexerExecutionResult.json" },
+      "tooltip": "History of the recent indexer executions, sorted in reverse chronological order."
+    },
+    {
+      "key": "limits",
+      "label": "Limits",
+      "type": "object",
+      "schema": { "$ref": "Indexer/Status/types/SearchIndexerLimits.json" },
+      "tooltip": "The execution limits for the indexer."
+    },
+    {
+      "key": "runtime",
+      "label": "Runtime",
+      "type": "object",
+      "schema": { "$ref": "Indexer/Status/types/IndexerRuntime.json" },
+      "tooltip": "Snapshot of the indexer's cumulative runtime consumption for the service over the current UTC period."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "discriminatorValue": "KnowledgeBaseMessage",
+  "label": "KnowledgeBaseMessage",
+  "description": "The natural language message style object.",
+  "fields": [
+    { "key": "role", "label": "Role", "type": "string", "tooltip": "The role of the tool response." },
+    {
+      "key": "content",
+      "label": "Content",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "The content of the message.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/types/messageContentConfig.json" }
+    }
+  ]
+}

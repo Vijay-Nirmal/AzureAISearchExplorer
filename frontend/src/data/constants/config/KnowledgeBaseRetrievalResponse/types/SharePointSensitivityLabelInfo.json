@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "SharePointSensitivityLabelInfo",
+  "label": "SharePointSensitivityLabelInfo",
+  "description": "Information about the sensitivity label applied to a SharePoint document.",
+  "fields": [
+    { "key": "displayName", "label": "Display Name", "type": "string", "tooltip": "The display name for the sensitivity label." },
+    { "key": "sensitivityLabelId", "label": "Sensitivity Label ID", "type": "string", "tooltip": "The ID of the sensitivity label." },
+    { "key": "priority", "label": "Priority", "type": "number", "tooltip": "The priority in which the sensitivity label is applied." },
+    { "key": "color", "label": "Color", "type": "string", "tooltip": "The color that the UI should display for the label, if configured." },
+    { "key": "tooltip", "label": "Tooltip", "type": "string", "tooltip": "The tooltip that should be displayed for the label in a UI." },
+    { "key": "isEncrypted", "label": "Is Encrypted", "type": "boolean", "tooltip": "Indicates whether the sensitivity label enforces encryption." }
+  ]
+}

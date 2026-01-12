@@ -1,0 +1,20 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",
+  "label": "SoftDeleteColumnDeletionDetectionPolicy",
+  "description": "Implements a soft-deletion strategy based on a designated marker column.",
+  "fields": [
+    {
+      "key": "softDeleteColumnName",
+      "label": "Soft Delete Column Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the column to use for soft-deletion detection."
+    },
+    {
+      "key": "softDeleteMarkerValue",
+      "label": "Soft Delete Marker Value",
+      "type": "string",
+      "tooltip": "The marker value that identifies an item as deleted."
+    }
+  ]
+}

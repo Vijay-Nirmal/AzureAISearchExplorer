@@ -1,0 +1,6 @@
+{
+  "discriminatorValue": "minimal",
+  "label": "KnowledgeRetrievalMinimalReasoningEffort",
+  "description": "Run knowledge retrieval with minimal reasoning effort.",
+  "fields": []
+}

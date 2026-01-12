@@ -1,0 +1,32 @@
+{
+  "entity": {
+    "title": "Reference",
+    "description": "Reference to a source document used in retrieval.",
+    "discriminatorKey": "type",
+    "nameKey": "id"
+  },
+  "commonFields": [
+    {
+      "key": "type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The type of the reference."
+    },
+    {
+      "key": "id",
+      "label": "ID",
+      "type": "string",
+      "required": true,
+      "tooltip": "The ID of the reference."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeBaseRetrievalResponse/References/types/KnowledgeBaseAzureBlobReference.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/References/types/KnowledgeBaseIndexedOneLakeReference.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/References/types/KnowledgeBaseIndexedSharePointReference.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/References/types/KnowledgeBaseRemoteSharePointReference.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/References/types/KnowledgeBaseSearchIndexReference.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/References/types/KnowledgeBaseWebReference.json" }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "value": "default", "description": "Normal file processing." },
+  { "value": "text", "description": "Improve performance on plain text files." },
+  { "value": "delimitedText", "description": "Parse blobs as delimited text (CSV)." },
+  { "value": "json", "description": "Extract structured content from JSON files." },
+  { "value": "jsonArray", "description": "Extract each element of a JSON array as a separate document." },
+  { "value": "jsonLines", "description": "Extract JSON entities separated by new lines as separate documents." },
+  { "value": "markdown", "description": "Extract content from markdown files." }
+]

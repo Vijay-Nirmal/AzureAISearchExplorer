@@ -1,0 +1,6 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy",
+  "label": "SqlIntegratedChangeTrackingPolicy",
+  "description": "Captures changes using the Integrated Change Tracking feature of Azure SQL Database.",
+  "fields": []
+}

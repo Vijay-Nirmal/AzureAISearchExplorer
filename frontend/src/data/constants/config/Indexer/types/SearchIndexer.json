@@ -1,0 +1,84 @@
+{
+  "discriminatorValue": "SearchIndexer",
+  "label": "SearchIndexer",
+  "description": "Represents an indexer.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the indexer."
+    },
+    {
+      "key": "dataSourceName",
+      "label": "Data Source Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the datasource from which this indexer reads data."
+    },
+    {
+      "key": "targetIndexName",
+      "label": "Target Index Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the index to which this indexer writes data."
+    },
+    {
+      "key": "skillsetName",
+      "label": "Skillset Name",
+      "type": "string",
+      "tooltip": "The name of the skillset executing with this indexer."
+    },
+    {
+      "key": "disabled",
+      "label": "Disabled",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "A value indicating whether the indexer is disabled. Default is false."
+    },
+    {
+      "key": "schedule",
+      "label": "Schedule",
+      "type": "object",
+      "tooltip": "The schedule for this indexer.",
+      "schema": { "$ref": "Indexer/types/IndexingSchedule.json" }
+    },
+    {
+      "key": "parameters",
+      "label": "Parameters",
+      "type": "object",
+      "tooltip": "Parameters for indexer execution.",
+      "schema": { "$ref": "Indexer/types/IndexingParameters.json" }
+    },
+    {
+      "key": "fieldMappings",
+      "label": "Field Mappings",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "Defines mappings between fields in the data source and corresponding target fields in the index.",
+      "schema": { "$ref": "Indexer/types/FieldMapping.json" }
+    },
+    {
+      "key": "outputFieldMappings",
+      "label": "Output Field Mappings",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "Output field mappings are applied after enrichment and immediately before indexing.",
+      "schema": { "$ref": "Indexer/types/FieldMapping.json" }
+    },
+    {
+      "key": "cache",
+      "label": "Cache",
+      "type": "object",
+      "tooltip": "Adds caching to an enrichment pipeline to allow for incremental modification steps without having to rebuild the index every time.",
+      "schema": { "$ref": "Indexer/types/SearchIndexerCache.json" }
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    }
+  ]
+}

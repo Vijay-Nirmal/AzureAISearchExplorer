@@ -1,0 +1,21 @@
+{
+  "entity": {
+    "title": "Deletion Detection Policy",
+    "description": "Policy for detecting deletions in source data.",
+    "discriminatorKey": "@odata.type",
+    "nameKey": "@odata.type"
+  },
+  "commonFields": [
+    {
+      "key": "@odata.type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "A URI fragment specifying the derived policy type."
+    }
+  ],
+  "types": [
+    { "$ref": "DataSource/DeletionDetectionPolicy/types/NativeBlobSoftDeleteDeletionDetectionPolicy.json" },
+    { "$ref": "DataSource/DeletionDetectionPolicy/types/SoftDeleteColumnDeletionDetectionPolicy.json" }
+  ]
+}

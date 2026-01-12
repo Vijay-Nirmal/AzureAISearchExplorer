@@ -1,0 +1,6 @@
+{
+  "title": "Knowledge Sources",
+  "description": "Knowledge sources provide retrieval sources for knowledge bases.",
+  "discriminatorKey": "kind",
+  "nameKey": "name"
+}

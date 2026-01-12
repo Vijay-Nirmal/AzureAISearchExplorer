@@ -1,0 +1,15 @@
+{
+  "entity": {
+    "title": "Message Content",
+    "description": "Content items for a message.",
+    "discriminatorKey": "type",
+    "nameKey": "type"
+  },
+  "commonFields": [
+    { "key": "type", "label": "Type", "type": "discriminator", "required": true, "tooltip": "The type of the message content." }
+  ],
+  "types": [
+    { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseMessageTextContent.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseMessageImageContent.json" }
+  ]
+}

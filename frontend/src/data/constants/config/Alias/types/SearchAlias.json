@@ -1,0 +1,15 @@
+{
+  "discriminatorValue": "SearchAlias",
+  "label": "SearchAlias",
+  "description": "Represents an index alias.",
+  "fields": [
+    {
+      "key": "indexes",
+      "label": "Indexes",
+      "type": "stringArray",
+      "required": true,
+      "orderMatters": false,
+      "tooltip": "The name of the index this alias maps to. Only one index name may be specified."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+[
+  { "value": "transientFailure", "description": "An indexer invocation has failed, but the failure may be transient. Indexer invocations will continue per schedule." },
+  { "value": "success", "description": "Indexer execution completed successfully." },
+  { "value": "inProgress", "description": "Indexer execution is in progress." },
+  { "value": "reset", "description": "Indexer has been reset." }
+]

@@ -1,0 +1,11 @@
+{
+  "discriminatorValue": "searchIndex",
+  "label": "KnowledgeBaseSearchIndexReference",
+  "description": "Represents an Azure Search document reference.",
+  "fields": [
+    { "key": "activitySource", "label": "Activity Source", "type": "number", "tooltip": "The source activity ID for the reference." },
+    { "key": "docKey", "label": "Document Key", "type": "string", "tooltip": "The document key for the reference." },
+    { "key": "rerankerScore", "label": "Reranker Score", "type": "number", "tooltip": "The reranker score for the document reference." },
+    { "key": "sourceData", "label": "Source Data", "type": "object", "tooltip": "The source data for the reference." }
+  ]
+}

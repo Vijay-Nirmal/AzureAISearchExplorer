@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "SearchIndexFieldReference",
+  "label": "SearchIndexFieldReference",
+  "description": "Field reference for a search index.",
+  "fields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the field."
+    }
+  ]
+}

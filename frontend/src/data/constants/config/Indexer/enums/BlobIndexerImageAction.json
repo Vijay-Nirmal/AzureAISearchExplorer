@@ -1,0 +1,5 @@
+[
+  { "value": "none", "description": "Ignore embedded images or image files (default)." },
+  { "value": "generateNormalizedImages", "description": "Extract text from images and embed into the content field." },
+  { "value": "generateNormalizedImagePerPage", "description": "Like generateNormalizedImages, but render PDFs per page as images." }
+]

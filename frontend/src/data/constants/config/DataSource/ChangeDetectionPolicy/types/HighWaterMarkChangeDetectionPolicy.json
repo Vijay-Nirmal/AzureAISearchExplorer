@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",
+  "label": "HighWaterMarkChangeDetectionPolicy",
+  "description": "Captures changes based on the value of a high water mark column.",
+  "fields": [
+    {
+      "key": "highWaterMarkColumnName",
+      "label": "High Water Mark Column Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the high water mark column."
+    }
+  ]
+}

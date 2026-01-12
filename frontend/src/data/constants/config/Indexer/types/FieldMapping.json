@@ -1,0 +1,27 @@
+{
+  "discriminatorValue": "FieldMapping",
+  "label": "FieldMapping",
+  "description": "Defines a mapping between a field in a data source and a target field in an index.",
+  "fields": [
+    {
+      "key": "sourceFieldName",
+      "label": "Source Field Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the field in the data source."
+    },
+    {
+      "key": "targetFieldName",
+      "label": "Target Field Name",
+      "type": "string",
+      "tooltip": "The name of the target field in the index. Same as the source field name by default."
+    },
+    {
+      "key": "mappingFunction",
+      "label": "Mapping Function",
+      "type": "object",
+      "tooltip": "A function to apply to each source field value before indexing.",
+      "schema": { "$ref": "Indexer/types/FieldMappingFunction.json" }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Data Sources",
+  "description": "Datasources define the external data location and access configuration used by indexers.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "name"
+}

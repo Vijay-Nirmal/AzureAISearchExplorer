@@ -1,0 +1,5 @@
+{
+  "title": "Indexer Status",
+  "description": "Represents the current status and execution history of an indexer.",
+  "nameKey": "name"
+}

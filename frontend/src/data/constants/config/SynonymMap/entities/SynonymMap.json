@@ -1,0 +1,6 @@
+{
+  "title": "Synonym Maps",
+  "description": "Synonym maps expand search queries using synonym rules.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "name"
+}

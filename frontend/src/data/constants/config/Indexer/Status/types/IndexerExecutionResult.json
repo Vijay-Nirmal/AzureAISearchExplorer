@@ -1,0 +1,88 @@
+{
+  "discriminatorValue": "IndexerExecutionResult",
+  "label": "IndexerExecutionResult",
+  "description": "Represents the result of an individual indexer execution.",
+  "fields": [
+    {
+      "key": "status",
+      "label": "Status",
+      "type": "enum",
+      "options": { "$ref": "Indexer/Status/enums/IndexerExecutionStatus.json" },
+      "tooltip": "The outcome of this indexer execution."
+    },
+    {
+      "key": "statusDetail",
+      "label": "Status Detail",
+      "type": "enum",
+      "options": { "$ref": "Indexer/Status/enums/IndexerExecutionStatusDetail.json" },
+      "tooltip": "Additional details for the outcome of this indexer execution."
+    },
+    {
+      "key": "mode",
+      "label": "Mode",
+      "type": "enum",
+      "options": { "$ref": "Indexer/Status/enums/IndexingMode.json" },
+      "tooltip": "The mode the indexer is running in."
+    },
+    {
+      "key": "startTime",
+      "label": "Start Time",
+      "type": "string",
+      "placeholder": "2026-01-01T00:00:00Z",
+      "tooltip": "The start time of this indexer execution."
+    },
+    {
+      "key": "endTime",
+      "label": "End Time",
+      "type": "string",
+      "placeholder": "2026-01-01T00:10:00Z",
+      "tooltip": "The end time of this indexer execution, if the execution has already completed."
+    },
+    {
+      "key": "itemsProcessed",
+      "label": "Items Processed",
+      "type": "number",
+      "tooltip": "The number of items that were processed during this indexer execution. This includes both successfully processed items and items where indexing was attempted but failed."
+    },
+    {
+      "key": "itemsFailed",
+      "label": "Items Failed",
+      "type": "number",
+      "tooltip": "The number of items that failed to be indexed during this indexer execution."
+    },
+    {
+      "key": "errorMessage",
+      "label": "Error Message",
+      "type": "string",
+      "tooltip": "The error message indicating the top-level error, if any."
+    },
+    {
+      "key": "initialTrackingState",
+      "label": "Initial Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state with which an indexer execution started."
+    },
+    {
+      "key": "finalTrackingState",
+      "label": "Final Tracking State",
+      "type": "string",
+      "tooltip": "Change tracking state with which an indexer execution finished."
+    },
+    {
+      "key": "errors",
+      "label": "Errors",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "Indexer/Status/types/SearchIndexerError.json" },
+      "tooltip": "The item-level indexing errors."
+    },
+    {
+      "key": "warnings",
+      "label": "Warnings",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "Indexer/Status/types/SearchIndexerWarning.json" },
+      "tooltip": "The item-level indexing warnings."
+    }
+  ]
+}

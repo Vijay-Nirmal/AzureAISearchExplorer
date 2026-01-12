@@ -15,7 +15,7 @@
       "type": "object",
       "tooltip": "The user-assigned managed identity used for outbound connections.",
       "schema": {
-        "$ref": "Skillset/DataIdentity/dataIdentityConfig.json"
+        "$ref": "Common/DataIdentity/dataIdentityConfig.json"
       }
     },
     {
@@ -35,7 +35,7 @@
       "label": "Model Name",
       "type": "enum",
       "tooltip": "The name of the embedding model that is deployed at the provided deploymentId path.",
-      "options": { "$ref": "Skillset/Skills/enums/AzureOpenAIModelName.json" }
+      "options": { "$ref": "Common/AI/enums/AzureOpenAIModelName.json" }
     },
     {
       "key": "resourceUri",

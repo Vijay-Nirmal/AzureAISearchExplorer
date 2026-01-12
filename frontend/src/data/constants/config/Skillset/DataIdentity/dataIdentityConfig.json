@@ -1,5 +1,5 @@
 {
-  "entity": { "$ref": "Skillset/DataIdentity/entities/SearchIndexerDataIdentity.json" },
+  "entity": { "$ref": "Common/DataIdentity/entities/SearchIndexerDataIdentity.json" },
   "commonFields": [
     {
       "key": "@odata.type",
@@ -10,7 +10,8 @@
     }
   ],
   "types": [
-    { "$ref": "Skillset/DataIdentity/types/SearchIndexerDataNoneIdentity.json" },
-    { "$ref": "Skillset/DataIdentity/types/SearchIndexerDataUserAssignedIdentity.json" }
+    { "$ref": "Common/DataIdentity/types/SearchIndexerDataNoneIdentity.json" },
+    { "$ref": "Common/DataIdentity/types/SearchIndexerDataUserAssignedIdentity.json" }
   ]
 }
+

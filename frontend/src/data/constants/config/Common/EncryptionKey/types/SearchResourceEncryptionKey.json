@@ -21,7 +21,7 @@
       "type": "object",
       "tooltip": "An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If \"none\" is specified, the value of this property is cleared.",
       "schema": {
-        "$ref": "Skillset/DataIdentity/dataIdentityConfig.json"
+        "$ref": "Common/DataIdentity/dataIdentityConfig.json"
       }
     },
     {

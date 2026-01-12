@@ -1,0 +1,8 @@
+[
+  { "value": "h1", "description": "Header depth h1." },
+  { "value": "h2", "description": "Header depth h2." },
+  { "value": "h3", "description": "Header depth h3." },
+  { "value": "h4", "description": "Header depth h4." },
+  { "value": "h5", "description": "Header depth h5." },
+  { "value": "h6", "description": "Header depth h6." }
+]

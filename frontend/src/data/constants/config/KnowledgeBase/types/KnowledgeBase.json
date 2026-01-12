@@ -1,0 +1,62 @@
+{
+  "discriminatorValue": "KnowledgeBase",
+  "label": "KnowledgeBase",
+  "description": "Represents a knowledge base definition.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the knowledge base."
+    },
+    {
+      "key": "answerInstructions",
+      "label": "Answer Instructions",
+      "type": "string",
+      "tooltip": "Instructions considered by the knowledge base when generating answers."
+    },
+    {
+      "key": "retrievalInstructions",
+      "label": "Retrieval Instructions",
+      "type": "string",
+      "tooltip": "Instructions considered by the knowledge base when developing query plan."
+    },
+    {
+      "key": "outputMode",
+      "label": "Output Mode",
+      "type": "enum",
+      "options": { "$ref": "KnowledgeBase/enums/KnowledgeRetrievalOutputMode.json" },
+      "tooltip": "The output mode for the knowledge base."
+    },
+    {
+      "key": "retrievalReasoningEffort",
+      "label": "Retrieval Reasoning Effort",
+      "type": "object",
+      "tooltip": "The retrieval reasoning effort configuration.",
+      "schema": { "$ref": "KnowledgeBase/RetrievalReasoningEffort/retrievalReasoningEffortConfig.json" }
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    },
+    {
+      "key": "knowledgeSources",
+      "label": "Knowledge Sources",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "Knowledge sources referenced by this knowledge base.",
+      "schema": { "$ref": "KnowledgeBase/types/KnowledgeSourceReference.json" }
+    },
+    {
+      "key": "models",
+      "label": "Models",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "Configuration options on how to connect to AI models.",
+      "schema": { "$ref": "KnowledgeBase/Models/knowledgeBaseModelConfig.json" }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "entity": { "$ref": "KnowledgeSource/entities/KnowledgeSource.json" },
+  "commonFields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 _-]*[A-Za-z0-9])?$",
+      "placeholder": "e.g. ks-products",
+      "tooltip": "The name of the knowledge source."
+    },
+    {
+      "key": "kind",
+      "label": "Kind",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The type of the knowledge source."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeSource/types/SearchIndexKnowledgeSource.json" }
+  ]
+}

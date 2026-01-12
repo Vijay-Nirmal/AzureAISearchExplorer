@@ -1,0 +1,22 @@
+{
+  "entity": {
+    "title": "Retrieval Reasoning Effort",
+    "description": "Controls the reasoning effort used during knowledge retrieval.",
+    "discriminatorKey": "kind",
+    "nameKey": "kind"
+  },
+  "commonFields": [
+    {
+      "key": "kind",
+      "label": "Kind",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The kind of reasoning effort."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeBase/RetrievalReasoningEffort/types/KnowledgeRetrievalLowReasoningEffort.json" },
+    { "$ref": "KnowledgeBase/RetrievalReasoningEffort/types/KnowledgeRetrievalMediumReasoningEffort.json" },
+    { "$ref": "KnowledgeBase/RetrievalReasoningEffort/types/KnowledgeRetrievalMinimalReasoningEffort.json" }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "discriminatorValue": "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy",
+  "label": "NativeBlobSoftDeleteDeletionDetectionPolicy",
+  "description": "Uses Azure Blob Storage's native soft delete feature for deletion detection.",
+  "fields": []
+}

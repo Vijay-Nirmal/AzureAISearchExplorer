@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "image",
+  "label": "KnowledgeBaseMessageImageContent",
+  "description": "Image message type.",
+  "fields": [
+    {
+      "key": "image",
+      "label": "Image",
+      "type": "object",
+      "tooltip": "The image content.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseImageContent.json" }
+    }
+  ]
+}

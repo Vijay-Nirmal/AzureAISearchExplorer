@@ -1,0 +1,12 @@
+{
+  "discriminatorValue": "KnowledgeBaseErrorDetail",
+  "label": "KnowledgeBaseErrorDetail",
+  "description": "The error details.",
+  "fields": [
+    { "key": "code", "label": "Code", "type": "string", "tooltip": "The error code." },
+    { "key": "message", "label": "Message", "type": "string", "tooltip": "The error message." },
+    { "key": "target", "label": "Target", "type": "string", "tooltip": "The error target." },
+    { "key": "details", "label": "Details", "type": "objectArray", "orderMatters": true, "tooltip": "Nested error details." },
+    { "key": "additionalInfo", "label": "Additional Info", "type": "objectArray", "orderMatters": true, "tooltip": "Additional error info." }
+  ]
+}

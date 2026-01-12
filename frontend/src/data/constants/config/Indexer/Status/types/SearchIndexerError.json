@@ -1,0 +1,43 @@
+{
+  "discriminatorValue": "SearchIndexerError",
+  "label": "SearchIndexerError",
+  "description": "Represents an item- or document-level indexing error.",
+  "fields": [
+    {
+      "key": "key",
+      "label": "Key",
+      "type": "string",
+      "tooltip": "The key of the item for which indexing failed."
+    },
+    {
+      "key": "errorMessage",
+      "label": "Error Message",
+      "type": "string",
+      "tooltip": "The message describing the error that occurred while processing the item."
+    },
+    {
+      "key": "statusCode",
+      "label": "Status Code",
+      "type": "number",
+      "tooltip": "The status code indicating why the indexing operation failed (e.g., 400, 404, 409, 422, 503)."
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the source at which the error originated (e.g., a particular skill)."
+    },
+    {
+      "key": "details",
+      "label": "Details",
+      "type": "string",
+      "tooltip": "Additional, verbose details about the error to assist in debugging the indexer."
+    },
+    {
+      "key": "documentationLink",
+      "label": "Documentation Link",
+      "type": "string",
+      "tooltip": "A link to a troubleshooting guide for these classes of errors."
+    }
+  ]
+}

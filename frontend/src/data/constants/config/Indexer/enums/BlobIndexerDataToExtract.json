@@ -1,0 +1,5 @@
+[
+  { "value": "storageMetadata", "description": "Indexes just the standard blob properties and user-specified metadata." },
+  { "value": "allMetadata", "description": "Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata." },
+  { "value": "contentAndMetadata", "description": "Extracts all metadata and textual content from each blob." }
+]

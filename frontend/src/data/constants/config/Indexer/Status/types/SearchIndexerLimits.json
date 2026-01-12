@@ -1,0 +1,26 @@
+{
+  "discriminatorValue": "SearchIndexerLimits",
+  "label": "SearchIndexerLimits",
+  "description": "Represents the limits that can be applied to an indexer.",
+  "fields": [
+    {
+      "key": "maxDocumentContentCharactersToExtract",
+      "label": "Max Document Content Characters To Extract",
+      "type": "number",
+      "tooltip": "The maximum number of characters that will be extracted from a document picked up for indexing."
+    },
+    {
+      "key": "maxDocumentExtractionSize",
+      "label": "Max Document Extraction Size",
+      "type": "number",
+      "tooltip": "The maximum size of a document, in bytes, which will be considered valid for indexing."
+    },
+    {
+      "key": "maxRunTime",
+      "label": "Max Run Time",
+      "type": "string",
+      "placeholder": "PT1H",
+      "tooltip": "The maximum duration that the indexer is permitted to run for one execution (ISO 8601 duration)."
+    }
+  ]
+}

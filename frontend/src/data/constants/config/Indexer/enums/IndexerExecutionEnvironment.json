@@ -1,0 +1,4 @@
+[
+  { "value": "standard", "description": "Let the service determine where the indexer should execute (recommended default)." },
+  { "value": "private", "description": "Run indexer in an environment provisioned specifically for the service (private link scenarios)." }
+]

@@ -1,0 +1,8 @@
+{
+  "discriminatorValue": "text",
+  "label": "KnowledgeBaseMessageTextContent",
+  "description": "Text message type.",
+  "fields": [
+    { "key": "text", "label": "Text", "type": "string", "tooltip": "The text content." }
+  ]
+}

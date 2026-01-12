@@ -1,0 +1,6 @@
+{
+  "title": "Knowledge Base Retrieval Response",
+  "description": "Output contract for knowledge retrieval responses.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "@odata.type"
+}

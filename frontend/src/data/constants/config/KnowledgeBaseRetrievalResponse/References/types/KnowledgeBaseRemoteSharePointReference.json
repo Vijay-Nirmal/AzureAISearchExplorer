@@ -1,0 +1,18 @@
+{
+  "discriminatorValue": "remoteSharePoint",
+  "label": "KnowledgeBaseRemoteSharePointReference",
+  "description": "Represents a remote SharePoint document reference.",
+  "fields": [
+    { "key": "activitySource", "label": "Activity Source", "type": "number", "tooltip": "The source activity ID for the reference." },
+    { "key": "webUrl", "label": "Web URL", "type": "string", "tooltip": "The url the reference data originated from." },
+    { "key": "rerankerScore", "label": "Reranker Score", "type": "number", "tooltip": "The reranker score for the document reference." },
+    {
+      "key": "searchSensitivityLabelInfo",
+      "label": "Sensitivity Label Info",
+      "type": "object",
+      "tooltip": "Information about the sensitivity label applied to the SharePoint document.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/types/SharePointSensitivityLabelInfo.json" }
+    },
+    { "key": "sourceData", "label": "Source Data", "type": "object", "tooltip": "The source data for the reference." }
+  ]
+}

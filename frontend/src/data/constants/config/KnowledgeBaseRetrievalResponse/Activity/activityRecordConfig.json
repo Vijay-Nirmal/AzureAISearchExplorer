@@ -1,0 +1,22 @@
+{
+  "entity": {
+    "title": "Activity Record",
+    "description": "Tracks activity for retrieval progress and billing.",
+    "discriminatorKey": "type",
+    "nameKey": "type"
+  },
+  "commonFields": [
+    {
+      "key": "type",
+      "label": "Type",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The type of the activity record."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeBaseRetrievalResponse/Activity/types/KnowledgeBaseAgenticReasoningActivityRecord.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/Activity/types/KnowledgeBaseModelAnswerSynthesisActivityRecord.json" },
+    { "$ref": "KnowledgeBaseRetrievalResponse/Activity/types/KnowledgeBaseModelQueryPlanningActivityRecord.json" }
+  ]
+}

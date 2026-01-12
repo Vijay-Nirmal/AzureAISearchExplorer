@@ -1,0 +1,6 @@
+{
+  "title": "Knowledge Bases",
+  "description": "Knowledge bases define retrieval sources and model configuration for knowledge retrieval.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "name"
+}

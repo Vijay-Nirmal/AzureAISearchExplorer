@@ -1,0 +1,11 @@
+{
+  "discriminatorValue": "indexedSharePoint",
+  "label": "KnowledgeBaseIndexedSharePointReference",
+  "description": "Represents an indexed SharePoint document reference.",
+  "fields": [
+    { "key": "activitySource", "label": "Activity Source", "type": "number", "tooltip": "The source activity ID for the reference." },
+    { "key": "docUrl", "label": "Document URL", "type": "string", "tooltip": "The document URL for the reference." },
+    { "key": "rerankerScore", "label": "Reranker Score", "type": "number", "tooltip": "The reranker score for the document reference." },
+    { "key": "sourceData", "label": "Source Data", "type": "object", "tooltip": "The source data for the reference." }
+  ]
+}

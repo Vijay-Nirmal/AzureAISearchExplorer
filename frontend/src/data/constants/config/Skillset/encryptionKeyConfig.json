@@ -7,6 +7,7 @@
   },
   "commonFields": [],
   "types": [
-    { "$ref": "Skillset/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
   ]
 }
+

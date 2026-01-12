@@ -9,7 +9,7 @@
       "type": "object",
       "tooltip": "The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to \"none\", the value of this property is cleared.",
       "schema": {
-        "$ref": "Skillset/DataIdentity/dataIdentityConfig.json"
+        "$ref": "Common/DataIdentity/dataIdentityConfig.json"
       }
     },
     {

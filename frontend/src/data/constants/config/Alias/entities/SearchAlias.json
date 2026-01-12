@@ -1,0 +1,6 @@
+{
+  "title": "Aliases",
+  "description": "Index aliases map an alias name to an index name.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "name"
+}

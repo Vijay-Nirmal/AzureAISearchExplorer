@@ -1,0 +1,18 @@
+{
+  "discriminatorValue": "modelAnswerSynthesis",
+  "label": "KnowledgeBaseModelAnswerSynthesisActivityRecord",
+  "description": "Represents an LLM answer synthesis activity record.",
+  "fields": [
+    { "key": "id", "label": "ID", "type": "number", "tooltip": "The ID of the activity record." },
+    { "key": "elapsedMs", "label": "Elapsed (ms)", "type": "number", "tooltip": "The elapsed time in milliseconds for the retrieval activity." },
+    { "key": "inputTokens", "label": "Input Tokens", "type": "number", "tooltip": "The number of input tokens for the LLM answer synthesis activity." },
+    { "key": "outputTokens", "label": "Output Tokens", "type": "number", "tooltip": "The number of output tokens for the LLM answer synthesis activity." },
+    {
+      "key": "error",
+      "label": "Error",
+      "type": "object",
+      "tooltip": "The error detail explaining why the operation failed.",
+      "schema": { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseErrorDetail.json" }
+    }
+  ]
+}

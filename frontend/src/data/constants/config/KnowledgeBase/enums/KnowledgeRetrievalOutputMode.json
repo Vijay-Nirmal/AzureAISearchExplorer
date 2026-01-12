@@ -1,0 +1,10 @@
+[
+  {
+    "value": "extractiveData",
+    "description": "Return data from the knowledge sources directly without generative alteration."
+  },
+  {
+    "value": "answerSynthesis",
+    "description": "Synthesize an answer for the response payload."
+  }
+]

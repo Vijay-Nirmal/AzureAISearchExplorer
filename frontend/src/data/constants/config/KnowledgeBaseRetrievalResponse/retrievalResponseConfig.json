@@ -1,0 +1,7 @@
+{
+  "entity": { "$ref": "KnowledgeBaseRetrievalResponse/entities/KnowledgeBaseRetrievalResponse.json" },
+  "commonFields": [],
+  "types": [
+    { "$ref": "KnowledgeBaseRetrievalResponse/types/KnowledgeBaseRetrievalResponse.json" }
+  ]
+}

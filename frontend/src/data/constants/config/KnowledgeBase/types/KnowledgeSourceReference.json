@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "KnowledgeSourceReference",
+  "label": "KnowledgeSourceReference",
+  "description": "Reference to a knowledge source.",
+  "fields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the knowledge source."
+    }
+  ]
+}

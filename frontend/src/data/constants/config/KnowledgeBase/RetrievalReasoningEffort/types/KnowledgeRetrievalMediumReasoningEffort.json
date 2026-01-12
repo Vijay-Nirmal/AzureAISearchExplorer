@@ -1,0 +1,6 @@
+{
+  "discriminatorValue": "medium",
+  "label": "KnowledgeRetrievalMediumReasoningEffort",
+  "description": "Run knowledge retrieval with medium reasoning effort.",
+  "fields": []
+}

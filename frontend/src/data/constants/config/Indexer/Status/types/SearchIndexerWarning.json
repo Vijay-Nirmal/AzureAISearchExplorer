@@ -1,0 +1,37 @@
+{
+  "discriminatorValue": "SearchIndexerWarning",
+  "label": "SearchIndexerWarning",
+  "description": "Represents an item-level warning.",
+  "fields": [
+    {
+      "key": "key",
+      "label": "Key",
+      "type": "string",
+      "tooltip": "The key of the item which generated a warning."
+    },
+    {
+      "key": "message",
+      "label": "Message",
+      "type": "string",
+      "tooltip": "The message describing the warning that occurred while processing the item."
+    },
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "tooltip": "The name of the source at which the warning originated (e.g., a particular skill)."
+    },
+    {
+      "key": "details",
+      "label": "Details",
+      "type": "string",
+      "tooltip": "Additional, verbose details about the warning to assist in debugging the indexer."
+    },
+    {
+      "key": "documentationLink",
+      "label": "Documentation Link",
+      "type": "string",
+      "tooltip": "A link to a troubleshooting guide for these classes of warnings."
+    }
+  ]
+}

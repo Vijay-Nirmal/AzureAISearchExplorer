@@ -1,0 +1,4 @@
+[
+  { "value": "resetDocs", "description": "Indicates that the reset that occurred was for a call to ResetDocs." },
+  { "value": "resync", "description": "Indicates to selectively resync based on option(s) from data source." }
+]

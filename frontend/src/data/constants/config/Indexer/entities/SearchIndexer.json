@@ -1,0 +1,6 @@
+{
+  "title": "Indexers",
+  "description": "Indexers read from a data source, optionally run a skillset, and write to a target index.",
+  "discriminatorKey": "@odata.type",
+  "nameKey": "name"
+}

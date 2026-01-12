@@ -1,0 +1,20 @@
+{
+  "discriminatorValue": "SearchIndexerDataContainer",
+  "label": "SearchIndexerDataContainer",
+  "description": "Represents information about the entity that will be indexed.",
+  "fields": [
+    {
+      "key": "name",
+      "label": "Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the table or view (Azure SQL) or collection (CosmosDB) that will be indexed."
+    },
+    {
+      "key": "query",
+      "label": "Query",
+      "type": "string",
+      "tooltip": "A query that is applied to this data container. The syntax and meaning of this parameter is datasource-specific."
+    }
+  ]
+}

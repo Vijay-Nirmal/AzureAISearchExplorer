@@ -1,0 +1,76 @@
+{
+  "discriminatorValue": "SearchIndexerDataSource",
+  "label": "SearchIndexerDataSource",
+  "description": "Represents a datasource definition, which can be used to configure an indexer.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "The description of the datasource."
+    },
+    {
+      "key": "type",
+      "label": "Type",
+      "type": "enum",
+      "required": true,
+      "options": { "$ref": "DataSource/enums/SearchIndexerDataSourceType.json" },
+      "tooltip": "Defines the type of a datasource."
+    },
+    {
+      "key": "subType",
+      "label": "Sub Type",
+      "type": "string",
+      "tooltip": "A specific type of the data source, in case the resource is capable of different modalities (for example, 'MongoDb' for certain 'cosmosDb' accounts)."
+    },
+    {
+      "key": "credentials",
+      "label": "Credentials",
+      "type": "object",
+      "tooltip": "Credentials for the datasource.",
+      "schema": { "$ref": "DataSource/types/DataSourceCredentials.json" }
+    },
+    {
+      "key": "container",
+      "label": "Container",
+      "type": "object",
+      "tooltip": "The data container for the datasource.",
+      "schema": { "$ref": "DataSource/types/SearchIndexerDataContainer.json" }
+    },
+    {
+      "key": "identity",
+      "label": "Identity",
+      "type": "object",
+      "tooltip": "An explicit managed identity to use for this datasource.",
+      "schema": { "$ref": "Common/DataIdentity/dataIdentityConfig.json" }
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    },
+    {
+      "key": "dataChangeDetectionPolicy",
+      "label": "Data Change Detection Policy",
+      "type": "object",
+      "tooltip": "The data change detection policy for the datasource.",
+      "schema": { "$ref": "DataSource/ChangeDetectionPolicy/changeDetectionPolicyConfig.json" }
+    },
+    {
+      "key": "dataDeletionDetectionPolicy",
+      "label": "Data Deletion Detection Policy",
+      "type": "object",
+      "tooltip": "The data deletion detection policy for the datasource.",
+      "schema": { "$ref": "DataSource/DeletionDetectionPolicy/deletionDetectionPolicyConfig.json" }
+    },
+    {
+      "key": "indexerPermissionOptions",
+      "label": "Indexer Permission Options",
+      "type": "enumArray",
+      "options": { "$ref": "DataSource/enums/IndexerPermissionOption.json" },
+      "tooltip": "Ingestion options with various types of permission data."
+    }
+  ]
+}

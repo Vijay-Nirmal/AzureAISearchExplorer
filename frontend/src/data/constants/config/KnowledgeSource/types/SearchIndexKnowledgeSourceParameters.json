@@ -1,0 +1,36 @@
+{
+  "discriminatorValue": "SearchIndexKnowledgeSourceParameters",
+  "label": "SearchIndexKnowledgeSourceParameters",
+  "description": "Parameters for search index knowledge source.",
+  "fields": [
+    {
+      "key": "searchIndexName",
+      "label": "Search Index Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the search index."
+    },
+    {
+      "key": "semanticConfigurationName",
+      "label": "Semantic Configuration Name",
+      "type": "string",
+      "tooltip": "Optionally specify a semantic configuration other than the default on the target index."
+    },
+    {
+      "key": "searchFields",
+      "label": "Search Fields",
+      "type": "objectArray",
+      "orderMatters": false,
+      "tooltip": "Used to restrict which fields to search on the search index.",
+      "schema": { "$ref": "KnowledgeSource/types/SearchIndexFieldReference.json" }
+    },
+    {
+      "key": "sourceDataFields",
+      "label": "Source Data Fields",
+      "type": "objectArray",
+      "orderMatters": false,
+      "tooltip": "Used to request additional fields for referenced source data.",
+      "schema": { "$ref": "KnowledgeSource/types/SearchIndexFieldReference.json" }
+    }
+  ]
+}

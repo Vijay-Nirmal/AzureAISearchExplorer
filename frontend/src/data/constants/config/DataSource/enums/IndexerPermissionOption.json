@@ -1,0 +1,5 @@
+[
+  { "value": "userIds", "description": "Indexer to ingest ACL userIds from data source to index." },
+  { "value": "groupIds", "description": "Indexer to ingest ACL groupIds from data source to index." },
+  { "value": "rbacScope", "description": "Indexer to ingest Azure RBAC scope from data source to index." }
+]

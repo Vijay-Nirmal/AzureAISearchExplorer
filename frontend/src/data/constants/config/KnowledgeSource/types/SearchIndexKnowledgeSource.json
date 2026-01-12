@@ -1,0 +1,27 @@
+{
+  "discriminatorValue": "searchIndex",
+  "label": "SearchIndexKnowledgeSource",
+  "description": "Knowledge source targeting a search index.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "Optional user-defined description."
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    },
+    {
+      "key": "searchIndexParameters",
+      "label": "Search Index Parameters",
+      "type": "object",
+      "tooltip": "Parameters for search index knowledge source.",
+      "schema": { "$ref": "KnowledgeSource/types/SearchIndexKnowledgeSourceParameters.json" }
+    }
+  ]
+}
