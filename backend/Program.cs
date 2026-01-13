@@ -1,6 +1,7 @@
 using AzureAISearchExplorer.Backend.Endpoints;
 using AzureAISearchExplorer.Backend.Extensions;
 using AzureAISearchExplorer.Backend.Features.Connections;
+using AzureAISearchExplorer.Backend.Features.Indexers;
 using AzureAISearchExplorer.Backend.Features.Indexes;
 using AzureAISearchExplorer.Backend.Features.Skillsets;
 using AzureAISearchExplorer.Backend.Features.Service;
@@ -38,5 +39,6 @@ app.MapConnectionsEndpoints();
 app.MapServiceEndpoints();
 app.MapIndexesEndpoints();
 app.MapSkillsetsEndpoints();
+app.MapIndexersEndpoints();
 
 app.Run();

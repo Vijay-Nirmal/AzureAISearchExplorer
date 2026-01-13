@@ -10,7 +10,7 @@ export const TruncatedTextCell: React.FC<TruncatedTextCellProps> = ({ value, onE
     const [hover, setHover] = useState(false);
     return (
         <td 
-            style={{ padding: '8px', color: '#ccc', maxWidth: maxWidth, position: 'relative' }}
+            style={{ padding: '8px 10px', color: 'var(--text-color)', maxWidth: maxWidth, position: 'relative' }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
@@ -22,7 +22,7 @@ export const TruncatedTextCell: React.FC<TruncatedTextCellProps> = ({ value, onE
                     onClick={(e) => { e.stopPropagation(); onExpand(value); }}
                     style={{
                         position: 'absolute', right: '4px', top: '50%', transform: 'translateY(-50%)',
-                        background: '#333', border: '1px solid #555', color: '#fff', cursor: 'pointer',
+                        background: 'var(--sidebar-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)', cursor: 'pointer',
                         padding: '2px 6px', borderRadius: '3px', fontSize: '10px', zIndex: 10
                     }}
                     title="View Full Content"

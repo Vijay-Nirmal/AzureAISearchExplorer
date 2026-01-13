@@ -4,6 +4,7 @@ import { Card } from '../common/Card';
 import { AddConnectionPage } from '../pages/AddConnectionPage';
 import { ServiceOverviewPage } from '../pages/ServiceOverviewPage';
 import IndexesPage from '../pages/Indexes/IndexesPage';
+import IndexersPage from '../pages/Indexers/IndexersPage';
 import SkillsetsPage from '../pages/Skillsets/SkillsetsPage';
 
 export const ContentArea: React.FC = () => {
@@ -29,6 +30,9 @@ export const ContentArea: React.FC = () => {
           case 'indexes':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <IndexesPage />;
+          case 'indexers':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <IndexersPage />;
             case 'skillsets':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <SkillsetsPage />;

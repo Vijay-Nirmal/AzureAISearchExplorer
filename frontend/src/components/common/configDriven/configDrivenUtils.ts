@@ -10,7 +10,18 @@ import type {
 
 // Eager-load config JSON so $ref works without dynamic imports.
 // Keys are absolute-from-src paths like: /src/data/constants/config/TokenFilter/types/EdgeNGramTokenFilter.json
-const configJsonModules = import.meta.glob('/src/data/constants/config/**/*.json', { eager: true });
+// NOTE: Use a relative glob to avoid Windows drive-letter casing issues during `vite build`
+// (Rollup can end up computing relative paths like `../../../../d:/...` which it cannot resolve).
+const rawConfigJsonModules = import.meta.glob('../../../data/constants/config/**/*.json', { eager: true });
+
+const configJsonModules = Object.fromEntries(
+    Object.entries(rawConfigJsonModules).map(([key, mod]) => {
+        const marker = 'data/constants/config/';
+        const idx = key.replace(/\\/g, '/').indexOf(marker);
+        const normalizedKey = idx >= 0 ? `/src/${key.replace(/\\/g, '/').slice(idx)}` : key;
+        return [normalizedKey, mod];
+    })
+);
 
 const normalizeRefPath = (ref: string): string => {
     const t = (ref || '').trim();

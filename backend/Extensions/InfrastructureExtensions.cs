@@ -35,6 +35,9 @@ public static class InfrastructureExtensions
 			});
 		});
 
+		// Http
+		services.AddHttpClient();
+
 		// Data Access
 		services.AddScoped(typeof(IRepository<>), typeof(JsonFileRepository<>));
 

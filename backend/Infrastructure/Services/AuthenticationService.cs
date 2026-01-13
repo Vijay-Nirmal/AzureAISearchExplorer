@@ -2,11 +2,13 @@ using Azure.Core;
 using Azure.Identity;
 using AzureAISearchExplorer.Backend.Shared.Models;
 using System.Collections.Concurrent;
+using System.Net.Http.Headers;
 
 namespace AzureAISearchExplorer.Backend.Infrastructure.Services;
 
 public class AuthenticationService
 {
+    private const string SearchScope = "https://search.azure.com/.default";
 	private readonly ILogger<AuthenticationService> _logger;
 	private readonly ConcurrentDictionary<string, TokenCredential> _credentialCache = new();
 
@@ -55,6 +57,21 @@ public class AuthenticationService
 		_credentialCache.TryAdd(key, credential);
 
 		return credential;
+	}
+
+	/// <summary>
+	/// Gets a Bearer <see cref="AuthenticationHeaderValue"/> for Azure AD-based auth.
+	/// Returns <c>null</c> for API key auth.
+	/// </summary>
+	public async Task<AuthenticationHeaderValue?> GetBearerAuthorizationHeaderAsync(
+		ConnectionProfile profile,
+		CancellationToken cancellationToken)
+	{
+		if (profile.AuthType == "ApiKey") return null;
+
+		TokenCredential credential = await GetCredentialAsync(profile);
+		AccessToken token = await credential.GetTokenAsync(new TokenRequestContext(new[] { SearchScope }), cancellationToken);
+		return new AuthenticationHeaderValue("Bearer", token.Token);
 	}
 
 	private async Task<TokenCredential> GetInteractiveCredentialAsync(ConnectionProfile profile)
