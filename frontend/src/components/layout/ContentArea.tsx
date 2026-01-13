@@ -6,6 +6,7 @@ import { ServiceOverviewPage } from '../pages/ServiceOverviewPage';
 import IndexesPage from '../pages/Indexes/IndexesPage';
 import IndexersPage from '../pages/Indexers/IndexersPage';
 import SkillsetsPage from '../pages/Skillsets/SkillsetsPage';
+import DataSourcesPage from '../pages/DataSources/DataSourcesPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -36,6 +37,9 @@ export const ContentArea: React.FC = () => {
             case 'skillsets':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <SkillsetsPage />;
+            case 'datasources':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <DataSourcesPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>
