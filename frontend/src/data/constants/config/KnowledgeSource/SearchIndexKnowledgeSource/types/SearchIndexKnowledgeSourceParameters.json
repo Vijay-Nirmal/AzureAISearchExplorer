@@ -8,13 +8,13 @@
       "label": "Search Index Name",
       "type": "string",
       "required": true,
-      "tooltip": "The name of the search index."
+      "tooltip": "The name of the Search index."
     },
     {
       "key": "semanticConfigurationName",
       "label": "Semantic Configuration Name",
       "type": "string",
-      "tooltip": "Optionally specify a semantic configuration other than the default on the target index."
+      "tooltip": "Used to specify a different semantic configuration on the target search index other than the default one."
     },
     {
       "key": "searchFields",
@@ -22,7 +22,7 @@
       "type": "objectArray",
       "orderMatters": false,
       "tooltip": "Used to restrict which fields to search on the search index.",
-      "schema": { "$ref": "KnowledgeSource/types/SearchIndexFieldReference.json" }
+      "schema": { "$ref": "KnowledgeSource/SearchIndexKnowledgeSource/types/SearchIndexFieldReference.json" }
     },
     {
       "key": "sourceDataFields",
@@ -30,7 +30,7 @@
       "type": "objectArray",
       "orderMatters": false,
       "tooltip": "Used to request additional fields for referenced source data.",
-      "schema": { "$ref": "KnowledgeSource/types/SearchIndexFieldReference.json" }
+      "schema": { "$ref": "KnowledgeSource/SearchIndexKnowledgeSource/types/SearchIndexFieldReference.json" }
     }
   ]
 }

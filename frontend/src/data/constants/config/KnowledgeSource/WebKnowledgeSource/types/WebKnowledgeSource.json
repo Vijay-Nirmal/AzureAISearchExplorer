@@ -1,0 +1,27 @@
+{
+  "discriminatorValue": "web",
+  "label": "WebKnowledgeSource",
+  "description": "Knowledge source targeting web results.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "Optional user-defined description."
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    },
+    {
+      "key": "webParameters",
+      "label": "Web Parameters",
+      "type": "object",
+      "tooltip": "The parameters for the web knowledge source.",
+      "schema": { "$ref": "KnowledgeSource/WebKnowledgeSource/types/WebKnowledgeSourceParameters.json" }
+    }
+  ]
+}

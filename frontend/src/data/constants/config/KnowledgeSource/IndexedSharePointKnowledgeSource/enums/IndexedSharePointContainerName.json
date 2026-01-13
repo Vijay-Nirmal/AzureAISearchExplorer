@@ -1,0 +1,5 @@
+[
+  { "value": "defaultSiteLibrary", "description": "Index content from the site's default document library." },
+  { "value": "allSiteLibraries", "description": "Index content from every document library in the site." },
+  { "value": "useQuery", "description": "Use a query to filter SharePoint content." }
+]

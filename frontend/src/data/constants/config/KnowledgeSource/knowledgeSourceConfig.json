@@ -20,6 +20,11 @@
     }
   ],
   "types": [
-    { "$ref": "KnowledgeSource/types/SearchIndexKnowledgeSource.json" }
+    { "$ref": "KnowledgeSource/SearchIndexKnowledgeSource/types/SearchIndexKnowledgeSource.json" },
+    { "$ref": "KnowledgeSource/AzureBlobKnowledgeSource/types/AzureBlobKnowledgeSource.json" },
+    { "$ref": "KnowledgeSource/IndexedOneLakeKnowledgeSource/types/IndexedOneLakeKnowledgeSource.json" },
+    { "$ref": "KnowledgeSource/IndexedSharePointKnowledgeSource/types/IndexedSharePointKnowledgeSource.json" },
+    { "$ref": "KnowledgeSource/RemoteSharePointKnowledgeSource/types/RemoteSharePointKnowledgeSource.json" },
+    { "$ref": "KnowledgeSource/WebKnowledgeSource/types/WebKnowledgeSource.json" }
   ]
 }

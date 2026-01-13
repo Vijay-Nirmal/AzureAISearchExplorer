@@ -13,7 +13,6 @@
       "key": "dataSourceName",
       "label": "Data Source Name",
       "type": "string",
-      "required": true,
       "tooltip": "The name of the datasource from which this indexer reads data."
     },
     {
@@ -41,7 +40,7 @@
       "label": "Schedule",
       "type": "object",
       "tooltip": "The schedule for this indexer.",
-      "schema": { "$ref": "Indexer/types/IndexingSchedule.json" }
+      "schema": { "$ref": "Common/Indexer/types/IndexingSchedule.json" }
     },
     {
       "key": "parameters",

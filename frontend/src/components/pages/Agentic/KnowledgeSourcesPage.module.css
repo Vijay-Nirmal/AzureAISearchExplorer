@@ -1,0 +1,46 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+}
+
+.actions {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.fullRow {
+  grid-column: 1 / -1;
+}
+
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-color);
+  font-size: 12px;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.arrayRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 12px 0 8px;
+}

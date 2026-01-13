@@ -1,0 +1,47 @@
+{
+  "discriminatorValue": "AzureBlobKnowledgeSourceParameters",
+  "label": "AzureBlobKnowledgeSourceParameters",
+  "description": "Parameters for Azure Blob Storage knowledge source.",
+  "fields": [
+    {
+      "key": "connectionString",
+      "label": "Connection String",
+      "type": "string",
+      "required": true,
+      "tooltip": "Key-based connection string or the ResourceId format if using a managed identity."
+    },
+    {
+      "key": "containerName",
+      "label": "Container Name",
+      "type": "string",
+      "required": true,
+      "tooltip": "The name of the blob storage container."
+    },
+    {
+      "key": "folderPath",
+      "label": "Folder Path",
+      "type": "string",
+      "tooltip": "Optional folder path within the container."
+    },
+    {
+      "key": "isADLSGen2",
+      "label": "Is ADLS Gen2",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "Set to true if connecting to an ADLS Gen2 storage account. Default is false."
+    },
+    {
+      "key": "ingestionParameters",
+      "label": "Ingestion Parameters",
+      "type": "object",
+      "tooltip": "Consolidates all general ingestion settings.",
+      "schema": { "$ref": "KnowledgeSource/Ingestion/types/KnowledgeSourceIngestionParameters.json" }
+    },
+    {
+      "key": "createdResources",
+      "label": "Created Resources",
+      "type": "object",
+      "tooltip": "Resources created by the knowledge source."
+    }
+  ]
+}

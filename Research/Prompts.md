@@ -9,3 +9,9 @@ You can check #file:README.md for details about JSON schema. you can check #file
 
 Once complete do the same for #file:2 - Datasource Type.md #file:3 - Alias Type.md #file:4 - SynonymMap.md #file:5 - KnowledgeSource.md #file:6 - KnowledgeBase.md #file:7 - KnowledgeBaseRetrievalResponse.md 
 ```
+
+## Code Review
+
+```
+Before committing the code do final check on all the #changes , and do code cleanup, removing any unused code code because of new changes, clean code and making sure #backend.instructions.md and #frontend.instructions.md instructions are followed. Build and validate both frontend and backend to makesure there is no build error or warnings
+```

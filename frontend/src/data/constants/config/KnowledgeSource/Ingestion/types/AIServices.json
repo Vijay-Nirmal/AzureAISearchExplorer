@@ -1,0 +1,19 @@
+{
+  "discriminatorValue": "AIServices",
+  "label": "AIServices",
+  "description": "Parameters for AI Services.",
+  "fields": [
+    {
+      "key": "uri",
+      "label": "URI",
+      "type": "string",
+      "tooltip": "The URI of the AI Services endpoint."
+    },
+    {
+      "key": "apiKey",
+      "label": "API Key",
+      "type": "string",
+      "tooltip": "The API key for accessing AI Services."
+    }
+  ]
+}

@@ -8,7 +8,7 @@ interface JsonEditorModalProps {
     onClose: () => void;
     title: string;
     value: unknown;
-    onSave: (nextValue: unknown) => void;
+    onSave: (nextValue: unknown) => void | Promise<void>;
 }
 
 export const JsonEditorModal: React.FC<JsonEditorModalProps> = ({ isOpen, onClose, title, value, onSave }) => {
@@ -18,22 +18,27 @@ export const JsonEditorModal: React.FC<JsonEditorModalProps> = ({ isOpen, onClos
 
     const [text, setText] = useState<string>(initialText);
     const [error, setError] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
 
     // Keep the editor in sync when modal is reopened for a different value.
     React.useEffect(() => {
         if (!isOpen) return;
         setText(initialText);
         setError(null);
+        setIsSaving(false);
     }, [isOpen, initialText]);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         try {
             const parsed = JSON.parse(text);
             setError(null);
-            onSave(parsed);
+            setIsSaving(true);
+            await onSave(parsed);
             onClose();
         } catch (e) {
             setError((e as Error).message || 'Invalid JSON');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -45,10 +50,10 @@ export const JsonEditorModal: React.FC<JsonEditorModalProps> = ({ isOpen, onClos
             width="900px"
             footer={(
                 <>
-                    <Button variant="primary" onClick={handleSave}>
-                        Save
+                    <Button variant="primary" onClick={() => void handleSave()} disabled={isSaving}>
+                        {isSaving ? 'Saving...' : 'Save'}
                     </Button>
-                    <Button variant="secondary" onClick={onClose}>
+                    <Button variant="secondary" onClick={onClose} disabled={isSaving}>
                         Cancel
                     </Button>
                 </>

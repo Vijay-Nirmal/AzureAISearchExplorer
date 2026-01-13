@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "WebKnowledgeSourceParameters",
+  "label": "WebKnowledgeSourceParameters",
+  "description": "Parameters for web knowledge source.",
+  "fields": [
+    {
+      "key": "domains",
+      "label": "Domains",
+      "type": "object",
+      "tooltip": "Domain allow/block configuration for web results.",
+      "schema": { "$ref": "KnowledgeSource/WebKnowledgeSource/types/WebKnowledgeSourceDomains.json" }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "discriminatorValue": "RemoteSharePointKnowledgeSourceParameters",
+  "label": "RemoteSharePointKnowledgeSourceParameters",
+  "description": "Parameters for remote SharePoint knowledge source.",
+  "fields": [
+    {
+      "key": "containerTypeId",
+      "label": "Container Type ID",
+      "type": "string",
+      "tooltip": "Container ID for SharePoint Embedded connection. When this is null, it will use SharePoint Online."
+    },
+    {
+      "key": "filterExpression",
+      "label": "Filter Expression",
+      "type": "string",
+      "tooltip": "Keyword Query Language (KQL) expression with queryable SharePoint properties and attributes to scope the retrieval before the query runs."
+    },
+    {
+      "key": "resourceMetadata",
+      "label": "Resource Metadata",
+      "type": "stringArray",
+      "orderMatters": false,
+      "tooltip": "A list of metadata fields to be returned for each item in the response. Only retrievable metadata properties can be included in this list."
+    }
+  ]
+}

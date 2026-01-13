@@ -1,0 +1,4 @@
+[
+  { "value": "minimal", "description": "Minimal content extraction." },
+  { "value": "standard", "description": "Standard content extraction." }
+]

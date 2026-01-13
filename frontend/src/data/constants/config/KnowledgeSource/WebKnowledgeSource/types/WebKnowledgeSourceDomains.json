@@ -1,0 +1,23 @@
+{
+  "discriminatorValue": "WebKnowledgeSourceDomains",
+  "label": "WebKnowledgeSourceDomains",
+  "description": "Domain allow/block configuration for web knowledge source.",
+  "fields": [
+    {
+      "key": "allowedDomains",
+      "label": "Allowed Domains",
+      "type": "objectArray",
+      "orderMatters": false,
+      "tooltip": "Domains that are allowed for web results.",
+      "schema": { "$ref": "KnowledgeSource/WebKnowledgeSource/types/WebKnowledgeSourceDomain.json" }
+    },
+    {
+      "key": "blockedDomains",
+      "label": "Blocked Domains",
+      "type": "objectArray",
+      "orderMatters": false,
+      "tooltip": "Domains that are blocked from web results.",
+      "schema": { "$ref": "KnowledgeSource/WebKnowledgeSource/types/WebKnowledgeSourceDomain.json" }
+    }
+  ]
+}

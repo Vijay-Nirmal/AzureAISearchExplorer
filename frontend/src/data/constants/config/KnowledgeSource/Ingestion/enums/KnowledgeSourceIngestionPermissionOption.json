@@ -1,0 +1,5 @@
+[
+  { "value": "userIds", "description": "Ingest explicit user identifiers alongside document content." },
+  { "value": "groupIds", "description": "Ingest group identifiers alongside document content." },
+  { "value": "rbacScope", "description": "Ingest RBAC scope information alongside document content." }
+]

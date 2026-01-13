@@ -1,0 +1,64 @@
+{
+  "discriminatorValue": "KnowledgeSourceIngestionParameters",
+  "label": "KnowledgeSourceIngestionParameters",
+  "description": "Consolidates all general ingestion settings for knowledge sources.",
+  "fields": [
+    {
+      "key": "aiServices",
+      "label": "AI Services",
+      "type": "object",
+      "tooltip": "Optional AI Services configuration for content processing.",
+      "schema": { "$ref": "KnowledgeSource/Ingestion/types/AIServices.json" }
+    },
+    {
+      "key": "chatCompletionModel",
+      "label": "Chat Completion Model",
+      "type": "object",
+      "tooltip": "Optional chat completion model for image verbalization or context extraction.",
+      "schema": { "$ref": "KnowledgeBase/Models/knowledgeBaseModelConfig.json" }
+    },
+    {
+      "key": "contentExtractionMode",
+      "label": "Content Extraction Mode",
+      "type": "enum",
+      "default": "minimal",
+      "options": { "$ref": "KnowledgeSource/Ingestion/enums/KnowledgeSourceContentExtractionMode.json" },
+      "tooltip": "Optional content extraction mode. Default is 'minimal'."
+    },
+    {
+      "key": "disableImageVerbalization",
+      "label": "Disable Image Verbalization",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "Indicates whether image verbalization should be disabled. Default is false."
+    },
+    {
+      "key": "embeddingModel",
+      "label": "Embedding Model",
+      "type": "object",
+      "tooltip": "Optional vectorizer configuration for vectorizing content.",
+      "schema": { "$ref": "KnowledgeSource/Vectorizers/knowledgeSourceVectorizerConfig.json" }
+    },
+    {
+      "key": "identity",
+      "label": "Identity",
+      "type": "object",
+      "tooltip": "An explicit identity to use for this knowledge source.",
+      "schema": { "$ref": "Common/DataIdentity/dataIdentityConfig.json" }
+    },
+    {
+      "key": "ingestionPermissionOptions",
+      "label": "Ingestion Permission Options",
+      "type": "enumArray",
+      "options": { "$ref": "KnowledgeSource/Ingestion/enums/KnowledgeSourceIngestionPermissionOption.json" },
+      "tooltip": "Optional list of permission types to ingest together with document content."
+    },
+    {
+      "key": "ingestionSchedule",
+      "label": "Ingestion Schedule",
+      "type": "object",
+      "tooltip": "Optional schedule for data ingestion.",
+      "schema": { "$ref": "Common/Indexer/types/IndexingSchedule.json" }
+    }
+  ]
+}

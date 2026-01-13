@@ -9,6 +9,8 @@ import SkillsetsPage from '../pages/Skillsets/SkillsetsPage';
 import DataSourcesPage from '../pages/DataSources/DataSourcesPage';
 import AliasesPage from '../pages/Aliases/AliasesPage';
 import SynonymMapsPage from '../pages/SynonymMaps/SynonymMapsPage';
+import KnowledgeSourcesPage from '../pages/Agentic/KnowledgeSourcesPage';
+import KnowledgeBasesPage from '../pages/Agentic/KnowledgeBasesPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -48,6 +50,12 @@ export const ContentArea: React.FC = () => {
             case 'datasources':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <DataSourcesPage />;
+            case 'knowledgesources':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <KnowledgeSourcesPage />;
+            case 'knowledgebases':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <KnowledgeBasesPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>

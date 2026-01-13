@@ -213,6 +213,20 @@ export const Sidebar: React.FC = () => {
             isActive={activeTabId === 'playground'}
             onClick={() => handleNavClick('playground', 'Playground', 'fa-solid fa-flask')}
           />
+          <NavItem 
+            id="knowledgesources" 
+            title="Knowledge Sources" 
+            icon="fa-solid fa-database" 
+            isActive={activeTabId === 'knowledgesources'}
+            onClick={() => handleNavClick('knowledgesources', 'Knowledge Sources', 'fa-solid fa-database')}
+          />
+          <NavItem 
+            id="knowledgebases" 
+            title="Knowledge Bases" 
+            icon="fa-solid fa-book" 
+            isActive={activeTabId === 'knowledgebases'}
+            onClick={() => handleNavClick('knowledgebases', 'Knowledge Bases', 'fa-solid fa-book')}
+          />
         </div>
       </div>
 

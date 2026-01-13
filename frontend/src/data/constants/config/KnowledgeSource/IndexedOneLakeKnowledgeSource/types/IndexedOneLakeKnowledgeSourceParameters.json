@@ -1,0 +1,40 @@
+{
+  "discriminatorValue": "IndexedOneLakeKnowledgeSourceParameters",
+  "label": "IndexedOneLakeKnowledgeSourceParameters",
+  "description": "Parameters for OneLake knowledge source.",
+  "fields": [
+    {
+      "key": "fabricWorkspaceId",
+      "label": "Fabric Workspace ID",
+      "type": "string",
+      "required": true,
+      "tooltip": "OneLake workspace ID."
+    },
+    {
+      "key": "lakehouseId",
+      "label": "Lakehouse ID",
+      "type": "string",
+      "required": true,
+      "tooltip": "Specifies which OneLake lakehouse to access."
+    },
+    {
+      "key": "targetPath",
+      "label": "Target Path",
+      "type": "string",
+      "tooltip": "Optional OneLakehouse folder or shortcut to filter OneLake content."
+    },
+    {
+      "key": "ingestionParameters",
+      "label": "Ingestion Parameters",
+      "type": "object",
+      "tooltip": "Consolidates all general ingestion settings.",
+      "schema": { "$ref": "KnowledgeSource/Ingestion/types/KnowledgeSourceIngestionParameters.json" }
+    },
+    {
+      "key": "createdResources",
+      "label": "Created Resources",
+      "type": "object",
+      "tooltip": "Resources created by the knowledge source."
+    }
+  ]
+}

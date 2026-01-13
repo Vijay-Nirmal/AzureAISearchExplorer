@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "title": "Knowledge Source Vectorizer",
+    "description": "Vectorizer configuration used by a knowledge source.",
+    "discriminatorKey": "kind",
+    "nameKey": "kind"
+  },
+  "commonFields": [
+    {
+      "key": "kind",
+      "label": "Kind",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The name of the kind of vectorization method being configured."
+    }
+  ],
+  "types": [
+    { "$ref": "KnowledgeSource/Vectorizers/types/KnowledgeSourceAzureOpenAIVectorizer.json" }
+  ]
+}

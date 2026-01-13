@@ -1,0 +1,41 @@
+{
+  "discriminatorValue": "IndexedSharePointKnowledgeSourceParameters",
+  "label": "IndexedSharePointKnowledgeSourceParameters",
+  "description": "Parameters for SharePoint knowledge source.",
+  "fields": [
+    {
+      "key": "connectionString",
+      "label": "Connection String",
+      "type": "string",
+      "required": true,
+      "tooltip": "SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id]"
+    },
+    {
+      "key": "containerName",
+      "label": "Container Name",
+      "type": "enum",
+      "required": true,
+      "options": { "$ref": "KnowledgeSource/IndexedSharePointKnowledgeSource/enums/IndexedSharePointContainerName.json" },
+      "tooltip": "Specifies which SharePoint libraries to access."
+    },
+    {
+      "key": "query",
+      "label": "Query",
+      "type": "string",
+      "tooltip": "Optional query to filter SharePoint content."
+    },
+    {
+      "key": "ingestionParameters",
+      "label": "Ingestion Parameters",
+      "type": "object",
+      "tooltip": "Consolidates all general ingestion settings.",
+      "schema": { "$ref": "KnowledgeSource/Ingestion/types/KnowledgeSourceIngestionParameters.json" }
+    },
+    {
+      "key": "createdResources",
+      "label": "Created Resources",
+      "type": "object",
+      "tooltip": "Resources created by the knowledge source."
+    }
+  ]
+}

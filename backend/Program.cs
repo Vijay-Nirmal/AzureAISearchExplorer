@@ -8,6 +8,8 @@ using AzureAISearchExplorer.Backend.Features.Aliases;
 using AzureAISearchExplorer.Backend.Features.SynonymMaps;
 using AzureAISearchExplorer.Backend.Features.Skillsets;
 using AzureAISearchExplorer.Backend.Features.Service;
+using AzureAISearchExplorer.Backend.Features.KnowledgeSources;
+using AzureAISearchExplorer.Backend.Features.KnowledgeBases;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Azure;
 using System.Text.Json.Serialization;
@@ -46,5 +48,7 @@ app.MapSynonymMapsEndpoints();
 app.MapDataSourcesEndpoints();
 app.MapSkillsetsEndpoints();
 app.MapIndexersEndpoints();
+app.MapKnowledgeSourcesEndpoints();
+app.MapKnowledgeBasesEndpoints();
 
 app.Run();

@@ -1,0 +1,27 @@
+{
+  "discriminatorValue": "indexedSharePoint",
+  "label": "IndexedSharePointKnowledgeSource",
+  "description": "Configuration for SharePoint knowledge source.",
+  "fields": [
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "string",
+      "tooltip": "Optional user-defined description."
+    },
+    {
+      "key": "encryptionKey",
+      "label": "Encryption Key",
+      "type": "object",
+      "tooltip": "A description of an encryption key that you create in Azure Key Vault.",
+      "schema": { "$ref": "Common/EncryptionKey/types/SearchResourceEncryptionKey.json" }
+    },
+    {
+      "key": "indexedSharePointParameters",
+      "label": "SharePoint Parameters",
+      "type": "object",
+      "tooltip": "The parameters for the knowledge source.",
+      "schema": { "$ref": "KnowledgeSource/IndexedSharePointKnowledgeSource/types/IndexedSharePointKnowledgeSourceParameters.json" }
+    }
+  ]
+}

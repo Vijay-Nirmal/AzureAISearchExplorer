@@ -1,0 +1,21 @@
+{
+  "discriminatorValue": "WebKnowledgeSourceDomain",
+  "label": "WebKnowledgeSourceDomain",
+  "description": "Configuration for web knowledge source domain.",
+  "fields": [
+    {
+      "key": "address",
+      "label": "Address",
+      "type": "string",
+      "required": true,
+      "tooltip": "The address of the domain."
+    },
+    {
+      "key": "includeSubpages",
+      "label": "Include Subpages",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "Whether or not to include subpages from this domain."
+    }
+  ]
+}

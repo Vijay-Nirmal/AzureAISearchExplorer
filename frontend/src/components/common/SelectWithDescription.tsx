@@ -12,12 +12,15 @@ interface SelectWithDescriptionProps extends Omit<React.SelectHTMLAttributes<HTM
     options: (string | SelectOption)[];
     separator?: string; // Default: " - "
     onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+    onChangeValues?: (values: string[]) => void;
+    closeOnSelect?: boolean;
 }
 
 export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({ 
     options, 
     separator = " - ",
     className,
+    closeOnSelect,
     ...props 
 }) => {
     const anchorRef = useRef<HTMLDivElement | null>(null);
@@ -41,14 +44,35 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
         });
     }, [options]);
 
-    const value = (props.value ?? props.defaultValue ?? '') as string;
+    const multiple = !!props.multiple;
+    const singleValue = (props.value ?? props.defaultValue ?? '') as string;
+    const selectedValues = useMemo(() => {
+        if (!multiple) return [] as string[];
+        const v = props.value;
+        if (Array.isArray(v)) return v.map(x => String(x));
+        return [] as string[];
+    }, [multiple, props.value]);
     const disabled = !!props.disabled;
 
     const selected = useMemo(() => {
-        return normalizedOptions.find(o => o.value === value);
-    }, [normalizedOptions, value]);
+        if (multiple) return undefined;
+        return normalizedOptions.find(o => o.value === singleValue);
+    }, [multiple, normalizedOptions, singleValue]);
 
-    const selectedText = selected?.label || selected?.value || (value ? String(value) : '');
+    const selectedText = useMemo(() => {
+        if (!multiple) {
+            return selected?.label || selected?.value || (singleValue ? String(singleValue) : '');
+        }
+
+        if (selectedValues.length === 0) return '';
+        if (selectedValues.length <= 2) {
+            const labels = selectedValues
+                .map(v => normalizedOptions.find(o => o.value === v)?.label || v)
+                .filter(Boolean);
+            return labels.join(', ');
+        }
+        return `${selectedValues.length} selected`;
+    }, [multiple, normalizedOptions, selected, selectedValues, singleValue]);
 
     const close = () => {
         setIsOpen(false);
@@ -58,7 +82,7 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
     const open = () => {
         if (disabled) return;
         setIsOpen(true);
-        const selectedIdx = normalizedOptions.findIndex(o => o.value === value);
+        const selectedIdx = normalizedOptions.findIndex(o => o.value === (multiple ? selectedValues[0] : singleValue));
         setHighlightIndex(selectedIdx >= 0 ? selectedIdx : 0);
     };
 
@@ -73,8 +97,28 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
             target: { value: newValue }
         } as unknown as React.ChangeEvent<HTMLSelectElement>;
         props.onChange?.(syntheticEvent);
-        close();
-    }, [disabled, props]);
+        if (closeOnSelect ?? true) close();
+    }, [disabled, props, closeOnSelect]);
+
+    const toggleValue = useCallback((newValue: string) => {
+        if (disabled) return;
+
+        const current = new Set(selectedValues);
+        if (current.has(newValue)) current.delete(newValue);
+        else current.add(newValue);
+
+        const next = Array.from(current);
+        props.onChangeValues?.(next);
+
+        // For compatibility, fire onChange with the last toggled value
+        const syntheticEvent = {
+            target: { value: newValue }
+        } as unknown as React.ChangeEvent<HTMLSelectElement>;
+        props.onChange?.(syntheticEvent);
+
+        const shouldClose = closeOnSelect ?? false;
+        if (shouldClose) close();
+    }, [closeOnSelect, disabled, props, selectedValues]);
 
     const updateMenuPosition = () => {
         const anchor = anchorRef.current;
@@ -130,7 +174,9 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const opt = normalizedOptions[highlightIndex];
-                if (opt) commitValue(opt.value);
+                if (!opt) return;
+                if (multiple) toggleValue(opt.value);
+                else commitValue(opt.value);
             }
         };
 
@@ -201,7 +247,7 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
                     onMouseDown={(e) => e.stopPropagation()}
                 >
                     {normalizedOptions.map((opt, idx) => {
-                        const isSelected = opt.value === value;
+                        const isSelected = multiple ? selectedValues.includes(opt.value) : opt.value === singleValue;
                         const isHighlighted = idx === highlightIndex;
                         return (
                             <div
@@ -210,9 +256,16 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
                                 aria-selected={isSelected}
                                 className={`${styles.option} ${isSelected ? styles.optionSelected : ''} ${isHighlighted ? styles.optionHighlighted : ''}`}
                                 onMouseEnter={() => setHighlightIndex(idx)}
-                                onClick={() => commitValue(opt.value)}
+                                onClick={() => (multiple ? toggleValue(opt.value) : commitValue(opt.value))}
                             >
-                                <div className={styles.optionValue}>{opt.label || opt.value}</div>
+                                <div className={styles.optionValue}>
+                                    {multiple ? (
+                                        <span style={{ display: 'inline-flex', width: 18, justifyContent: 'center', opacity: 0.9 }} aria-hidden="true">
+                                            <i className={`fas ${isSelected ? 'fa-check-square' : 'fa-square'}`}></i>
+                                        </span>
+                                    ) : null}
+                                    {opt.label || opt.value}
+                                </div>
                                 {opt.description && (
                                     <div className={styles.optionDescription}>{opt.description}</div>
                                 )}
