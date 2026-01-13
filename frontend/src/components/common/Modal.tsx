@@ -80,7 +80,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
-                <div style={{ padding: '16px', overflow: 'auto', flex: 1 }}>
+                <div style={{ padding: '16px', overflow: 'auto', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
                     {children}
                 </div>
                 {footer && (

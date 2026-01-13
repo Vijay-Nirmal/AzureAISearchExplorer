@@ -207,6 +207,13 @@ export const Sidebar: React.FC = () => {
         <div className={styles.navGroup}>
           <div className={styles.navGroupTitle}>Agentic</div>
           <NavItem 
+            id="agentic-retrieval" 
+            title="Agentic Retrieval" 
+            icon="fa-solid fa-comments" 
+            isActive={activeTabId === 'agentic-retrieval'}
+            onClick={() => handleNavClick('agentic-retrieval', 'Agentic Retrieval', 'fa-solid fa-comments')}
+          />
+          <NavItem 
             id="playground" 
             title="Playground" 
             icon="fa-solid fa-flask" 

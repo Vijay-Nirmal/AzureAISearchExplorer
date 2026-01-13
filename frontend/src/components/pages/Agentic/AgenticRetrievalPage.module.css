@@ -1,0 +1,181 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  gap: 12px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.15;
+  flex-shrink: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controlLabel {
+  font-size: 12px;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.chatCard {
+  padding: 0;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.transcript {
+  flex: 1;
+  overflow: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.emptyState {
+  padding: 18px;
+  opacity: 0.75;
+  font-size: 12px;
+  border: 1px dashed var(--border-color);
+  border-radius: 6px;
+}
+
+.row {
+  display: flex;
+}
+
+.rowUser {
+  justify-content: flex-end;
+}
+
+.rowAssistant {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 860px;
+  width: fit-content;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--sidebar-bg);
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.bubbleUser {
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  border-color: color-mix(in srgb, var(--accent-color) 35%, transparent);
+}
+
+.roleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.roleTag {
+  font-size: 11px;
+  opacity: 0.8;
+  text-transform: capitalize;
+}
+
+.messageText {
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-color);
+  opacity: 0.9;
+  font-size: 11px;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metaOk {
+  color: var(--status-ok-text);
+}
+
+.metaWarn {
+  color: var(--status-warn-text);
+}
+
+.metaErr {
+  color: var(--status-error-text);
+}
+
+.actionsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.composer {
+  border-top: 1px solid var(--border-color);
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.composerInput {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.helperText {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+.sendButton {
+  align-self: flex-start;
+}

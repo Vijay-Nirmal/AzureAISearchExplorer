@@ -11,6 +11,7 @@ import AliasesPage from '../pages/Aliases/AliasesPage';
 import SynonymMapsPage from '../pages/SynonymMaps/SynonymMapsPage';
 import KnowledgeSourcesPage from '../pages/Agentic/KnowledgeSourcesPage';
 import KnowledgeBasesPage from '../pages/Agentic/KnowledgeBasesPage';
+import AgenticRetrievalPage from '../pages/Agentic/AgenticRetrievalPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -56,6 +57,9 @@ export const ContentArea: React.FC = () => {
             case 'knowledgebases':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <KnowledgeBasesPage />;
+              case 'agentic-retrieval':
+                if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+                return <AgenticRetrievalPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>

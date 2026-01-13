@@ -4,7 +4,7 @@ import Editor from '@monaco-editor/react';
 type EditorProps = ComponentProps<typeof Editor>;
 
 interface JsonViewProps extends Omit<EditorProps, 'language' | 'value'> {
-    data: any;
+    data: unknown;
     height?: string | number;
     readOnly?: boolean;
 }

@@ -7,7 +7,7 @@ interface JsonViewerModalProps {
     isOpen: boolean;
     onClose: () => void;
     title: string;
-    data: any;
+    data: unknown;
 }
 
 export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ isOpen, onClose, title, data }) => {
@@ -21,6 +21,7 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ isOpen, onClos
             isOpen={isOpen}
             onClose={onClose}
             title={title}
+            width="min(1200px, 95vw)"
             footer={(
                 <>
                     <Button variant="secondary" onClick={handleCopy}>
@@ -30,7 +31,15 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ isOpen, onClos
                 </>
             )}
         >
-            <div style={{ height: '60vh', minHeight: '400px', border: '1px solid #333' }}>
+            <div
+                style={{
+                    height: 'min(70vh, 800px)',
+                    minHeight: '400px',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '4px',
+                    overflow: 'hidden'
+                }}
+            >
                 <JsonView data={data} />
             </div>
         </Modal>

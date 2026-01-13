@@ -183,5 +183,44 @@ public static class KnowledgeBasesEndpoints
             .WithDescription("Deletes a knowledge base by name.")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound);
+
+        group.MapPost("/{knowledgeBaseName}/retrieve", async (
+                [FromQuery] string connectionId,
+                [FromRoute] string knowledgeBaseName,
+                [FromBody] JsonElement retrieveRequest,
+                IRepository<ConnectionProfile> repository,
+                AuthenticationService auth,
+                IHttpClientFactory httpClientFactory,
+                CancellationToken cancellationToken) =>
+            {
+                var profile = await repository.GetByIdAsync(connectionId);
+                if (profile == null) return Results.NotFound();
+
+                var http = httpClientFactory.CreateClient();
+                var request = await CreateSearchRestRequestAsync(
+                    profile,
+                    auth,
+                    HttpMethod.Post,
+                    $"knowledgebases/{Uri.EscapeDataString(knowledgeBaseName)}/retrieve?api-version={ApiVersion}",
+                    cancellationToken,
+                    jsonBody: retrieveRequest);
+
+                var response = await http.SendAsync(request, cancellationToken);
+
+                var json = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return Results.Problem(json, statusCode: (int)response.StatusCode);
+                }
+
+                // Preserve partial content semantics (206) if the service returns it.
+                return Results.Content(json, "application/json", statusCode: (int)response.StatusCode);
+            })
+            .WithSummary("Retrieve using knowledge base")
+            .WithDescription("Runs the agentic retrieval pipeline for the specified knowledge base and returns response/activity/references.")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status206PartialContent)
+            .ProducesProblem(StatusCodes.Status404NotFound);
     }
 }
