@@ -7,6 +7,8 @@ import IndexesPage from '../pages/Indexes/IndexesPage';
 import IndexersPage from '../pages/Indexers/IndexersPage';
 import SkillsetsPage from '../pages/Skillsets/SkillsetsPage';
 import DataSourcesPage from '../pages/DataSources/DataSourcesPage';
+import AliasesPage from '../pages/Aliases/AliasesPage';
+import SynonymMapsPage from '../pages/SynonymMaps/SynonymMapsPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -31,6 +33,12 @@ export const ContentArea: React.FC = () => {
           case 'indexes':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <IndexesPage />;
+            case 'aliases':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <AliasesPage />;
+            case 'synonymmaps':
+              if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+              return <SynonymMapsPage />;
           case 'indexers':
               if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
               return <IndexersPage />;

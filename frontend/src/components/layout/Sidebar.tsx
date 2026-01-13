@@ -167,6 +167,20 @@ export const Sidebar: React.FC = () => {
             onClick={() => handleNavClick('indexes', 'Indexes', 'fa-solid fa-table')}
           />
           <NavItem 
+            id="aliases" 
+            title="Aliases" 
+            icon="fa-solid fa-link" 
+            isActive={activeTabId === 'aliases'}
+            onClick={() => handleNavClick('aliases', 'Aliases', 'fa-solid fa-link')}
+          />
+          <NavItem 
+            id="synonymmaps" 
+            title="Synonym Maps" 
+            icon="fa-solid fa-language" 
+            isActive={activeTabId === 'synonymmaps'}
+            onClick={() => handleNavClick('synonymmaps', 'Synonym Maps', 'fa-solid fa-language')}
+          />
+          <NavItem 
             id="indexers" 
             title="Indexers" 
             icon="fa-solid fa-robot" 

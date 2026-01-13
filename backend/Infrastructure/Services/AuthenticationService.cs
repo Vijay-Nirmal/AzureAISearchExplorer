@@ -60,18 +60,39 @@ public class AuthenticationService
 	}
 
 	/// <summary>
-	/// Gets a Bearer <see cref="AuthenticationHeaderValue"/> for Azure AD-based auth.
-	/// Returns <c>null</c> for API key auth.
+	/// Gets the correct header for Azure AI Search requests.
+	/// Returns either ("api-key", "...") for API key auth or ("Authorization", "Bearer ...") for AAD/MI.
 	/// </summary>
-	public async Task<AuthenticationHeaderValue?> GetBearerAuthorizationHeaderAsync(
+	public async Task<(string Name, string Value)?> GetSearchAuthHeaderAsync(
 		ConnectionProfile profile,
 		CancellationToken cancellationToken)
 	{
-		if (profile.AuthType == "ApiKey") return null;
+		if (profile.AuthType == "ApiKey")
+		{
+			if (string.IsNullOrWhiteSpace(profile.ApiKey)) return null;
+			return ("api-key", profile.ApiKey);
+		}
 
 		TokenCredential credential = await GetCredentialAsync(profile);
 		AccessToken token = await credential.GetTokenAsync(new TokenRequestContext(new[] { SearchScope }), cancellationToken);
-		return new AuthenticationHeaderValue("Bearer", token.Token);
+		return ("Authorization", new AuthenticationHeaderValue("Bearer", token.Token).ToString());
+	}
+
+	/// <summary>
+	/// Applies the correct Azure AI Search authentication header to an outgoing HTTP request.
+	/// Returns false if no valid auth header could be produced (e.g. missing API key).
+	/// </summary>
+	public async Task<bool> TryApplySearchAuthHeaderAsync(
+		HttpRequestHeaders headers,
+		ConnectionProfile profile,
+		CancellationToken cancellationToken)
+	{
+		var header = await GetSearchAuthHeaderAsync(profile, cancellationToken);
+		if (header is null) return false;
+
+		var (name, value) = header.Value;
+		headers.Remove(name);
+		return headers.TryAddWithoutValidation(name, value);
 	}
 
 	private async Task<TokenCredential> GetInteractiveCredentialAsync(ConnectionProfile profile)

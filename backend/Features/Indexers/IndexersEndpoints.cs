@@ -1,12 +1,10 @@
 using Azure;
-using Azure.Core;
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 using AzureAISearchExplorer.Backend.Infrastructure.Services;
 using AzureAISearchExplorer.Backend.Shared.Interfaces;
 using AzureAISearchExplorer.Backend.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -42,14 +40,7 @@ public static class IndexersEndpoints
 
         var request = new HttpRequestMessage(method, uri);
 
-        if (profile.AuthType == "ApiKey" && !string.IsNullOrWhiteSpace(profile.ApiKey))
-        {
-            request.Headers.Add("api-key", profile.ApiKey);
-        }
-        else
-        {
-            request.Headers.Authorization = await auth.GetBearerAuthorizationHeaderAsync(profile, cancellationToken);
-        }
+        await auth.TryApplySearchAuthHeaderAsync(request.Headers, profile, cancellationToken);
 
         if (jsonBody is not null)
         {

@@ -1,0 +1,45 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+}
+
+.actions {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.modalGrid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-color);
+  font-size: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.error {
+  color: var(--status-error-text);
+  font-size: 12px;
+}
+
+.hint {
+  color: var(--text-color);
+  opacity: 0.75;
+  font-size: 12px;
+}
