@@ -4,13 +4,14 @@ interface TruncatedTextCellProps {
     value: string;
     onExpand: (val: string) => void;
     maxWidth?: string;
+    compact?: boolean;
 }
 
-export const TruncatedTextCell: React.FC<TruncatedTextCellProps> = ({ value, onExpand, maxWidth = '300px' }) => {
+export const TruncatedTextCell: React.FC<TruncatedTextCellProps> = ({ value, onExpand, maxWidth = '300px', compact = false }) => {
     const [hover, setHover] = useState(false);
     return (
         <td 
-            style={{ padding: '8px 10px', color: 'var(--text-color)', maxWidth: maxWidth, position: 'relative' }}
+            style={{ padding: compact ? '6px 8px' : '8px 10px', color: 'var(--text-color)', maxWidth: maxWidth, position: 'relative' }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >

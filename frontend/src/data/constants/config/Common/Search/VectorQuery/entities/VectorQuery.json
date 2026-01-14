@@ -1,0 +1,6 @@
+{
+  "title": "Vector Query",
+  "description": "Vector and hybrid search query parameters.",
+  "discriminatorKey": "kind",
+  "nameKey": "fields"
+}

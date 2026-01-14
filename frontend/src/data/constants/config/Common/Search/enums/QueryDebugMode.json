@@ -1,0 +1,4 @@
+[
+  { "value": "disabled", "description": "No query debugging information will be returned." },
+  { "value": "vector", "description": "Allows the user to further explore their hybrid and vector query results." }
+]

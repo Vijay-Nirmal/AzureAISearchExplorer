@@ -1,0 +1,212 @@
+{
+  "discriminatorValue": "SearchRequest",
+  "label": "SearchRequest",
+  "description": "Documents search request payload.",
+  "fields": [
+    {
+      "key": "search",
+      "label": "Search",
+      "type": "string",
+      "placeholder": "*",
+      "tooltip": "Full-text search query expression. Use '*' or omit to match all documents."
+    },
+    {
+      "key": "queryType",
+      "label": "Query Type",
+      "type": "enum",
+      "default": "simple",
+      "optionsRef": "Common/Search/enums/QueryType.json",
+      "tooltip": "Syntax of the search query."
+    },
+    {
+      "key": "searchMode",
+      "label": "Search Mode",
+      "type": "enum",
+      "default": "any",
+      "optionsRef": "Common/Search/enums/SearchMode.json",
+      "tooltip": "Whether any or all of the search terms must be matched."
+    },
+    {
+      "key": "searchFields",
+      "label": "Search Fields",
+      "type": "string",
+      "placeholder": "field1,field2",
+      "tooltip": "Comma-separated list of field names to which to scope the full-text search."
+    },
+    {
+      "key": "select",
+      "label": "Select",
+      "type": "string",
+      "placeholder": "field1,field2",
+      "tooltip": "Comma-separated list of fields to retrieve."
+    },
+    {
+      "key": "filter",
+      "label": "Filter",
+      "type": "string",
+      "placeholder": "field eq 'value'",
+      "tooltip": "OData $filter expression to apply to the search query."
+    },
+    {
+      "key": "orderby",
+      "label": "Order By",
+      "type": "string",
+      "placeholder": "search.score() desc",
+      "tooltip": "Comma-separated list of OData $orderby expressions."
+    },
+    {
+      "key": "facets",
+      "label": "Facets",
+      "type": "stringArray",
+      "orderMatters": true,
+      "tooltip": "Facet expressions to apply to the search query."
+    },
+    {
+      "key": "scoringProfile",
+      "label": "Scoring Profile",
+      "type": "string",
+      "tooltip": "Name of a scoring profile to evaluate match scores for sorting results."
+    },
+    {
+      "key": "scoringParameters",
+      "label": "Scoring Parameters",
+      "type": "stringArray",
+      "orderMatters": true,
+      "tooltip": "Parameter values used in scoring functions, format name-values (example: referencePoint--122.2,44.8)."
+    },
+    {
+      "key": "scoringStatistics",
+      "label": "Scoring Statistics",
+      "type": "enum",
+      "default": "local",
+      "optionsRef": "Common/Search/enums/ScoringStatistics.json",
+      "tooltip": "Whether to calculate scoring statistics globally (more consistent) or locally (lower latency)."
+    },
+    {
+      "key": "count",
+      "label": "Count",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "Whether to fetch the total count of results (approximate; may impact performance)."
+    },
+    {
+      "key": "skip",
+      "label": "Skip",
+      "type": "number",
+      "min": 0,
+      "max": 100000,
+      "tooltip": "Number of search results to skip (max 100,000)."
+    },
+    {
+      "key": "top",
+      "label": "Top",
+      "type": "number",
+      "min": 0,
+      "tooltip": "Number of search results to retrieve."
+    },
+    {
+      "key": "minimumCoverage",
+      "label": "Minimum Coverage",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "default": 100,
+      "tooltip": "Percentage of the index that must be covered for the query to be reported as a success."
+    },
+    {
+      "key": "highlight",
+      "label": "Highlight Fields",
+      "type": "string",
+      "placeholder": "field1,field2",
+      "tooltip": "Comma-separated list of field names to use for hit highlights (searchable fields only)."
+    },
+    {
+      "key": "highlightPreTag",
+      "label": "Highlight Pre Tag",
+      "type": "string",
+      "default": "<em>",
+      "tooltip": "String tag prepended to hit highlights. Must be set with Highlight Post Tag."
+    },
+    {
+      "key": "highlightPostTag",
+      "label": "Highlight Post Tag",
+      "type": "string",
+      "default": "</em>",
+      "tooltip": "String tag appended to hit highlights. Must be set with Highlight Pre Tag."
+    },
+    {
+      "key": "answers",
+      "label": "Answers",
+      "type": "enum",
+      "default": "none",
+      "optionsRef": "Common/Search/enums/QueryAnswerType.json",
+      "tooltip": "Whether answers should be returned as part of the search response."
+    },
+    {
+      "key": "captions",
+      "label": "Captions",
+      "type": "enum",
+      "default": "none",
+      "optionsRef": "Common/Search/enums/QueryCaptionType.json",
+      "tooltip": "Whether captions should be returned as part of the search response."
+    },
+    {
+      "key": "debug",
+      "label": "Debug",
+      "type": "enum",
+      "default": "disabled",
+      "optionsRef": "Common/Search/enums/QueryDebugMode.json",
+      "tooltip": "Enable debugging information for exploring reranked results."
+    },
+    {
+      "key": "semanticConfiguration",
+      "label": "Semantic Configuration",
+      "type": "string",
+      "tooltip": "Name of a semantic configuration used when processing semantic queries."
+    },
+    {
+      "key": "semanticQuery",
+      "label": "Semantic Query",
+      "type": "string",
+      "tooltip": "Separate query used only for semantic reranking/captions/answers."
+    },
+    {
+      "key": "semanticErrorHandling",
+      "label": "Semantic Error Handling",
+      "type": "enum",
+      "default": "fail",
+      "optionsRef": "Common/Search/enums/SemanticErrorMode.json",
+      "tooltip": "Whether semantic processing should fail the query or return partial results."
+    },
+    {
+      "key": "semanticMaxWaitInMilliseconds",
+      "label": "Semantic Max Wait (ms)",
+      "type": "number",
+      "min": 700,
+      "tooltip": "Upper bound on semantic enrichment processing time before failing. Minimum: 700."
+    },
+    {
+      "key": "sessionId",
+      "label": "Session Id",
+      "type": "string",
+      "pattern": "^[^_].*",
+      "tooltip": "Sticky-session identifier. Cannot start with '_' character."
+    },
+    {
+      "key": "vectorFilterMode",
+      "label": "Vector Filter Mode",
+      "type": "enum",
+      "default": "preFilter",
+      "optionsRef": "Common/Search/enums/VectorFilterMode.json",
+      "tooltip": "Whether filters are applied before or after vector search."
+    },
+    {
+      "key": "vectorQueries",
+      "label": "Vector Queries",
+      "type": "objectArray",
+      "orderMatters": true,
+      "tooltip": "Vector and hybrid search query parameters.",
+      "schema": { "$ref": "Common/Search/VectorQuery/vectorQueryConfig.json" }
+    }
+  ]
+}

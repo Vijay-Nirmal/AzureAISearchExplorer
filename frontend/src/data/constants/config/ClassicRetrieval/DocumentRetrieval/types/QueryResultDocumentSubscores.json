@@ -1,0 +1,20 @@
+{
+  "discriminatorValue": "QueryResultDocumentSubscores",
+  "label": "QueryResultDocumentSubscores",
+  "description": "Breakdown of subscores between the text and vector query components of the search query.",
+  "fields": [
+    { "key": "documentBoost", "label": "Document Boost", "type": "number" },
+    {
+      "key": "text",
+      "label": "Text",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/TextResult.json" }
+    },
+    {
+      "key": "vectors",
+      "label": "Vectors",
+      "type": "object",
+      "tooltip": "Map from vector query name/index to SingleVectorFieldResult. Use Edit JSON to inspect."
+    }
+  ]
+}

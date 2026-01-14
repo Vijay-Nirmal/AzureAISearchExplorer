@@ -1,0 +1,11 @@
+{
+  "discriminatorValue": "AnswerResult",
+  "label": "AnswerResult",
+  "description": "An answer passage extracted from the contents of the most relevant documents that matched the query.",
+  "fields": [
+    { "key": "highlights", "label": "Highlights", "type": "string" },
+    { "key": "key", "label": "Key", "type": "string" },
+    { "key": "score", "label": "Score", "type": "number" },
+    { "key": "text", "label": "Text", "type": "string" }
+  ]
+}

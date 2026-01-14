@@ -4,6 +4,7 @@ using AzureAISearchExplorer.Backend.Features.Connections;
 using AzureAISearchExplorer.Backend.Features.DataSources;
 using AzureAISearchExplorer.Backend.Features.Indexers;
 using AzureAISearchExplorer.Backend.Features.Indexes;
+using AzureAISearchExplorer.Backend.Features.ClassicRetrieval;
 using AzureAISearchExplorer.Backend.Features.Aliases;
 using AzureAISearchExplorer.Backend.Features.SynonymMaps;
 using AzureAISearchExplorer.Backend.Features.Skillsets;
@@ -48,6 +49,7 @@ app.MapSynonymMapsEndpoints();
 app.MapDataSourcesEndpoints();
 app.MapSkillsetsEndpoints();
 app.MapIndexersEndpoints();
+app.MapClassicRetrievalEndpoints();
 app.MapKnowledgeSourcesEndpoints();
 app.MapKnowledgeBasesEndpoints();
 

@@ -1,0 +1,58 @@
+{
+  "discriminatorValue": "text",
+  "label": "VectorizableTextQuery",
+  "description": "Vector search where the service vectorizes the provided text.",
+  "fields": [
+    {
+      "key": "fields",
+      "label": "Fields",
+      "type": "string",
+      "required": true,
+      "placeholder": "vectorField",
+      "tooltip": "Vector fields (Collection(Edm.Single)) to include in the vector search."
+    },
+    {
+      "key": "k",
+      "label": "K",
+      "type": "number",
+      "required": true,
+      "min": 1,
+      "tooltip": "Number of nearest neighbors to return as top hits."
+    },
+    {
+      "key": "text",
+      "label": "Text",
+      "type": "string",
+      "required": true,
+      "tooltip": "Text to be vectorized to perform a vector search query."
+    },
+    {
+      "key": "weight",
+      "label": "Weight",
+      "type": "number",
+      "min": 0,
+      "default": 1,
+      "tooltip": "Relative weight of this vector query compared to other vector/text queries."
+    },
+    {
+      "key": "exhaustive",
+      "label": "Exhaustive",
+      "type": "boolean",
+      "default": false,
+      "tooltip": "When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index."
+    },
+    {
+      "key": "rerankWithOriginalVectors",
+      "label": "Rerank With Original Vectors",
+      "type": "boolean",
+      "tooltip": "If true, enables reranking using original vectors (required for oversampling in some cases)."
+    },
+    {
+      "key": "oversampling",
+      "label": "Oversampling",
+      "type": "number",
+      "min": 1,
+      "tooltip": "Oversampling factor. Minimum value is 1."
+    }
+  ]
+}

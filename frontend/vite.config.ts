@@ -7,6 +7,6 @@ export default defineConfig({
     base: './',
     build: {
         // Monaco (@monaco-editor/react) can push the main bundle over the default 500kB warning threshold.
-        chunkSizeWarningLimit: 1200
+        chunkSizeWarningLimit: 2000
     }
 });

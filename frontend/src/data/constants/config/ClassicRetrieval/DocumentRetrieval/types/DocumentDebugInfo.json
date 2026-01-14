@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "DocumentDebugInfo",
+  "label": "DocumentDebugInfo",
+  "description": "Debugging information that can be used to further explore search results.",
+  "fields": [
+    {
+      "key": "vectors",
+      "label": "Vectors",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/VectorsDebugInfo.json" }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "entity": { "$ref": "Common/Search/entities/SearchRequest.json" },
+  "commonFields": [],
+  "types": [
+    { "$ref": "Common/Search/types/SearchRequest.json" }
+  ]
+}

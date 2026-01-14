@@ -1,0 +1,14 @@
+[
+  {
+    "value": "simple",
+    "description": "Uses the simple query syntax for searches. Search text is interpreted using a simple query language that allows for symbols such as +, * and \"\"."
+  },
+  {
+    "value": "full",
+    "description": "Uses the full Lucene query syntax for searches. Search text is interpreted using the Lucene query language which allows field-specific and weighted searches, as well as other advanced features."
+  },
+  {
+    "value": "semantic",
+    "description": "Best suited for queries expressed in natural language as opposed to keywords. Improves precision of search results by re-ranking the top search results using a ranking model trained on the Web corpus."
+  }
+]

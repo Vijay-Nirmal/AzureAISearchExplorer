@@ -1,0 +1,7 @@
+[
+  { "value": "none", "description": "Do not return captions for the query." },
+  {
+    "value": "extractive",
+    "description": "Extracts captions from the matching documents that contain passages relevant to the search query."
+  }
+]

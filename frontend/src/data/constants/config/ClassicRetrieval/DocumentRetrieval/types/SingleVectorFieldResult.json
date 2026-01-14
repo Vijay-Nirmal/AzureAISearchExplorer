@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "SingleVectorFieldResult",
+  "label": "SingleVectorFieldResult",
+  "description": "A single vector field result. Both @search.score and vector similarity values are returned.",
+  "fields": [
+    { "key": "searchScore", "label": "Search Score", "type": "number" },
+    {
+      "key": "vectorSimilarity",
+      "label": "Vector Similarity",
+      "type": "number",
+      "tooltip": "Canonical similarity metric (e.g., cosine similarity, not cosine distance)."
+    }
+  ]
+}

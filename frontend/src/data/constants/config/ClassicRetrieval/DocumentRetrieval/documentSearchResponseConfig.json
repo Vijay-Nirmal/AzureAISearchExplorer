@@ -1,0 +1,7 @@
+{
+  "entity": { "$ref": "ClassicRetrieval/DocumentRetrieval/entities/SearchDocumentsResult.json" },
+  "commonFields": [],
+  "types": [
+    { "$ref": "ClassicRetrieval/DocumentRetrieval/types/SearchDocumentsResult.json" }
+  ]
+}

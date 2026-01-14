@@ -1,0 +1,66 @@
+{
+  "discriminatorValue": "SearchDocumentsResult",
+  "label": "SearchDocumentsResult",
+  "description": "Response containing search results from an index.",
+  "fields": [
+    {
+      "key": "@odata.count",
+      "label": "Count",
+      "type": "number",
+      "tooltip": "Total count of results found by the search operation, or null if not requested."
+    },
+    {
+      "key": "@odata.nextLink",
+      "label": "Next Link",
+      "type": "string",
+      "tooltip": "Continuation URL returned when the query cannot return all requested documents in a single response."
+    },
+    {
+      "key": "@search.coverage",
+      "label": "Coverage",
+      "type": "number",
+      "tooltip": "Percentage of the index that was included in the query."
+    },
+    {
+      "key": "@search.answers",
+      "label": "Answers",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/AnswerResult.json" }
+    },
+    {
+      "key": "@search.facets",
+      "label": "Facets",
+      "type": "object",
+      "tooltip": "Facet results organized as buckets for each faceted field. Use Edit JSON to inspect."
+    },
+    {
+      "key": "@search.nextPageParameters",
+      "label": "Next Page Parameters",
+      "type": "object",
+      "tooltip": "Continuation JSON payload for issuing another Search request.",
+      "schema": { "$ref": "Common/Search/types/SearchRequest.json" }
+    },
+    {
+      "key": "@search.semanticPartialResponseReason",
+      "label": "Semantic Partial Response Reason",
+      "type": "enum",
+      "optionsRef": "Common/Search/enums/SemanticErrorReason.json",
+      "tooltip": "Reason that a partial response was returned for a semantic ranking request."
+    },
+    {
+      "key": "@search.semanticPartialResponseType",
+      "label": "Semantic Partial Response Type",
+      "type": "enum",
+      "optionsRef": "Common/Search/enums/SemanticSearchResultsType.json",
+      "tooltip": "Type of partial response returned for a semantic ranking request."
+    },
+    {
+      "key": "value",
+      "label": "Results",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/SearchResult.json" }
+    }
+  ]
+}

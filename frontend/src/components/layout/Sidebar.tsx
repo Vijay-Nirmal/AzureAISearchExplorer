@@ -201,6 +201,14 @@ export const Sidebar: React.FC = () => {
             isActive={activeTabId === 'skillsets'}
             onClick={() => handleNavClick('skillsets', 'Skillsets', 'fa-solid fa-wand-magic-sparkles')}
           />
+
+          <NavItem
+            id="classic-retrieval"
+            title="Classic Retrieval"
+            icon="fa-solid fa-magnifying-glass"
+            isActive={activeTabId === 'classic-retrieval'}
+            onClick={() => handleNavClick('classic-retrieval', 'Classic Retrieval', 'fa-solid fa-magnifying-glass')}
+          />
           {/* Add other items as needed */}
         </div>
         

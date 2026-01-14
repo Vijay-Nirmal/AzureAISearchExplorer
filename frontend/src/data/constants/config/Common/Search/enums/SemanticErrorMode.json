@@ -1,0 +1,4 @@
+[
+  { "value": "partial", "description": "If the semantic processing fails, partial results still return." },
+  { "value": "fail", "description": "If there is an exception during semantic processing, the query fails and returns the appropriate HTTP code." }
+]

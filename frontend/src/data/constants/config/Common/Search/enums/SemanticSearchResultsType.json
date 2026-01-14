@@ -1,0 +1,7 @@
+[
+  { "value": "baseResults", "description": "Results without any semantic enrichment or reranking." },
+  {
+    "value": "rerankedResults",
+    "description": "Results have been reranked and include semantic captions. They will not include any answers, answers highlights or caption highlights."
+  }
+]

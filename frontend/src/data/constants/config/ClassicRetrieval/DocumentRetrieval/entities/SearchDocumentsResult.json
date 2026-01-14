@@ -1,0 +1,6 @@
+{
+  "title": "Search Documents Result",
+  "description": "Response containing search results from an index.",
+  "discriminatorKey": "kind",
+  "nameKey": "@odata.nextLink"
+}

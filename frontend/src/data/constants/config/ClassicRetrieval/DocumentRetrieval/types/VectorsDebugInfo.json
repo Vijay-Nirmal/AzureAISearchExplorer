@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "VectorsDebugInfo",
+  "label": "VectorsDebugInfo",
+  "description": "Debugging information specific to vector and hybrid search.",
+  "fields": [
+    {
+      "key": "subscores",
+      "label": "Subscores",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryResultDocumentSubscores.json" }
+    }
+  ]
+}

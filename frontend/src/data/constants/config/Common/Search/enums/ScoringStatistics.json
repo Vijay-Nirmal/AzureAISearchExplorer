@@ -1,0 +1,10 @@
+[
+  {
+    "value": "local",
+    "description": "The scoring statistics will be calculated locally for lower latency."
+  },
+  {
+    "value": "global",
+    "description": "The scoring statistics will be calculated globally for more consistent scoring. Using global scoring statistics can increase latency of search queries."
+  }
+]

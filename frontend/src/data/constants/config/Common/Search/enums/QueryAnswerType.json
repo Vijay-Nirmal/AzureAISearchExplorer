@@ -1,0 +1,7 @@
+[
+  { "value": "none", "description": "Do not return answers for the query." },
+  {
+    "value": "extractive",
+    "description": "Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language."
+  }
+]

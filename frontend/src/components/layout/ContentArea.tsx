@@ -12,6 +12,7 @@ import SynonymMapsPage from '../pages/SynonymMaps/SynonymMapsPage';
 import KnowledgeSourcesPage from '../pages/Agentic/KnowledgeSourcesPage';
 import KnowledgeBasesPage from '../pages/Agentic/KnowledgeBasesPage';
 import AgenticRetrievalPage from '../pages/Agentic/AgenticRetrievalPage';
+import ClassicRetrievalPage from '../pages/ClassicRetrieval/ClassicRetrievalPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -60,6 +61,10 @@ export const ContentArea: React.FC = () => {
               case 'agentic-retrieval':
                 if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
                 return <AgenticRetrievalPage />;
+
+              case 'classic-retrieval':
+                if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+                return <ClassicRetrievalPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>

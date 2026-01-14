@@ -1,0 +1,4 @@
+[
+  { "value": "any", "description": "Any of the search terms must be matched in order to count the document as a match." },
+  { "value": "all", "description": "All of the search terms must be matched in order to count the document as a match." }
+]

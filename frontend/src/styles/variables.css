@@ -24,7 +24,11 @@
   --status-ok-text: #4caf50;
   --status-warn-bg: #4d3800;
   --status-warn-text: #ffcc00;
+  --status-error-bg: rgba(244, 135, 113, 0.12);
   --status-error-text: #f48771;
+
+  /* Table */
+  --table-row-alt-bg: rgba(255, 255, 255, 0.02);
 }
 
 body.light-theme {
@@ -34,4 +38,7 @@ body.light-theme {
   --border-color: #e1e1e1;
   --hover-color: #e8e8e8;
   --active-color: #ffffff;
+
+  --status-error-bg: rgba(244, 135, 113, 0.10);
+  --table-row-alt-bg: rgba(0, 0, 0, 0.02);
 }

@@ -1,0 +1,9 @@
+{
+  "discriminatorValue": "CaptionResult",
+  "label": "CaptionResult",
+  "description": "A representative text passage extracted from the document most relevant to the search query.",
+  "fields": [
+    { "key": "highlights", "label": "Highlights", "type": "string" },
+    { "key": "text", "label": "Text", "type": "string" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "value": "maxWaitExceeded",
+    "description": "If semanticMaxWaitInMilliseconds was set and the semantic processing duration exceeded that value. Only the base results were returned."
+  },
+  { "value": "capacityOverloaded", "description": "The request was throttled. Only the base results were returned." },
+  { "value": "transient", "description": "At least one step of the semantic process failed." }
+]

@@ -1,0 +1,8 @@
+{
+  "discriminatorValue": "TextResult",
+  "label": "TextResult",
+  "description": "Score information for the text portion of the query.",
+  "fields": [
+    { "key": "searchScore", "label": "Search Score", "type": "number" }
+  ]
+}

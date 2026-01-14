@@ -1,0 +1,44 @@
+{
+  "discriminatorValue": "SearchResult",
+  "label": "SearchResult",
+  "description": "A document found by a search query, plus associated metadata.",
+  "fields": [
+    {
+      "key": "@search.score",
+      "label": "Score",
+      "type": "number",
+      "tooltip": "Relevance score of the document compared to other documents returned by the query."
+    },
+    {
+      "key": "@search.rerankerScore",
+      "label": "Reranker Score",
+      "type": "number",
+      "tooltip": "Semantic ranker score for the top search results (semantic query type only)."
+    },
+    {
+      "key": "@search.rerankerBoostedScore",
+      "label": "Reranker Boosted Score",
+      "type": "number",
+      "tooltip": "Relevance score computed by boosting the Reranker Score (semantic query type only)."
+    },
+    {
+      "key": "@search.captions",
+      "label": "Captions",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/CaptionResult.json" }
+    },
+    {
+      "key": "@search.documentDebugInfo",
+      "label": "Document Debug Info",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/DocumentDebugInfo.json" }
+    },
+    {
+      "key": "@search.highlights",
+      "label": "Highlights",
+      "type": "object",
+      "tooltip": "Text fragments indicating matching search terms, organized by each applicable field."
+    }
+  ]
+}

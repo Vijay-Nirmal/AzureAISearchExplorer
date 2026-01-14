@@ -1,0 +1,6 @@
+{
+  "title": "Search Request",
+  "description": "Parameters for filtering, sorting, faceting, paging, and other search query behaviors.",
+  "discriminatorKey": "kind",
+  "nameKey": "search"
+}

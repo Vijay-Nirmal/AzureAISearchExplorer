@@ -1,0 +1,16 @@
+{
+  "entity": { "$ref": "Common/Search/VectorQuery/entities/VectorQuery.json" },
+  "commonFields": [
+    {
+      "key": "kind",
+      "label": "Kind",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "The kind of vector query being performed."
+    }
+  ],
+  "types": [
+    { "$ref": "Common/Search/VectorQuery/types/RawVectorQuery.json" },
+    { "$ref": "Common/Search/VectorQuery/types/VectorizableTextQuery.json" }
+  ]
+}
