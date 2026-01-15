@@ -1,7 +1,7 @@
 {
-  "discriminatorValue": "AnswerResult",
-  "label": "AnswerResult",
-  "description": "An answer passage extracted from the contents of the most relevant documents that matched the query.",
+  "discriminatorValue": "QueryAnswerResult",
+  "label": "QueryAnswerResult",
+  "description": "Answer text passage extracted from the contents of the most relevant documents.",
   "fields": [
     { "key": "highlights", "label": "Highlights", "type": "string" },
     { "key": "key", "label": "Key", "type": "string" },

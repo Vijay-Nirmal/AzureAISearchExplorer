@@ -1,0 +1,20 @@
+{
+  "discriminatorValue": "QueryRewritesValuesDebugInfo",
+  "label": "QueryRewritesValuesDebugInfo",
+  "description": "Debugging information specific to query rewrites.",
+  "fields": [
+    {
+      "key": "inputQuery",
+      "label": "Input Query",
+      "type": "string",
+      "tooltip": "Input text to the generative query rewriting model."
+    },
+    {
+      "key": "rewrites",
+      "label": "Rewrites",
+      "type": "stringArray",
+      "orderMatters": true,
+      "tooltip": "List of query rewrites."
+    }
+  ]
+}

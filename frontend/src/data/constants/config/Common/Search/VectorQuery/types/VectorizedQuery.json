@@ -1,7 +1,7 @@
 {
-  "discriminatorValue": "text",
-  "label": "VectorizableTextQuery",
-  "description": "Vector search where the service vectorizes the provided text.",
+  "discriminatorValue": "vector",
+  "label": "VectorizedQuery",
+  "description": "Vector search with a provided raw vector array.",
   "fields": [
     {
       "key": "fields",
@@ -9,7 +9,7 @@
       "type": "string",
       "required": true,
       "placeholder": "vectorField",
-      "tooltip": "Vector fields (Collection(Edm.Single)) to include in the vector search."
+      "tooltip": "Vector fields of type Collection(Edm.Single) to include in the vector search."
     },
     {
       "key": "k",
@@ -20,19 +20,10 @@
       "tooltip": "Number of nearest neighbors to return as top hits."
     },
     {
-      "key": "text",
-      "label": "Text",
-      "type": "string",
-      "required": true,
-      "tooltip": "Text to be vectorized to perform a vector search query."
-    },
-    {
-      "key": "queryRewrites",
-      "label": "Query Rewrites",
-      "type": "enum",
-      "default": "none",
-      "optionsRef": "Common/Search/enums/QueryRewritesType.json",
-      "tooltip": "Can be configured to let a generative model rewrite the query before sending it to be vectorized."
+      "key": "vector",
+      "label": "Vector",
+      "type": "object",
+      "tooltip": "Raw vector array (number[]). Use Edit JSON to paste an array of floats."
     },
     {
       "key": "filterOverride",

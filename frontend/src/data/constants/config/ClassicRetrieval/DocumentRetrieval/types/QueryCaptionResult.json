@@ -1,0 +1,9 @@
+{
+  "discriminatorValue": "QueryCaptionResult",
+  "label": "QueryCaptionResult",
+  "description": "Caption text passages representative of the document relative to the search query.",
+  "fields": [
+    { "key": "highlights", "label": "Highlights", "type": "string" },
+    { "key": "text", "label": "Text", "type": "string" }
+  ]
+}

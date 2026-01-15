@@ -10,7 +10,9 @@
     }
   ],
   "types": [
-    { "$ref": "Common/Search/VectorQuery/types/RawVectorQuery.json" },
-    { "$ref": "Common/Search/VectorQuery/types/VectorizableTextQuery.json" }
+    { "$ref": "Common/Search/VectorQuery/types/VectorizedQuery.json" },
+    { "$ref": "Common/Search/VectorQuery/types/VectorizableTextQuery.json" },
+    { "$ref": "Common/Search/VectorQuery/types/VectorizableImageBinaryQuery.json" },
+    { "$ref": "Common/Search/VectorQuery/types/VectorizableImageUrlQuery.json" }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "searchScore",
+  "label": "SearchScoreThreshold",
+  "description": "Filter vector results based on search score.",
+  "fields": [
+    {
+      "key": "value",
+      "label": "Value",
+      "type": "number",
+      "tooltip": "Threshold value."
+    }
+  ]
+}

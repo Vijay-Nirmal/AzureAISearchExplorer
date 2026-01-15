@@ -1,7 +1,7 @@
 {
-  "discriminatorValue": "text",
-  "label": "VectorizableTextQuery",
-  "description": "Vector search where the service vectorizes the provided text.",
+  "discriminatorValue": "imageBinary",
+  "label": "VectorizableImageBinaryQuery",
+  "description": "Vector search where the service vectorizes a base64 encoded image.",
   "fields": [
     {
       "key": "fields",
@@ -9,7 +9,7 @@
       "type": "string",
       "required": true,
       "placeholder": "vectorField",
-      "tooltip": "Vector fields (Collection(Edm.Single)) to include in the vector search."
+      "tooltip": "Vector fields of type Collection(Edm.Single) to include in the vector search."
     },
     {
       "key": "k",
@@ -20,19 +20,11 @@
       "tooltip": "Number of nearest neighbors to return as top hits."
     },
     {
-      "key": "text",
-      "label": "Text",
+      "key": "base64Image",
+      "label": "Base64 Image",
       "type": "string",
       "required": true,
-      "tooltip": "Text to be vectorized to perform a vector search query."
-    },
-    {
-      "key": "queryRewrites",
-      "label": "Query Rewrites",
-      "type": "enum",
-      "default": "none",
-      "optionsRef": "Common/Search/enums/QueryRewritesType.json",
-      "tooltip": "Can be configured to let a generative model rewrite the query before sending it to be vectorized."
+      "tooltip": "Base64 encoded binary of an image to be vectorized."
     },
     {
       "key": "filterOverride",

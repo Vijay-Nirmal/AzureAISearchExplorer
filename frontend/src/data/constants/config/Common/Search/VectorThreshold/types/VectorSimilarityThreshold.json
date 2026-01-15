@@ -1,0 +1,13 @@
+{
+  "discriminatorValue": "vectorSimilarity",
+  "label": "VectorSimilarityThreshold",
+  "description": "Filter vector results based on similarity metric value.",
+  "fields": [
+    {
+      "key": "value",
+      "label": "Value",
+      "type": "number",
+      "tooltip": "Threshold value for the similarity metric."
+    }
+  ]
+}

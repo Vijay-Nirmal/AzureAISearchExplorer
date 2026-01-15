@@ -156,7 +156,30 @@
       "type": "enum",
       "default": "disabled",
       "optionsRef": "Common/Search/enums/QueryDebugMode.json",
-      "tooltip": "Enable debugging information for exploring reranked results."
+      "tooltip": "Enable debugging information for exploring results. Multiple modes can be enabled by separating them with a '|' character (example: semantic|queryRewrites)."
+    },
+    {
+      "key": "hybridSearch",
+      "label": "Hybrid Search",
+      "type": "object",
+      "tooltip": "The query parameters to configure hybrid search behaviors.",
+      "schema": { "$ref": "Common/Search/types/HybridSearch.json" }
+    },
+    {
+      "key": "queryLanguage",
+      "label": "Query Language",
+      "type": "enum",
+      "default": "none",
+      "optionsRef": "Common/Search/enums/QueryLanguage.json",
+      "tooltip": "The language of the query."
+    },
+    {
+      "key": "queryRewrites",
+      "label": "Query Rewrites",
+      "type": "enum",
+      "default": "none",
+      "optionsRef": "Common/Search/enums/QueryRewritesType.json",
+      "tooltip": "Only valid for semantic queries. When set to generative, you can append pipe options like generative|count-3."
     },
     {
       "key": "semanticConfiguration",
@@ -179,6 +202,13 @@
       "tooltip": "Whether semantic processing should fail the query or return partial results."
     },
     {
+      "key": "semanticFields",
+      "label": "Semantic Fields",
+      "type": "string",
+      "placeholder": "field1,field2",
+      "tooltip": "Comma-separated list of field names used for semantic ranking."
+    },
+    {
       "key": "semanticMaxWaitInMilliseconds",
       "label": "Semantic Max Wait (ms)",
       "type": "number",
@@ -191,6 +221,14 @@
       "type": "string",
       "pattern": "^[^_].*",
       "tooltip": "Sticky-session identifier. Cannot start with '_' character."
+    },
+    {
+      "key": "speller",
+      "label": "Speller",
+      "type": "enum",
+      "default": "none",
+      "optionsRef": "Common/Search/enums/QuerySpellerType.json",
+      "tooltip": "Spell-correct individual search query terms."
     },
     {
       "key": "vectorFilterMode",

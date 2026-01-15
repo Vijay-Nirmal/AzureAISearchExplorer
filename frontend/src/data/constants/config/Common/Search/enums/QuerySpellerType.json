@@ -1,0 +1,4 @@
+[
+  { "value": "none", "description": "Speller not enabled." },
+  { "value": "lexicon", "description": "Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter." }
+]

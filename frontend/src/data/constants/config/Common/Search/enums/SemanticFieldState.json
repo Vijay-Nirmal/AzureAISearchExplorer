@@ -1,0 +1,5 @@
+[
+  { "value": "used", "description": "The field was fully used for semantic enrichment." },
+  { "value": "unused", "description": "The field was not used for semantic enrichment." },
+  { "value": "partial", "description": "The field was partially used for semantic enrichment." }
+]

@@ -1,7 +1,14 @@
 [
   {
     "value": "postFilter",
-    "description": "The filter is applied after the candidate set of vector results is returned. Depending on filter selectivity, this can result in fewer results than requested by k."
+    "description": "The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'."
   },
-  { "value": "preFilter", "description": "The filter is applied before the vector search is performed." }
+  {
+    "value": "preFilter",
+    "description": "The filter will be applied before the search query."
+  },
+  {
+    "value": "strictPostFilter",
+    "description": "The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'."
+  }
 ]

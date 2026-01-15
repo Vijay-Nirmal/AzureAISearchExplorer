@@ -1,4 +1,8 @@
 [
   { "value": "disabled", "description": "No query debugging information will be returned." },
-  { "value": "vector", "description": "Allows the user to further explore their hybrid and vector query results." }
+  { "value": "semantic", "description": "Allows the user to further explore their reranked results." },
+  { "value": "vector", "description": "Allows the user to further explore their hybrid and vector query results." },
+  { "value": "queryRewrites", "description": "Allows the user to explore the list of query rewrites generated for their search request." },
+  { "value": "innerHits", "description": "Allows the user to retrieve scoring information regarding vectors matched within a collection of complex types." },
+  { "value": "all", "description": "Turn on all debug options." }
 ]

@@ -1,0 +1,3 @@
+[
+  { "value": "originalQueryOnly", "description": "Query rewrites were not successfully generated for this request; only the original query was used." }
+]

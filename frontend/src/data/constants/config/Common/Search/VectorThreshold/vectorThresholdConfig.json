@@ -1,0 +1,16 @@
+{
+  "entity": { "$ref": "Common/Search/VectorThreshold/entities/VectorThreshold.json" },
+  "commonFields": [
+    {
+      "key": "kind",
+      "label": "Kind",
+      "type": "discriminator",
+      "required": true,
+      "tooltip": "Type of threshold."
+    }
+  ],
+  "types": [
+    { "$ref": "Common/Search/VectorThreshold/types/SearchScoreThreshold.json" },
+    { "$ref": "Common/Search/VectorThreshold/types/VectorSimilarityThreshold.json" }
+  ]
+}

@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import IndexList from './IndexList';
-import IndexExplorer from './IndexExplorer';
 import IndexBuilder from './IndexBuilder';
+import ClassicRetrievalPage from '../ClassicRetrieval/ClassicRetrievalPage';
 
 const IndexesPage: React.FC = () => {
     const [view, setView] = useState<'list' | 'explorer' | 'builder'>('list');
@@ -27,6 +27,15 @@ const IndexesPage: React.FC = () => {
         setSelectedIndex(undefined);
     }, []);
 
+    const explorerBreadcrumbs = useMemo(() => {
+        if (!selectedIndex) return [];
+        return [
+            { label: 'Indexes', onClick: handleBack },
+            { label: selectedIndex },
+            { label: 'Explorer' }
+        ];
+    }, [handleBack, selectedIndex]);
+
     return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             {view === 'list' && (
@@ -38,9 +47,10 @@ const IndexesPage: React.FC = () => {
             )}
             
             {view === 'explorer' && selectedIndex && (
-                <IndexExplorer 
+                <ClassicRetrievalPage
                     indexName={selectedIndex}
                     onBack={handleBack}
+                    breadcrumbs={explorerBreadcrumbs}
                 />
             )}
 

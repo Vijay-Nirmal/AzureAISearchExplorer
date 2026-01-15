@@ -26,7 +26,7 @@
       "label": "Answers",
       "type": "objectArray",
       "orderMatters": true,
-      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/AnswerResult.json" }
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryAnswerResult.json" }
     },
     {
       "key": "@search.facets",
@@ -42,6 +42,13 @@
       "schema": { "$ref": "Common/Search/types/SearchRequest.json" }
     },
     {
+      "key": "@search.debug",
+      "label": "Debug",
+      "type": "object",
+      "tooltip": "Debug information that applies to the search results as a whole.",
+      "schema": { "$ref": "Common/Search/types/DebugInfo.json" }
+    },
+    {
       "key": "@search.semanticPartialResponseReason",
       "label": "Semantic Partial Response Reason",
       "type": "enum",
@@ -54,6 +61,13 @@
       "type": "enum",
       "optionsRef": "Common/Search/enums/SemanticSearchResultsType.json",
       "tooltip": "Type of partial response returned for a semantic ranking request."
+    },
+    {
+      "key": "@search.semanticQueryRewritesResultType",
+      "label": "Semantic Query Rewrites Result Type",
+      "type": "enum",
+      "optionsRef": "Common/Search/enums/SemanticQueryRewritesResultType.json",
+      "tooltip": "Type of query rewrite that was used to retrieve documents."
     },
     {
       "key": "value",

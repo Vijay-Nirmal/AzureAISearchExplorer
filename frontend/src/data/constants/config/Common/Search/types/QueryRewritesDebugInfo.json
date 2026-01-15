@@ -1,0 +1,22 @@
+{
+  "discriminatorValue": "QueryRewritesDebugInfo",
+  "label": "QueryRewritesDebugInfo",
+  "description": "Debugging information specific to query rewrites.",
+  "fields": [
+    {
+      "key": "text",
+      "label": "Text",
+      "type": "object",
+      "schema": { "$ref": "Common/Search/types/QueryRewritesValuesDebugInfo.json" },
+      "tooltip": "List of query rewrites generated for the text query."
+    },
+    {
+      "key": "vectors",
+      "label": "Vectors",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "Common/Search/types/QueryRewritesValuesDebugInfo.json" },
+      "tooltip": "List of query rewrites generated for vectorizable text queries."
+    }
+  ]
+}

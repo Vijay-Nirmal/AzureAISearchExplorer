@@ -1,0 +1,24 @@
+{
+  "discriminatorValue": "HybridSearch",
+  "label": "HybridSearch",
+  "description": "Query parameters to configure hybrid search behaviors.",
+  "fields": [
+    {
+      "key": "countAndFacetMode",
+      "label": "Count And Facet Mode",
+      "type": "enum",
+      "default": "countAllResults",
+      "optionsRef": "Common/Search/enums/HybridCountAndFacetMode.json",
+      "tooltip": "Whether count and facets include all matched documents or only documents within the maxTextRecallSize retrieval window."
+    },
+    {
+      "key": "maxTextRecallSize",
+      "label": "Max Text Recall Size",
+      "type": "number",
+      "min": 1,
+      "max": 10000,
+      "default": 1000,
+      "tooltip": "Maximum number of documents retrieved by the text query portion of a hybrid search request (1-10,000)."
+    }
+  ]
+}

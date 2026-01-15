@@ -4,6 +4,18 @@
   "description": "Debugging information that can be used to further explore search results.",
   "fields": [
     {
+      "key": "innerHits",
+      "label": "Inner Hits",
+      "type": "object",
+      "tooltip": "Debugging information specific to vectors matched within a collection of complex types. Use Edit JSON to inspect."
+    },
+    {
+      "key": "semantic",
+      "label": "Semantic",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/SemanticDebugInfo.json" }
+    },
+    {
       "key": "vectors",
       "label": "Vectors",
       "type": "object",

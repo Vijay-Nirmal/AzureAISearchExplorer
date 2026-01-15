@@ -1,0 +1,10 @@
+{
+  "discriminatorValue": "QueryResultDocumentRerankerInput",
+  "label": "QueryResultDocumentRerankerInput",
+  "description": "Raw concatenated strings sent to semantic enrichment.",
+  "fields": [
+    { "key": "content", "label": "Content", "type": "string" },
+    { "key": "keywords", "label": "Keywords", "type": "string" },
+    { "key": "title", "label": "Title", "type": "string" }
+  ]
+}

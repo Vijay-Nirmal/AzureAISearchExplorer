@@ -26,7 +26,7 @@
       "label": "Captions",
       "type": "objectArray",
       "orderMatters": true,
-      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/CaptionResult.json" }
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryCaptionResult.json" }
     },
     {
       "key": "@search.documentDebugInfo",

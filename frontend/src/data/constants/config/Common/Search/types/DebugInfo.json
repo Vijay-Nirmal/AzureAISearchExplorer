@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "DebugInfo",
+  "label": "DebugInfo",
+  "description": "Debug information that applies to the search results as a whole.",
+  "fields": [
+    {
+      "key": "queryRewrites",
+      "label": "Query Rewrites",
+      "type": "object",
+      "schema": { "$ref": "Common/Search/types/QueryRewritesDebugInfo.json" },
+      "tooltip": "Contains debugging information specific to query rewrites."
+    }
+  ]
+}

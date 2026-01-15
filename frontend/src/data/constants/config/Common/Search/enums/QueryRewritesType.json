@@ -1,0 +1,4 @@
+[
+  { "value": "none", "description": "Do not generate additional query rewrites for this query." },
+  { "value": "generative", "description": "Generate alternative query terms to increase the recall of a search request." }
+]

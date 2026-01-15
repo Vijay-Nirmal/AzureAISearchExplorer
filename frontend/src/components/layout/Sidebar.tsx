@@ -27,19 +27,29 @@ export const Sidebar: React.FC = () => {
   const { openTab, activeTabId, toggleBottomPanel, activeConnectionId, setActiveConnectionId } = useLayout();
   const [connections, setConnections] = useState<ConnectionProfile[]>([]);
 
+  const openTabRef = useRef(openTab);
+  const activeConnectionIdRef = useRef(activeConnectionId);
+  const setActiveConnectionIdRef = useRef(setActiveConnectionId);
+
   const loadConnectionsRef = useRef<(() => Promise<void>) | null>(null);
   const handleConnectionSaved = useCallback(() => {
     void loadConnectionsRef.current?.();
   }, []);
 
+  useEffect(() => {
+    openTabRef.current = openTab;
+    activeConnectionIdRef.current = activeConnectionId;
+    setActiveConnectionIdRef.current = setActiveConnectionId;
+  }, [openTab, activeConnectionId, setActiveConnectionId]);
+
   const loadConnections = useCallback(async () => {
     try {
       const data = await connectionService.getAll();
       setConnections(data);
-      if (data.length > 0 && !activeConnectionId) {
-        setActiveConnectionId(data[0].id!);
+      if (data.length > 0 && !activeConnectionIdRef.current) {
+        setActiveConnectionIdRef.current(data[0].id!);
       } else if (data.length === 0) {
-        openTab({ 
+        openTabRef.current({ 
             id: 'add-connection', 
             title: 'Add Connection', 
             icon: 'fa-solid fa-plug', 
@@ -50,20 +60,14 @@ export const Sidebar: React.FC = () => {
     } catch (error) {
       console.error('Failed to load connections', error);
     }
-  }, [activeConnectionId, handleConnectionSaved, openTab, setActiveConnectionId]);
+  }, [handleConnectionSaved]);
 
   useEffect(() => {
     loadConnectionsRef.current = loadConnections;
   }, [loadConnections]);
 
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      void loadConnections();
-    }, 0);
-
-    return () => {
-      window.clearTimeout(id);
-    };
+    void loadConnections();
   }, [loadConnections]);
 
   const handleNavClick = (id: string, title: string, icon: string) => {
@@ -159,26 +163,19 @@ export const Sidebar: React.FC = () => {
             isActive={activeTabId === 'service'}
             onClick={() => handleNavClick('service', 'Service Overview', 'fa-solid fa-server')}
           />
+          <NavItem
+            id="classic-retrieval"
+            title="Classic Retrieval"
+            icon="fa-solid fa-magnifying-glass"
+            isActive={activeTabId === 'classic-retrieval'}
+            onClick={() => handleNavClick('classic-retrieval', 'Classic Retrieval', 'fa-solid fa-magnifying-glass')}
+          />
           <NavItem 
             id="indexes" 
             title="Indexes" 
             icon="fa-solid fa-table" 
             isActive={activeTabId === 'indexes'}
             onClick={() => handleNavClick('indexes', 'Indexes', 'fa-solid fa-table')}
-          />
-          <NavItem 
-            id="aliases" 
-            title="Aliases" 
-            icon="fa-solid fa-link" 
-            isActive={activeTabId === 'aliases'}
-            onClick={() => handleNavClick('aliases', 'Aliases', 'fa-solid fa-link')}
-          />
-          <NavItem 
-            id="synonymmaps" 
-            title="Synonym Maps" 
-            icon="fa-solid fa-language" 
-            isActive={activeTabId === 'synonymmaps'}
-            onClick={() => handleNavClick('synonymmaps', 'Synonym Maps', 'fa-solid fa-language')}
           />
           <NavItem 
             id="indexers" 
@@ -201,15 +198,20 @@ export const Sidebar: React.FC = () => {
             isActive={activeTabId === 'skillsets'}
             onClick={() => handleNavClick('skillsets', 'Skillsets', 'fa-solid fa-wand-magic-sparkles')}
           />
-
-          <NavItem
-            id="classic-retrieval"
-            title="Classic Retrieval"
-            icon="fa-solid fa-magnifying-glass"
-            isActive={activeTabId === 'classic-retrieval'}
-            onClick={() => handleNavClick('classic-retrieval', 'Classic Retrieval', 'fa-solid fa-magnifying-glass')}
+          <NavItem 
+            id="aliases" 
+            title="Aliases" 
+            icon="fa-solid fa-link" 
+            isActive={activeTabId === 'aliases'}
+            onClick={() => handleNavClick('aliases', 'Aliases', 'fa-solid fa-link')}
           />
-          {/* Add other items as needed */}
+          <NavItem 
+            id="synonymmaps" 
+            title="Synonym Maps" 
+            icon="fa-solid fa-language" 
+            isActive={activeTabId === 'synonymmaps'}
+            onClick={() => handleNavClick('synonymmaps', 'Synonym Maps', 'fa-solid fa-language')}
+          />
         </div>
         
         <div className={styles.navGroup}>
@@ -220,13 +222,6 @@ export const Sidebar: React.FC = () => {
             icon="fa-solid fa-comments" 
             isActive={activeTabId === 'agentic-retrieval'}
             onClick={() => handleNavClick('agentic-retrieval', 'Agentic Retrieval', 'fa-solid fa-comments')}
-          />
-          <NavItem 
-            id="playground" 
-            title="Playground" 
-            icon="fa-solid fa-flask" 
-            isActive={activeTabId === 'playground'}
-            onClick={() => handleNavClick('playground', 'Playground', 'fa-solid fa-flask')}
           />
           <NavItem 
             id="knowledgesources" 

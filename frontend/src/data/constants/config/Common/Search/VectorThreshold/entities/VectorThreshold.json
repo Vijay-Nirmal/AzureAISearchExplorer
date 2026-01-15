@@ -1,0 +1,6 @@
+{
+  "title": "Vector Threshold",
+  "description": "Threshold applied to vector queries.",
+  "discriminatorKey": "kind",
+  "nameKey": "kind"
+}

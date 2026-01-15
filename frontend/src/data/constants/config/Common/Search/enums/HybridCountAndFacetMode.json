@@ -1,0 +1,4 @@
+[
+  { "value": "countRetrievableResults", "description": "Only include documents matched within the maxTextRecallSize retrieval window when computing count and facets." },
+  { "value": "countAllResults", "description": "Include all documents matched by the search query when computing count and facets, regardless of retrieval window." }
+]

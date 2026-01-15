@@ -1,0 +1,33 @@
+{
+  "discriminatorValue": "SemanticDebugInfo",
+  "label": "SemanticDebugInfo",
+  "description": "Debugging information specific to semantic ranking requests.",
+  "fields": [
+    {
+      "key": "contentFields",
+      "label": "Content Fields",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryResultDocumentSemanticField.json" }
+    },
+    {
+      "key": "keywordFields",
+      "label": "Keyword Fields",
+      "type": "objectArray",
+      "orderMatters": true,
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryResultDocumentSemanticField.json" }
+    },
+    {
+      "key": "titleField",
+      "label": "Title Field",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryResultDocumentSemanticField.json" }
+    },
+    {
+      "key": "rerankerInput",
+      "label": "Reranker Input",
+      "type": "object",
+      "schema": { "$ref": "ClassicRetrieval/DocumentRetrieval/types/QueryResultDocumentRerankerInput.json" }
+    }
+  ]
+}

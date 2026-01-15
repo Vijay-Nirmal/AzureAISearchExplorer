@@ -1,0 +1,14 @@
+{
+  "discriminatorValue": "QueryResultDocumentSemanticField",
+  "label": "QueryResultDocumentSemanticField",
+  "description": "Description of fields sent to semantic enrichment and how they were used.",
+  "fields": [
+    { "key": "name", "label": "Name", "type": "string" },
+    {
+      "key": "state",
+      "label": "State",
+      "type": "enum",
+      "optionsRef": "Common/Search/enums/SemanticFieldState.json"
+    }
+  ]
+}

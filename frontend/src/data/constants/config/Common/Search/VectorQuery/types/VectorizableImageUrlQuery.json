@@ -1,7 +1,7 @@
 {
-  "discriminatorValue": "vector",
-  "label": "RawVectorQuery",
-  "description": "Vector search with a provided raw vector array.",
+  "discriminatorValue": "imageUrl",
+  "label": "VectorizableImageUrlQuery",
+  "description": "Vector search where the service vectorizes an image from a URL.",
   "fields": [
     {
       "key": "fields",
@@ -9,7 +9,7 @@
       "type": "string",
       "required": true,
       "placeholder": "vectorField",
-      "tooltip": "Vector fields (Collection(Edm.Single)) to include in the vector search."
+      "tooltip": "Vector fields of type Collection(Edm.Single) to include in the vector search."
     },
     {
       "key": "k",
@@ -20,10 +20,31 @@
       "tooltip": "Number of nearest neighbors to return as top hits."
     },
     {
-      "key": "vector",
-      "label": "Vector",
+      "key": "url",
+      "label": "URL",
+      "type": "string",
+      "required": true,
+      "tooltip": "URL of an image to be vectorized."
+    },
+    {
+      "key": "filterOverride",
+      "label": "Filter Override",
+      "type": "string",
+      "tooltip": "OData filter expression to apply to this specific vector query."
+    },
+    {
+      "key": "perDocumentVectorLimit",
+      "label": "Per Document Vector Limit",
+      "type": "number",
+      "min": 0,
+      "tooltip": "How many vectors can be matched from each document (0 = unlimited)."
+    },
+    {
+      "key": "threshold",
+      "label": "Threshold",
       "type": "object",
-      "tooltip": "Raw vector array (number[]). Use Edit JSON to paste an array of floats."
+      "tooltip": "Threshold used for vector queries.",
+      "schema": { "$ref": "Common/Search/VectorThreshold/vectorThresholdConfig.json" }
     },
     {
       "key": "weight",
@@ -39,12 +60,6 @@
       "type": "boolean",
       "default": false,
       "tooltip": "When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index."
-    },
-    {
-      "key": "rerankWithOriginalVectors",
-      "label": "Rerank With Original Vectors",
-      "type": "boolean",
-      "tooltip": "If true, enables reranking using original vectors (required for oversampling in some cases)."
     },
     {
       "key": "oversampling",
