@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    title: string;
+    title: React.ReactNode;
     children: React.ReactNode;
     footer?: React.ReactNode;
     width?: string;
@@ -70,7 +70,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
                         alignItems: 'center'
                     }}
                 >
-                    <span style={{ fontWeight: 600, color: 'var(--text-color)' }}>{title}</span>
+                    <div style={{ fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {title}
+                    </div>
                     <button
                         onClick={onClose}
                         style={{ background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', opacity: 0.85 }}

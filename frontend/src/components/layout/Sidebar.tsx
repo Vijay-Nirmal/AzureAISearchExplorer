@@ -67,7 +67,9 @@ export const Sidebar: React.FC = () => {
   }, [loadConnections]);
 
   useEffect(() => {
-    void loadConnections();
+    queueMicrotask(() => {
+      void loadConnections();
+    });
   }, [loadConnections]);
 
   const handleNavClick = (id: string, title: string, icon: string) => {
@@ -169,6 +171,13 @@ export const Sidebar: React.FC = () => {
             icon="fa-solid fa-magnifying-glass"
             isActive={activeTabId === 'classic-retrieval'}
             onClick={() => handleNavClick('classic-retrieval', 'Classic Retrieval', 'fa-solid fa-magnifying-glass')}
+          />
+          <NavItem
+            id="classic-visual"
+            title="Classic Visual"
+            icon="fa-solid fa-diagram-project"
+            isActive={activeTabId === 'classic-visual'}
+            onClick={() => handleNavClick('classic-visual', 'Classic Visual', 'fa-solid fa-diagram-project')}
           />
           <NavItem 
             id="indexes" 

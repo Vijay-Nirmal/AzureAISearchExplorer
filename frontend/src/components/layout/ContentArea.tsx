@@ -13,6 +13,7 @@ import KnowledgeSourcesPage from '../pages/Agentic/KnowledgeSourcesPage';
 import KnowledgeBasesPage from '../pages/Agentic/KnowledgeBasesPage';
 import AgenticRetrievalPage from '../pages/Agentic/AgenticRetrievalPage';
 import ClassicRetrievalPage from '../pages/ClassicRetrieval/ClassicRetrievalPage';
+import ClassicVisualPage from '../pages/ClassicVisual/ClassicVisualPage';
 
 export const ContentArea: React.FC = () => {
   const { activeTabId, tabs, activeConnectionId } = useLayout();
@@ -65,6 +66,9 @@ export const ContentArea: React.FC = () => {
               case 'classic-retrieval':
                 if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
                 return <ClassicRetrievalPage />;
+              case 'classic-visual':
+                if (!activeConnectionId) return <div style={{ padding: '20px' }}>Please select a connection first.</div>;
+                return <ClassicVisualPage />;
           default:
               return (
                 <div style={{ padding: '20px' }}>

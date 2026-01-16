@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Background,
   BackgroundVariant,
@@ -7,6 +7,7 @@ import {
   MarkerType,
   Position,
   ReactFlow,
+  applyNodeChanges,
   type Connection,
   type Edge,
   type EdgeChange,
@@ -15,7 +16,8 @@ import {
   type Node,
   type NodeChange,
   type EdgeTypes,
-  type NodeTypes
+  type NodeTypes,
+  type ReactFlowInstance
 } from '@xyflow/react';
 
 import dagre from '@dagrejs/dagre';
@@ -38,6 +40,7 @@ interface FlowCanvasProps {
   nodeTypes?: NodeTypes;
   edgeTypes?: EdgeTypes;
   fitViewKey?: string;
+  focusNodeId?: string | null;
 
   nodeChrome?: {
     enabled?: boolean;
@@ -195,13 +198,28 @@ const routeEdgesSmart = (nodes: Node[], edges: Edge[], opts: NonNullable<FlowCan
     return true;
   };
 
+  const edgeGroups = new Map<string, { count: number; seen: number }>();
+  for (const e of edges) {
+    const key = `${e.source}::${e.target}`;
+    const entry = edgeGroups.get(key);
+    if (entry) entry.count += 1;
+    else edgeGroups.set(key, { count: 1, seen: 0 });
+  }
+
   return edges.map((e) => {
+    const key = `${e.source}::${e.target}`;
+    const group = edgeGroups.get(key);
+    const groupIndex = group ? group.seen : 0;
+    const groupCount = group ? group.count : 1;
+    if (group) group.seen += 1;
+    const parallelOffset = (groupIndex - (groupCount - 1) / 2) * (laneStep * 0.65);
+
     const s = getAnchor(e.source, 'R');
     const t = getAnchor(e.target, 'L');
 
     const x1 = s.x + 28;
     const x2 = t.x - 28;
-    const baseMid = (s.y + t.y) / 2;
+    const baseMid = (s.y + t.y) / 2 + parallelOffset;
 
     let chosenMid = baseMid;
     let points: Array<{ x: number; y: number }> = [];
@@ -223,8 +241,8 @@ const routeEdgesSmart = (nodes: Node[], edges: Edge[], opts: NonNullable<FlowCan
     if (t.x <= s.x + 20) {
       points = [
         { x: s.x, y: s.y },
-        { x: s.x + 30, y: s.y },
-        { x: s.x + 30, y: t.y },
+        { x: s.x + 30, y: s.y + parallelOffset },
+        { x: s.x + 30, y: t.y + parallelOffset },
         { x: t.x, y: t.y }
       ];
     } else {
@@ -266,14 +284,34 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
   nodeTypes,
   edgeTypes,
   fitViewKey,
+  focusNodeId,
   autoLayout,
   smartRouting,
   nodeChrome
 }) => {
+  const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+  const [localNodes, setLocalNodes] = useState<Node[]>(nodes);
+  const nodeChromeRef = React.useRef(nodeChrome);
+
+  useEffect(() => {
+    nodeChromeRef.current = nodeChrome;
+  }, [nodeChrome]);
+
+  useEffect(() => {
+    setLocalNodes(nodes);
+  }, [nodes]);
+
+  const handleNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      setLocalNodes((prev) => applyNodeChanges(changes, prev));
+      onNodesChange?.(changes);
+    },
+    [onNodesChange]
+  );
   const layoutedNodes = useMemo(() => {
-    if (!autoLayout?.enabled) return nodes;
-    return autoLayoutNodes(nodes, edges, autoLayout);
-  }, [autoLayout, edges, nodes]);
+    if (!autoLayout?.enabled) return localNodes;
+    return autoLayoutNodes(localNodes, edges, autoLayout);
+  }, [autoLayout, edges, localNodes]);
 
   const routedEdges = useMemo(() => {
     if (!smartRouting?.enabled) return edges;
@@ -291,17 +329,16 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
     const chromeEnabled = nodeChrome?.enabled ?? false;
     if (!chromeEnabled) return nodeTypes;
 
-    const showRing = nodeChrome?.showSelectionRing ?? true;
-    const showEditButton = nodeChrome?.showEditButton ?? true;
-
     const wrap = (Inner: React.ComponentType<NodeProps>) => {
       const Wrapped: React.FC<NodeProps> = (props) => {
         const nodeRef = { id: props.id, type: props.type, data: props.data };
-
-        const ringColor = nodeChrome?.getSelectionRingColor?.(nodeRef) ?? 'rgba(0,120,212,0.85)';
+        const chrome = nodeChromeRef.current;
+        const showRing = chrome?.showSelectionRing ?? true;
+        const showEditButton = chrome?.showEditButton ?? true;
+        const ringColor = chrome?.getSelectionRingColor?.(nodeRef) ?? 'rgba(0,120,212,0.85)';
         const canEdit =
-          !!nodeChrome?.onEditNode &&
-          (nodeChrome?.isNodeEditable ? nodeChrome.isNodeEditable(nodeRef) : true);
+          !!chrome?.onEditNode &&
+          (chrome?.isNodeEditable ? chrome.isNodeEditable(nodeRef) : true);
 
         return (
           <div
@@ -309,9 +346,10 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
             style={{
               position: 'relative',
               borderRadius: 14,
+              zIndex: props.selected ? 50 : 1,
               boxShadow:
                 showRing && props.selected
-                  ? `0 0 0 2px ${ringColor}, 0 0 0 6px rgba(0,0,0,0.25)`
+                  ? `0 0 0 2px ${ringColor}`
                   : 'none'
             }}
           >
@@ -324,7 +362,7 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  nodeChrome?.onEditNode?.(nodeRef);
+                  chrome?.onEditNode?.(nodeRef);
                 }}
               >
                 <i className="fas fa-pen" />
@@ -343,7 +381,22 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
       next[key] = wrap(Comp as unknown as React.ComponentType<NodeProps>);
     }
     return next as unknown as NodeTypes;
-  }, [nodeChrome, nodeTypes]);
+  }, [nodeTypes, nodeChrome?.enabled]);
+
+  React.useEffect(() => {
+    if (!focusNodeId || !rfInstance) return;
+    const node = layoutedNodes.find((n) => n.id === focusNodeId);
+    if (!node) return;
+    const width = (node as unknown as { measured?: { width?: number } }).measured?.width ?? 240;
+    const height = (node as unknown as { measured?: { height?: number } }).measured?.height ?? 120;
+    const centerX = node.position.x + width / 2;
+    const centerY = node.position.y + height / 2;
+
+    requestAnimationFrame(() => {
+      rfInstance.fitView({ nodes: [{ id: node.id }], padding: 0.6, duration: 500 });
+      rfInstance.setCenter(centerX, centerY, { zoom: 1.1, duration: 500 });
+    });
+  }, [focusNodeId, layoutedNodes, rfInstance]);
 
   return (
     <div style={{ flex: 1, minHeight: 0, background: 'var(--bg-color)' }}>
@@ -351,7 +404,8 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
         key={fitViewKey}
         nodes={layoutedNodes}
         edges={routedEdges}
-        onNodesChange={onNodesChange}
+        onInit={setRfInstance}
+        onNodesChange={handleNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeClick={onNodeClick}

@@ -780,6 +780,27 @@ const SkillsetVisualDesignTab: React.FC<SkillsetVisualDesignTabProps> = ({ skill
     return null;
   })();
 
+  const nodeChrome = useMemo(
+    () => ({
+      enabled: true,
+      showSelectionRing: true,
+      getSelectionRingColor: (n: { id: string; type?: string; data: unknown }) => {
+        const d = n.data as unknown as { kind?: unknown };
+        if (d?.kind === 'selector') return 'rgba(110,220,140,0.85)';
+        if (d?.kind === 'skill') return 'rgba(0,120,212,0.90)';
+        return 'rgba(110,190,255,0.75)';
+      },
+      showEditButton: true,
+      isNodeEditable: (n: { id: string; type?: string; data: unknown }) => {
+        if (n.id === 'doc-root' || n.id.startsWith('index-')) return false;
+        const d = n.data as unknown as { kind?: unknown };
+        return d?.kind === 'skill' || d?.kind === 'selector';
+      },
+      onEditNode: onEditNodeRequested
+    }),
+    [onEditNodeRequested]
+  );
+
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
       <div
@@ -828,23 +849,7 @@ const SkillsetVisualDesignTab: React.FC<SkillsetVisualDesignTabProps> = ({ skill
             onSelectionChange={(sel) => setSelectedNodeId(sel.nodes?.[0]?.id || null)}
             autoLayout={{ enabled: true, direction: 'LR', getNodeSize }}
             smartRouting={{ enabled: true }}
-            nodeChrome={{
-              enabled: true,
-              showSelectionRing: true,
-              getSelectionRingColor: (n) => {
-                const d = n.data as unknown as { kind?: unknown };
-                if (d?.kind === 'selector') return 'rgba(110,220,140,0.85)';
-                if (d?.kind === 'skill') return 'rgba(0,120,212,0.90)';
-                return 'rgba(110,190,255,0.75)';
-              },
-              showEditButton: true,
-              isNodeEditable: (n) => {
-                if (n.id === 'doc-root' || n.id.startsWith('index-')) return false;
-                const d = n.data as unknown as { kind?: unknown };
-                return d?.kind === 'skill' || d?.kind === 'selector';
-              },
-              onEditNode: onEditNodeRequested
-            }}
+            nodeChrome={nodeChrome}
           />
         </Card>
       </div>
