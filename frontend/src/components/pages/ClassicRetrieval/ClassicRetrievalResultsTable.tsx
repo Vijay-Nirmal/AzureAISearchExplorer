@@ -26,6 +26,10 @@ type Props = {
   onOpenDetails: (doc: Record<string, unknown>) => void;
   onViewDocumentJson: (doc: Record<string, unknown>) => void;
   onExpandCell: (value: string) => void;
+  onDeleteDoc: (doc: Record<string, unknown>) => void;
+  onDuplicateDoc: (doc: Record<string, unknown>) => void;
+  onEditDoc: (doc: Record<string, unknown>) => void;
+  onResetDoc: (doc: Record<string, unknown>) => void;
 
   cellValue: (doc: Record<string, unknown>, path: string) => string;
 };
@@ -44,10 +48,15 @@ export const ClassicRetrievalResultsTable: React.FC<Props> = ({
   onOpenDetails,
   onViewDocumentJson,
   onExpandCell,
+  onDeleteDoc,
+  onDuplicateDoc,
+  onEditDoc,
+  onResetDoc,
   cellValue
 }) => {
   const [newColHeader, setNewColHeader] = useState('');
   const [newColPath, setNewColPath] = useState('');
+  const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
 
   const addColumn = useCallback(() => {
     const header = newColHeader.trim();
@@ -57,6 +66,13 @@ export const ClassicRetrievalResultsTable: React.FC<Props> = ({
     setNewColHeader('');
     setNewColPath('');
   }, [newColHeader, newColPath, onAddColumn]);
+
+  React.useEffect(() => {
+    if (openMenuIndex === null) return;
+    const close = () => setOpenMenuIndex(null);
+    window.addEventListener('mousedown', close);
+    return () => window.removeEventListener('mousedown', close);
+  }, [openMenuIndex]);
 
   if (loading) return <div className={styles.empty}>Running query…</div>;
   if (error) return <div className={styles.empty}>{error}</div>;
@@ -101,7 +117,7 @@ export const ClassicRetrievalResultsTable: React.FC<Props> = ({
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className={styles.th} style={{ width: 44 }}></th>
+              <th className={styles.th} style={{ width: 86 }}>Actions</th>
               {columns.map((col, idx) => (
                 <th key={idx} className={styles.th}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
@@ -137,17 +153,85 @@ export const ClassicRetrievalResultsTable: React.FC<Props> = ({
           <tbody>
             {rows.map((doc, i) => (
               <tr key={i} className={styles.row} onClick={() => onOpenDetails(doc)}>
-                <td className={styles.td} style={{ width: 44 }}>
-                  <Button
-                    variant="icon"
-                    className={styles.iconBtn}
-                    title="View document JSON"
+                <td className={styles.td} style={{ width: 86 }}>
+                  <div
+                    className={styles.actionCell}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onViewDocumentJson(doc);
                     }}
-                    icon={<i className="fas fa-code"></i>}
-                  />
+                  >
+                    <Button
+                      variant="icon"
+                      className={styles.iconBtn}
+                      title="View document JSON"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onViewDocumentJson(doc);
+                      }}
+                      icon={<i className="fas fa-code"></i>}
+                    />
+                    <Button
+                      variant="icon"
+                      className={styles.iconBtn}
+                      title="Actions"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenMenuIndex(openMenuIndex === i ? null : i);
+                      }}
+                      icon={<i className="fas fa-ellipsis-vertical"></i>}
+                    />
+
+                    {openMenuIndex === i ? (
+                      <div
+                        className={styles.actionMenu}
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <div
+                          className={styles.actionMenuItem}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuIndex(null);
+                            onDuplicateDoc(doc);
+                          }}
+                        >
+                          <i className="fas fa-clone"></i> Duplicate
+                        </div>
+                        <div
+                          className={styles.actionMenuItem}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuIndex(null);
+                            onEditDoc(doc);
+                          }}
+                        >
+                          <i className="fas fa-pen"></i> Edit
+                        </div>
+                        <div
+                          className={styles.actionMenuItem}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuIndex(null);
+                            onResetDoc(doc);
+                          }}
+                        >
+                          <i className="fas fa-rotate"></i> Reset Document
+                        </div>
+                        <div className={styles.actionMenuDivider}></div>
+                        <div
+                          className={`${styles.actionMenuItem} ${styles.actionMenuItemDanger}`}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuIndex(null);
+                            onDeleteDoc(doc);
+                          }}
+                        >
+                          <i className="fas fa-trash"></i> Delete
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
                 </td>
                 {columns.map((col, cIdx) => {
                   const value = cellValue(doc, col.path);

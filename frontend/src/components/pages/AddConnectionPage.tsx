@@ -6,6 +6,7 @@ import { Button } from '../common/Button';
 import { Select } from '../common/Select';
 import type { ConnectionProfile } from '../../types/ConnectionProfile';
 import { connectionService } from '../../services/connectionService';
+import { alertService } from '../../services/alertService';
 import { useLayout } from '../../context/LayoutContext';
 import styles from './AddConnectionPage.module.css';
 
@@ -165,9 +166,9 @@ export const AddConnectionPage: React.FC<AddConnectionPageProps> = ({ connection
                         <Button variant="secondary" onClick={async () => {
                             try {
                                 await connectionService.clearAuthCache();
-                                alert('Authentication cache cleared. You will be prompted to sign in again on next use.');
+                                alertService.show({ title: 'Notice', message: 'Authentication cache cleared. You will be prompted to sign in again on next use.' });
                             } catch (e) {
-                                alert('Failed to clear cache');
+                                alertService.show({ title: 'Error', message: 'Failed to clear cache.' });
                             }
                         }} style={{ marginTop: '8px', fontSize: '12px', padding: '4px 8px' }}>
                             Clear Saved Credentials

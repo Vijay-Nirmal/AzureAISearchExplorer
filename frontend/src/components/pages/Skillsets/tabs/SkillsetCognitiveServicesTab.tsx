@@ -12,6 +12,8 @@ import {
 } from '../../../common/configDriven/configDrivenUtils';
 import type { ConfigDrivenSchema } from '../../../common/configDriven/configDrivenTypes';
 import type { SearchIndexerSkillset } from '../../../../types/SkillsetModels';
+import { alertService } from '../../../../services/alertService';
+import { confirmService } from '../../../../services/confirmService';
 
 import schemaJson from '../../../../data/constants/config/Skillset/cognitiveServicesAccountConfig.json';
 
@@ -76,8 +78,12 @@ const SkillsetCognitiveServicesTab: React.FC<SkillsetCognitiveServicesTabProps> 
     setErrors({});
   };
 
-  const remove = () => {
-    if (!window.confirm('Remove cognitive services configuration from this skillset?')) return;
+  const remove = async () => {
+    const confirmed = await confirmService.confirm({
+      title: 'Remove Cognitive Services',
+      message: 'Remove cognitive services configuration from this skillset?'
+    });
+    if (!confirmed) return;
     setSkillsetDef(prev => ({ ...prev, cognitiveServices: undefined }));
     setErrors({});
   };
@@ -118,7 +124,7 @@ const SkillsetCognitiveServicesTab: React.FC<SkillsetCognitiveServicesTabProps> 
                 variant="secondary"
                 onClick={() => editJson('Edit Cognitive Services JSON', value, (next) => {
                   if (next !== null && (typeof next !== 'object' || Array.isArray(next))) {
-                    alert('cognitiveServices must be a JSON object.');
+                    alertService.show({ title: 'Validation', message: 'cognitiveServices must be a JSON object.' });
                     return;
                   }
                   if (!next) {
@@ -165,7 +171,7 @@ const SkillsetCognitiveServicesTab: React.FC<SkillsetCognitiveServicesTabProps> 
                       variant="secondary"
                       onClick={() => editJson('Edit Cognitive Services JSON', value, (next) => {
                         if (next !== null && (typeof next !== 'object' || Array.isArray(next))) {
-                          alert('cognitiveServices must be a JSON object.');
+                          alertService.show({ title: 'Validation', message: 'cognitiveServices must be a JSON object.' });
                           return;
                         }
                         if (!next) {

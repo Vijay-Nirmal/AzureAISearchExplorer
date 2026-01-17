@@ -4,6 +4,7 @@ import { Button } from '../Button';
 import { Card } from '../Card';
 import { ConfigDrivenObjectForm } from './ConfigDrivenObjectForm';
 import { JsonEditorModal } from '../JsonEditorModal';
+import { alertService } from '../../../services/alertService';
 import type { ConfigDrivenSchema } from './configDrivenTypes';
 
 interface SchemaDrivenEditorModalProps {
@@ -103,7 +104,7 @@ export const SchemaDrivenEditorModal: React.FC<SchemaDrivenEditorModalProps> = (
           if (nextValue && typeof nextValue === 'object' && !Array.isArray(nextValue)) {
             setDraft(nextValue as Record<string, unknown>);
           } else {
-            alert('Root JSON must be an object.');
+                alertService.show({ title: 'Validation', message: 'Root JSON must be an object.' });
           }
         }}
       />

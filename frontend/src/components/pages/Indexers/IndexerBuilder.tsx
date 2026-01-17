@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexersService } from '../../../services/indexersService';
+import { alertService } from '../../../services/alertService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -101,7 +102,7 @@ const IndexerBuilder: React.FC<IndexerBuilderProps> = ({ indexerName, onBack, on
         if (isPlainObject(data)) setDraft(data as unknown as Record<string, unknown>);
       } catch (error) {
         console.error('Failed to fetch indexer', error);
-        alert('Failed to load indexer definition');
+        alertService.show({ title: 'Error', message: 'Failed to load indexer definition.' });
       } finally {
         setLoading(false);
       }
@@ -116,14 +117,14 @@ const IndexerBuilder: React.FC<IndexerBuilderProps> = ({ indexerName, onBack, on
     const normalized = normalizeBySchema(indexerSchema, draft, { preserveUnknown: true });
     if (!normalized.value) {
       setErrors(normalized.errors);
-      alert('Fix validation errors before saving.');
+      alertService.show({ title: 'Validation', message: 'Fix validation errors before saving.' });
       return;
     }
 
     const normalizedObj = normalized.value as Record<string, unknown>;
     const name = String(normalizedObj.name ?? '').trim();
     if (!name) {
-      alert('Indexer name is required.');
+      alertService.show({ title: 'Validation', message: 'Indexer name is required.' });
       return;
     }
 
@@ -136,7 +137,7 @@ const IndexerBuilder: React.FC<IndexerBuilderProps> = ({ indexerName, onBack, on
     } catch (error) {
       console.error(error);
       const message = error instanceof Error ? error.message : String(error);
-      alert('Failed to save indexer: ' + message);
+      alertService.show({ title: 'Error', message: `Failed to save indexer: ${message}` });
     } finally {
       setLoading(false);
     }
@@ -537,14 +538,14 @@ const IndexerBuilder: React.FC<IndexerBuilderProps> = ({ indexerName, onBack, on
                 value={draft}
                 onSave={(nextValue) => {
                   if (!nextValue || typeof nextValue !== 'object' || Array.isArray(nextValue)) {
-                    alert('Indexer JSON must be an object.');
+                    alertService.show({ title: 'Validation', message: 'Indexer JSON must be an object.' });
                     return;
                   }
 
                   const obj = nextValue as Record<string, unknown>;
                   const nextName = String(obj.name ?? '').trim();
                   if (!nextName) {
-                    alert('Indexer JSON must include a non-empty name.');
+                    alertService.show({ title: 'Validation', message: 'Indexer JSON must include a non-empty name.' });
                     return;
                   }
 

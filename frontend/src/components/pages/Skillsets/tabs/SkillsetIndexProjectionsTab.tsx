@@ -6,6 +6,8 @@ import { ConfigDrivenObjectForm } from '../../../common/configDriven/ConfigDrive
 import { applyDefaultsForType, getResolvedTypeDefinitions, normalizeBySchema } from '../../../common/configDriven/configDrivenUtils';
 import type { ConfigDrivenSchema, ConfigDrivenTypeDefinition } from '../../../common/configDriven/configDrivenTypes';
 import type { SearchIndexerSkillset } from '../../../../types/SkillsetModels';
+import { alertService } from '../../../../services/alertService';
+import { confirmService } from '../../../../services/confirmService';
 
 import typeJson from '../../../../data/constants/config/Skillset/IndexProjections/types/SearchIndexerIndexProjection.json';
 
@@ -88,8 +90,12 @@ const SkillsetIndexProjectionsTabInner: React.FC<SkillsetIndexProjectionsTabProp
     setErrors({});
   };
 
-  const remove = () => {
-    if (!window.confirm('Remove indexProjections configuration from this skillset?')) return;
+  const remove = async () => {
+    const confirmed = await confirmService.confirm({
+      title: 'Remove Index Projections',
+      message: 'Remove indexProjections configuration from this skillset?'
+    });
+    if (!confirmed) return;
     if (commitTimerRef.current) window.clearTimeout(commitTimerRef.current);
     commitTimerRef.current = null;
     setPresent(false);
@@ -157,7 +163,7 @@ const SkillsetIndexProjectionsTabInner: React.FC<SkillsetIndexProjectionsTabProp
         value={draft}
         onSave={(nextValue) => {
           if (nextValue !== null && (typeof nextValue !== 'object' || Array.isArray(nextValue))) {
-            alert('indexProjections must be a JSON object.');
+            alertService.show({ title: 'Validation', message: 'indexProjections must be a JSON object.' });
             return;
           }
           if (!nextValue) {

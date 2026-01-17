@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { datasourcesService } from '../../../services/datasourcesService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -26,7 +28,7 @@ const DataSourceList: React.FC<DataSourceListProps> = ({ onView, onEdit, onCreat
       setItems(data);
     } catch (error) {
       console.error(error);
-      alert('Failed to load data sources.');
+      alertService.show({ title: 'Error', message: 'Failed to load data sources.' });
     } finally {
       setLoading(false);
     }
@@ -50,13 +52,17 @@ const DataSourceList: React.FC<DataSourceListProps> = ({ onView, onEdit, onCreat
 
   const handleDelete = async (name: string) => {
     if (!activeConnectionId) return;
-    if (!confirm(`Are you sure you want to delete data source '${name}'?`)) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Data Source',
+      message: `Are you sure you want to delete data source '${name}'?`
+    });
+    if (!confirmed) return;
     try {
       await datasourcesService.deleteDataSource(activeConnectionId, name);
       await fetchDataSources();
     } catch (error) {
       console.error(error);
-      alert('Failed to delete data source.');
+      alertService.show({ title: 'Error', message: 'Failed to delete data source.' });
     }
   };
 

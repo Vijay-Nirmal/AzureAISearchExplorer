@@ -19,6 +19,8 @@ import type { ConfigDrivenSchema } from '../../common/configDriven/configDrivenT
 import { knowledgeBasesService } from '../../../services/knowledgeBasesService';
 import { knowledgeSourcesService } from '../../../services/knowledgeSourcesService';
 import { knowledgeBaseRetrievalService } from '../../../services/knowledgeBaseRetrievalService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 import type { KnowledgeBase } from '../../../types/KnowledgeBaseModels';
 import type { KnowledgeSource } from '../../../types/KnowledgeSourceModels';
 import type {
@@ -308,13 +310,13 @@ const AgenticRetrievalPage: React.FC = () => {
 
   const sendMessage = useCallback(async () => {
     if (!activeConnectionId) {
-      alert('Please select a connection first.');
+      alertService.show({ title: 'Notice', message: 'Please select a connection first.' });
       return;
     }
 
     const kb = (selectedKb || '').trim();
     if (!kb) {
-      alert('Please select a knowledge base.');
+      alertService.show({ title: 'Notice', message: 'Please select a knowledge base.' });
       return;
     }
 
@@ -356,12 +358,15 @@ const AgenticRetrievalPage: React.FC = () => {
   const canSend = !sending && draft.trim().length > 0;
   const hasChat = messages.length > 0 || draft.trim().length > 0;
 
-  const startFreshChat = useCallback(() => {
+  const startFreshChat = useCallback(async () => {
     if (sending) return;
 
     if (hasChat) {
-      const ok = confirm('Start a fresh chat? This will clear the current conversation.');
-      if (!ok) return;
+      const confirmed = await confirmService.confirm({
+        title: 'Start Fresh Chat',
+        message: 'Start a fresh chat? This will clear the current conversation.'
+      });
+      if (!confirmed) return;
     }
 
     setMessages([]);

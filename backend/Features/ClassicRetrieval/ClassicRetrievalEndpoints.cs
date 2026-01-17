@@ -79,5 +79,45 @@ public static class ClassicRetrievalEndpoints
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status404NotFound);
+
+        group.MapPost("/indexes/{indexName}/documents/index", async (
+                [FromQuery] string connectionId,
+                [FromRoute] string indexName,
+                [FromBody] JsonElement requestBody,
+                [FromQuery] string? apiVersion,
+                IRepository<ConnectionProfile> repository,
+                AuthenticationService auth,
+                IHttpClientFactory httpClientFactory,
+                CancellationToken cancellationToken) =>
+            {
+                var profile = await repository.GetByIdAsync(connectionId);
+                if (profile == null) return Results.NotFound();
+
+                var version = string.IsNullOrWhiteSpace(apiVersion) ? DefaultApiVersion : apiVersion;
+                var http = httpClientFactory.CreateClient();
+
+                var rawBody = requestBody.ValueKind == JsonValueKind.Undefined ? null : requestBody.GetRawText();
+                var request = await CreateSearchRestRequestAsync(
+                    profile,
+                    auth,
+                    HttpMethod.Post,
+                    $"indexes/{Uri.EscapeDataString(indexName)}/docs/search.index?api-version={Uri.EscapeDataString(version)}",
+                    cancellationToken,
+                    rawJsonBody: rawBody);
+
+                var response = await http.SendAsync(request, cancellationToken);
+                var text = await response.Content.ReadAsStringAsync(cancellationToken);
+                var contentType = response.Content.Headers.ContentType?.MediaType ?? "application/json";
+
+                return Results.Content(text, contentType: contentType, statusCode: (int)response.StatusCode);
+            })
+            .WithSummary("Index documents")
+            .WithDescription("Forwards a raw Azure AI Search /docs/search.index request body to index, merge, or delete documents.")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status202Accepted)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound);
     }
 }

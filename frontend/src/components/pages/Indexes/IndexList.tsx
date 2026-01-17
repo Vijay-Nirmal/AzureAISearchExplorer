@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexesService } from '../../../services/indexesService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -38,14 +40,17 @@ const IndexList: React.FC<IndexListProps> = ({ onQuery, onEdit, onCreate }) => {
 
     const handleDelete = async (indexName: string) => {
         if (!activeConnectionId) return;
-        if (confirm(`Are you sure you want to delete index '${indexName}'?`)) {
-            try {
-                await indexesService.deleteIndex(activeConnectionId, indexName);
-                fetchIndexes();
-            } catch (error) {
-                console.error(error);
-                alert("Failed to delete index");
-            }
+        const confirmed = await confirmService.confirm({
+            title: 'Delete Index',
+            message: `Are you sure you want to delete index '${indexName}'?`
+        });
+        if (!confirmed) return;
+        try {
+            await indexesService.deleteIndex(activeConnectionId, indexName);
+            fetchIndexes();
+        } catch (error) {
+            console.error(error);
+            alertService.show({ title: 'Error', message: 'Failed to delete index.' });
         }
     };
 

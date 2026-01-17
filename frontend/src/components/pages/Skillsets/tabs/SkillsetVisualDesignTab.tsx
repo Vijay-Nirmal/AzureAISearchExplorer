@@ -9,6 +9,7 @@ import { SchemaDrivenEditorModal } from '../../../common/configDriven/SchemaDriv
 import { applyDefaultsForType, getResolvedTypeDefinitions } from '../../../common/configDriven/configDrivenUtils';
 import type { ConfigDrivenSchema, ConfigDrivenTypeDefinition } from '../../../common/configDriven/configDrivenTypes';
 import type { SearchIndexerSkillset } from '../../../../types/SkillsetModels';
+import { confirmService } from '../../../../services/confirmService';
 
 import skillsSchemaJson from '../../../../data/constants/config/Skillset/Skills/skillsConfig.json';
 import selectorTypeJson from '../../../../data/constants/config/Skillset/IndexProjections/types/SearchIndexerIndexProjectionSelector.json';
@@ -615,7 +616,7 @@ const SkillsetVisualDesignTab: React.FC<SkillsetVisualDesignTabProps> = ({ skill
 
   const clearSelection = useCallback(() => setSelectedNodeId(null), []);
 
-  const deleteSelected = useCallback(() => {
+  const deleteSelected = useCallback(async () => {
     const id = selectedNodeId;
     if (!id) return;
 
@@ -625,7 +626,11 @@ const SkillsetVisualDesignTab: React.FC<SkillsetVisualDesignTabProps> = ({ skill
     if (id.startsWith('skill-')) {
       const idx = Number(id.slice('skill-'.length));
       if (!Number.isFinite(idx)) return;
-      if (!window.confirm('Delete this skill?')) return;
+      const confirmed = await confirmService.confirm({
+        title: 'Delete Skill',
+        message: 'Delete this skill?'
+      });
+      if (!confirmed) return;
       setSkillsetDef(prev => {
         const skills = Array.isArray(prev.skills) ? (prev.skills as unknown[]).filter(isPlainObject) : [];
         if (idx < 0 || idx >= skills.length) return prev;
@@ -639,7 +644,11 @@ const SkillsetVisualDesignTab: React.FC<SkillsetVisualDesignTabProps> = ({ skill
     if (id.startsWith('selector-')) {
       const idx = Number(id.slice('selector-'.length));
       if (!Number.isFinite(idx)) return;
-      if (!window.confirm('Delete this projection selector?')) return;
+      const confirmed = await confirmService.confirm({
+        title: 'Delete Selector',
+        message: 'Delete this projection selector?'
+      });
+      if (!confirmed) return;
       setSkillsetDef(prev => {
         const current = isPlainObject(prev.indexProjections) ? ({ ...(prev.indexProjections as Record<string, unknown>) } as Record<string, unknown>) : null;
         if (!current) return prev;
@@ -660,7 +669,7 @@ const SkillsetVisualDesignTab: React.FC<SkillsetVisualDesignTabProps> = ({ skill
       if (!selectedNodeId) return;
       if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault();
-        deleteSelected();
+        void deleteSelected();
       }
       if (e.key === 'Enter') {
         e.preventDefault();

@@ -5,6 +5,7 @@ import { Button } from '../Button';
 import { InfoIcon } from '../InfoIcon';
 import { SelectWithDescription } from '../SelectWithDescription';
 import { JsonEditorModal } from '../JsonEditorModal';
+import { alertService } from '../../../services/alertService';
 
 import type { ConfigDrivenField, ConfigDrivenSchema } from './configDrivenTypes';
 import { moveItem } from './utils/arrayUtils';
@@ -691,14 +692,14 @@ export const ConfigDrivenObjectForm: React.FC<ConfigDrivenObjectFormProps> = ({
 
                     if (expectedType === 'object') {
                         if (nextValue !== null && (typeof nextValue !== 'object' || Array.isArray(nextValue))) {
-                            alert(`${key} must be a JSON object.`);
+                            alertService.show({ title: 'Validation', message: `${key} must be a JSON object.` });
                             return;
                         }
                     }
 
                     if (expectedType === 'objectArray') {
                         if (!Array.isArray(nextValue)) {
-                            alert(`${key} must be a JSON array.`);
+                            alertService.show({ title: 'Validation', message: `${key} must be a JSON array.` });
                             return;
                         }
                     }

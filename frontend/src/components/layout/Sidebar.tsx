@@ -3,6 +3,7 @@ import styles from './Sidebar.module.css';
 import { useLayout } from '../../context/LayoutContext';
 import { Select } from '../common/Select';
 import { connectionService } from '../../services/connectionService';
+import { confirmService } from '../../services/confirmService';
 import type { ConnectionProfile } from '../../types/ConnectionProfile';
 
 interface NavItemProps {
@@ -103,8 +104,13 @@ export const Sidebar: React.FC = () => {
       }
   };
   
-  const handleDeleteConnection = async () => {
-      if (activeConnectionId && confirm('Are you sure you want to delete this connection?')) {
+    const handleDeleteConnection = async () => {
+      if (activeConnectionId) {
+        const confirmed = await confirmService.confirm({
+        title: 'Delete Connection',
+        message: 'Are you sure you want to delete this connection?'
+        });
+        if (!confirmed) return;
           await connectionService.delete(activeConnectionId);
           const remaining = connections.filter(c => c.id !== activeConnectionId);
           setConnections(remaining);

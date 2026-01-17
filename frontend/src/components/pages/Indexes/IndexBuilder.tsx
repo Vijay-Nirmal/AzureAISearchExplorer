@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexesService } from '../../../services/indexesService';
+import { alertService } from '../../../services/alertService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -88,7 +89,7 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
                     }
                 } catch (error) {
                     console.error("Failed to fetch index definition", error);
-                    alert("Failed to load index definition");
+                    alertService.show({ title: 'Error', message: 'Failed to load index definition.' });
                 } finally {
                     setLoading(false);
                 }
@@ -107,7 +108,7 @@ const IndexBuilder: React.FC<IndexBuilderProps> = ({ indexName, onBack }) => {
         } catch (error) {
             console.error(error);
             const message = error instanceof Error ? error.message : String(error);
-            alert("Failed to save index: " + message);
+            alertService.show({ title: 'Error', message: `Failed to save index: ${message}` });
         } finally {
             setLoading(false);
         }

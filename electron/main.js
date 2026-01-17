@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, nativeImage } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -27,7 +27,9 @@ function startBackend() {
 }
 
 function createWindow() {
-  const win = new BrowserWindow({
+  const svgPath = path.join(__dirname, 'renderer', 'vite.svg');
+  const icon = nativeImage.createFromPath(svgPath);
+  const windowOptions = {
     width: 1200,
     height: 800,
     webPreferences: {
@@ -35,7 +37,13 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
-  });
+  };
+
+  if (!icon.isEmpty()) {
+    windowOptions.icon = icon;
+  }
+
+  const win = new BrowserWindow(windowOptions);
 
   // In development, load the Vite dev server URL
   // In production, load the built index.html
@@ -51,6 +59,9 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (process.platform === 'win32') {
+    app.setAppUserModelId('com.azureaisearchexplorer.app');
+  }
   startBackend();
   createWindow();
 

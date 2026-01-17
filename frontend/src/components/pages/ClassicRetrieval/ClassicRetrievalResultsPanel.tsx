@@ -36,6 +36,10 @@ type Props = {
   onOpenDetails: (doc: Record<string, unknown>) => void;
   onViewDocumentJson: (doc: Record<string, unknown>) => void;
   onExpandCell: (value: string) => void;
+  onDeleteDoc: (doc: Record<string, unknown>) => void;
+  onDuplicateDoc: (doc: Record<string, unknown>) => void;
+  onEditDoc: (doc: Record<string, unknown>) => void;
+  onResetDoc: (doc: Record<string, unknown>) => void;
 
   cellValue: (doc: Record<string, unknown>, path: string) => string;
 };
@@ -58,6 +62,10 @@ export const ClassicRetrievalResultsPanel: React.FC<Props> = ({
   onOpenDetails,
   onViewDocumentJson,
   onExpandCell,
+  onDeleteDoc,
+  onDuplicateDoc,
+  onEditDoc,
+  onResetDoc,
   cellValue
 }) => {
   const [activeTab, setActiveTab] = useState<TabId>('table');
@@ -108,6 +116,10 @@ export const ClassicRetrievalResultsPanel: React.FC<Props> = ({
             onOpenDetails={onOpenDetails}
             onViewDocumentJson={onViewDocumentJson}
             onExpandCell={onExpandCell}
+            onDeleteDoc={onDeleteDoc}
+            onDuplicateDoc={onDuplicateDoc}
+            onEditDoc={onEditDoc}
+            onResetDoc={onResetDoc}
             cellValue={cellValue}
           />
         ) : null}

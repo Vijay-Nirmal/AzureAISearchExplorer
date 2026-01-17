@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../../../common/Button';
 import { Card } from '../../../common/Card';
 import { JsonEditorModal } from '../../../common/JsonEditorModal';
+import { confirmService } from '../../../../services/confirmService';
 import { ConfigDrivenObjectForm } from '../../../common/configDriven/ConfigDrivenObjectForm';
 import { applyDefaultsForType, getResolvedTypeDefinitions, normalizeBySchema } from '../../../common/configDriven/configDrivenUtils';
 import type { ConfigDrivenSchema } from '../../../common/configDriven/configDrivenTypes';
 import type { SearchIndexerSkillset } from '../../../../types/SkillsetModels';
+import { alertService } from '../../../../services/alertService';
 
 import schemaJson from '../../../../data/constants/config/Skillset/encryptionKeyConfig.json';
 
@@ -54,8 +56,12 @@ const SkillsetEncryptionKeyTabInner: React.FC<SkillsetEncryptionKeyTabProps> = (
     setErrors({});
   };
 
-  const remove = () => {
-    if (!window.confirm('Remove encryptionKey configuration from this skillset?')) return;
+  const remove = async () => {
+    const confirmed = await confirmService.confirm({
+      title: 'Remove Encryption Key',
+      message: 'Remove encryptionKey configuration from this skillset?'
+    });
+    if (!confirmed) return;
     if (commitTimerRef.current) window.clearTimeout(commitTimerRef.current);
     commitTimerRef.current = null;
     setPresent(false);
@@ -146,7 +152,7 @@ const SkillsetEncryptionKeyTabInner: React.FC<SkillsetEncryptionKeyTabProps> = (
         value={draft}
         onSave={(nextValue) => {
           if (nextValue !== null && (typeof nextValue !== 'object' || Array.isArray(nextValue))) {
-            alert('encryptionKey must be a JSON object.');
+            alertService.show({ title: 'Validation', message: 'encryptionKey must be a JSON object.' });
             return;
           }
           if (!nextValue) {

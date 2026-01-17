@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Header.module.css';
 import { useLayout } from '../../context/LayoutContext';
 import { Button } from '../common/Button';
+import { NotificationPanel } from '../common/NotificationPanel';
+import { useToast } from '../../context/ToastContext';
 
 export const Header: React.FC = () => {
   const { toggleTheme, theme, tabs, activeTabId, breadcrumbs } = useLayout();
   const activeTab = tabs.find(t => t.id === activeTabId);
+  const { notifications, dismissNotification } = useToast();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const bellRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!notificationsOpen) return;
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (bellRef.current && bellRef.current.contains(target)) return;
+      setNotificationsOpen(false);
+    };
+    window.addEventListener('mousedown', onClick);
+    return () => window.removeEventListener('mousedown', onClick);
+  }, [notificationsOpen]);
 
   return (
     <header className={styles.header}>
@@ -39,7 +55,20 @@ export const Header: React.FC = () => {
           title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Theme`}
           icon={<i className={`fa-solid ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`}></i>}
         />
-        <Button variant="icon" icon={<i className="fa-solid fa-bell"></i>} />
+        <div style={{ position: 'relative' }} ref={bellRef}>
+          <Button
+            variant="icon"
+            icon={<i className="fa-solid fa-bell"></i>}
+            onClick={() => setNotificationsOpen((v) => !v)}
+            title="Notifications"
+          />
+          <NotificationPanel
+            isOpen={notificationsOpen}
+            onClose={() => setNotificationsOpen(false)}
+            notifications={notifications}
+            onDismiss={dismissNotification}
+          />
+        </div>
         <Button variant="icon" icon={<i className="fa-solid fa-user-circle"></i>} />
       </div>
     </header>

@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexersService } from '../../../services/indexersService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -26,7 +28,7 @@ const IndexerList: React.FC<IndexerListProps> = ({ onEdit, onRuns, onCreate }) =
       setIndexers(data);
     } catch (error) {
       console.error(error);
-      alert('Failed to load indexers');
+      alertService.show({ title: 'Error', message: 'Failed to load indexers.' });
     } finally {
       setLoading(false);
     }
@@ -50,14 +52,18 @@ const IndexerList: React.FC<IndexerListProps> = ({ onEdit, onRuns, onCreate }) =
 
   const handleDelete = async (indexerName: string) => {
     if (!activeConnectionId) return;
-    if (!confirm(`Are you sure you want to delete indexer '${indexerName}'?`)) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Indexer',
+      message: `Are you sure you want to delete indexer '${indexerName}'?`
+    });
+    if (!confirmed) return;
 
     try {
       await indexersService.deleteIndexer(activeConnectionId, indexerName);
       await fetchIndexers();
     } catch (error) {
       console.error(error);
-      alert('Failed to delete indexer');
+      alertService.show({ title: 'Error', message: 'Failed to delete indexer.' });
     }
   };
 

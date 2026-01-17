@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { aliasesService } from '../../../services/aliasesService';
 import { indexesService } from '../../../services/indexesService';
+import { confirmService } from '../../../services/confirmService';
 import type { SearchAlias } from '../../../types/AliasModels';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
@@ -153,7 +154,11 @@ const AliasesPage: React.FC = () => {
 
   const deleteAlias = async (aliasName: string) => {
     if (!activeConnectionId) return;
-    if (!confirm(`Delete alias "${aliasName}"?`)) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Alias',
+      message: `Delete alias "${aliasName}"?`
+    });
+    if (!confirmed) return;
     try {
       await aliasesService.deleteAlias(activeConnectionId, aliasName);
       await fetchAliases();

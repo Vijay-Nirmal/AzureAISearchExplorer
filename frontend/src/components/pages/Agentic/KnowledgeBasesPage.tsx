@@ -22,6 +22,7 @@ import type { KnowledgeBase, KnowledgeBaseModel, KnowledgeSourceReference } from
 import type { KnowledgeSource } from '../../../types/KnowledgeSourceModels';
 import { knowledgeBasesService } from '../../../services/knowledgeBasesService';
 import { knowledgeSourcesService } from '../../../services/knowledgeSourcesService';
+import { confirmService } from '../../../services/confirmService';
 import { KNOWLEDGE_BASE_DISCRIMINATOR, knowledgeBaseSchema } from './knowledgeBaseSchema';
 
 import styles from './KnowledgeBasesPage.module.css';
@@ -454,7 +455,11 @@ const KnowledgeBasesPage: React.FC = () => {
 
   const remove = async (name: string) => {
     if (!activeConnectionId) return;
-    if (!confirm(`Delete knowledge base '${name}'?`)) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Knowledge Base',
+      message: `Delete knowledge base '${name}'?`
+    });
+    if (!confirmed) return;
 
     try {
       await knowledgeBasesService.deleteKnowledgeBase(activeConnectionId, name);

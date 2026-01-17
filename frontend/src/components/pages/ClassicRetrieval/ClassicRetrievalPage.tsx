@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexesService } from '../../../services/indexesService';
 import { classicRetrievalService } from '../../../services/classicRetrievalService';
+import { indexersService } from '../../../services/indexersService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 
 import { Button } from '../../common/Button';
 import { JsonViewerModal } from '../../common/JsonViewerModal';
@@ -31,6 +34,9 @@ import { ClassicRetrievalCellModal } from './ClassicRetrievalCellModal';
 import { ClassicRetrievalRequestJsonModal } from './ClassicRetrievalRequestJsonModal';
 import { ClassicRetrievalRequestPanel } from './ClassicRetrievalRequestPanel';
 import { ClassicRetrievalResultsPanel } from './ClassicRetrievalResultsPanel';
+import { ClassicRetrievalUploadModal } from './ClassicRetrievalUploadModal';
+import { ClassicRetrievalExportModal } from './ClassicRetrievalExportModal';
+import { ClassicRetrievalResetDocumentModal, type ResetIndexerOption } from './ClassicRetrievalResetDocumentModal';
 
 type ClassicRetrievalPageProps = {
   indexName?: string;
@@ -71,6 +77,23 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
   const [requestJsonOpen, setRequestJsonOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [detailsDoc, setDetailsDoc] = useState<Record<string, unknown> | null>(null);
+  const [uploadOpen, setUploadOpen] = useState(false);
+  const [uploadTitle, setUploadTitle] = useState('Upload Documents');
+  const [uploadInitialJson, setUploadInitialJson] = useState<string>('');
+  const [uploadDefaultAction, setUploadDefaultAction] = useState<'upload' | 'mergeOrUpload' | 'merge'>('upload');
+  const [uploadLockAction, setUploadLockAction] = useState(false);
+
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportLoading, setExportLoading] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
+
+  const [resetOpen, setResetOpen] = useState(false);
+  const [resetDocKey, setResetDocKey] = useState('');
+  const [resetIndexer, setResetIndexer] = useState('');
+  const [resetError, setResetError] = useState<string | null>(null);
+  const [resetLoading, setResetLoading] = useState(false);
+
+  const [indexerOptions, setIndexerOptions] = useState<ResetIndexerOption[]>([]);
 
   const [columns, setColumns] = useState<ColumnDef[]>([
     { header: 'Score', path: '@search.score' }
@@ -106,8 +129,8 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
       searchFields: '',
       facets: [],
       highlight: '',
-      highlightPreTag: '<em>',
-      highlightPostTag: '</em>',
+      highlightPreTag: '',
+      highlightPostTag: '',
       scoringProfile: '',
       scoringParameters: [],
       scoringStatistics: 'local',
@@ -141,15 +164,13 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
 
     const fields = draft.basicVectorFields.trim();
     const text = draft.basicVectorText;
-    const k = typeof draft.basicVectorK === 'number' ? draft.basicVectorK : 10;
-    const weight = Number.isFinite(draft.basicVectorWeight) ? draft.basicVectorWeight : 1;
+    const queryRewrites = draft.queryRewrites && draft.queryRewrites !== 'none' ? draft.queryRewrites : undefined;
 
     const nextQuery: Record<string, unknown> = {
       kind: 'text',
       fields,
-      k,
       text,
-      weight
+      ...(queryRewrites ? { queryRewrites } : {})
     };
 
     setDraft((d) => {
@@ -168,8 +189,7 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
         const same =
           String(rec.fields ?? '') === fields &&
           String(rec.text ?? '') === text &&
-          Number(rec.k ?? NaN) === k &&
-          Number(rec.weight ?? 1) === weight;
+          String(rec.queryRewrites ?? '') === String(queryRewrites ?? '');
         if (same) return d;
       }
 
@@ -178,7 +198,37 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
         vectorQueries: [nextQuery]
       };
     });
-  }, [draft.basicVectorEnabled, draft.basicVectorFields, draft.basicVectorK, draft.basicVectorText, draft.basicVectorWeight]);
+  }, [draft.basicVectorEnabled, draft.basicVectorFields, draft.basicVectorText, draft.queryRewrites]);
+
+  useEffect(() => {
+    if (draft.basicVectorEnabled) return;
+
+    const fields = draft.basicVectorFields.trim();
+    const text = draft.basicVectorText;
+    const queryRewrites = draft.queryRewrites && draft.queryRewrites !== 'none' ? draft.queryRewrites : undefined;
+
+    const isBasicVectorQuery = (value: unknown): boolean => {
+      if (!value || typeof value !== 'object') return false;
+      const rec = value as Record<string, unknown>;
+      if (String(rec.kind ?? '') !== 'text') return false;
+      return (
+        String(rec.fields ?? '') === fields &&
+        String(rec.text ?? '') === text &&
+        String(rec.queryRewrites ?? '') === String(queryRewrites ?? '')
+      );
+    };
+
+    setDraft((d) => {
+      if (d.basicVectorEnabled) return d;
+      if (!Array.isArray(d.vectorQueries) || d.vectorQueries.length === 0) return d;
+      if (d.vectorQueries.length !== 1) return d;
+      if (!isBasicVectorQuery(d.vectorQueries[0])) return d;
+      return {
+        ...d,
+        vectorQueries: []
+      };
+    });
+  }, [draft.basicVectorEnabled, draft.basicVectorFields, draft.basicVectorText, draft.queryRewrites]);
 
   useEffect(() => {
     if (!requestSchema) return;
@@ -188,13 +238,17 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
       const next = applyDefaultsForType(requestSchema, 'SearchRequest', base);
       const nextRec = next as Record<string, unknown>;
       const maybeVectorQueries = nextRec.vectorQueries;
+      const nextPreTag = typeof nextRec.highlightPreTag === 'string' ? nextRec.highlightPreTag : '';
+      const nextPostTag = typeof nextRec.highlightPostTag === 'string' ? nextRec.highlightPostTag : '';
       return {
         ...(cur as SearchDraft),
         ...(next as unknown as Partial<SearchDraft>),
         // Ensure vectorQueries remains an array.
         vectorQueries: Array.isArray(maybeVectorQueries)
           ? (maybeVectorQueries as Record<string, unknown>[])
-          : cur.vectorQueries
+          : cur.vectorQueries,
+        highlightPreTag: cur.highlightPreTag || (nextPreTag === '<em>' ? '' : nextPreTag),
+        highlightPostTag: cur.highlightPostTag || (nextPostTag === '</em>' ? '' : nextPostTag)
       } as SearchDraft;
     });
   }, [requestSchema]);
@@ -272,6 +326,39 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
       cancelled = true;
     };
   }, [activeConnectionId, selectedIndex]);
+
+  useEffect(() => {
+    if (!activeConnectionId || !selectedIndex) {
+      setIndexerOptions([]);
+      setResetIndexer('');
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const list = await indexersService.listIndexers(activeConnectionId);
+        const filtered = list.filter((x) => x.targetIndexName === selectedIndex);
+        const opts = filtered.map((x) => ({
+          value: x.name,
+          label: x.name,
+          description: x.dataSourceName ? `Datasource: ${x.dataSourceName}` : 'Indexer'
+        }));
+        if (cancelled) return;
+        setIndexerOptions(opts);
+        if (opts.length > 0 && !opts.some((o) => o.value === resetIndexer)) {
+          setResetIndexer(opts[0].value);
+        }
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) setIndexerOptions([]);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeConnectionId, selectedIndex, resetIndexer]);
 
   const disc = 'SearchRequest';
 
@@ -416,8 +503,8 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
       searchFields: draft.searchFields || undefined,
       facets: facets.length > 0 ? facets : undefined,
       highlight: draft.highlight || undefined,
-      highlightPreTag: draft.highlightPreTag || undefined,
-      highlightPostTag: draft.highlightPostTag || undefined,
+      highlightPreTag: draft.highlightPreTag?.trim() ? draft.highlightPreTag : undefined,
+      highlightPostTag: draft.highlightPostTag?.trim() ? draft.highlightPostTag : undefined,
       scoringProfile: draft.scoringProfile || undefined,
       scoringParameters: draft.scoringParameters.length > 0 ? draft.scoringParameters : undefined,
       scoringStatistics: draft.scoringStatistics,
@@ -433,7 +520,7 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
         typeof draft.semanticMaxWaitInMilliseconds === 'number' ? draft.semanticMaxWaitInMilliseconds : undefined,
       sessionId: draft.sessionId || undefined,
       hybridSearch,
-      vectorFilterMode: draft.vectorFilterMode || undefined,
+      vectorFilterMode: draft.vectorQueries.length > 0 ? draft.vectorFilterMode || undefined : undefined,
       vectorQueries: draft.vectorQueries.length > 0 ? draft.vectorQueries : undefined
     };
   }, [draft]);
@@ -444,7 +531,7 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
     async (body: unknown) => {
       if (!activeConnectionId) return;
       if (!selectedIndex) {
-        alert('Select an index first.');
+        alertService.show({ title: 'Notice', message: 'Select an index first.' });
         return;
       }
 
@@ -473,6 +560,24 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
     await runWithBody(toRequestPayload());
   }, [runWithBody, toRequestPayload]);
 
+  const stripMetadata = useCallback((doc: Record<string, unknown>): Record<string, unknown> => {
+    return Object.keys(doc).reduce<Record<string, unknown>>((acc, key) => {
+      if (key.startsWith('@')) return acc;
+      acc[key] = doc[key];
+      return acc;
+    }, {});
+  }, []);
+
+  const getDocKey = useCallback(
+    (doc: Record<string, unknown>): string | null => {
+      if (!keyFieldName) return null;
+      const value = doc[keyFieldName];
+      if (value === null || typeof value === 'undefined') return null;
+      return String(value);
+    },
+    [keyFieldName]
+  );
+
   const results = useMemo(() => {
     const v = rawResponse?.value;
     return Array.isArray(v) ? v : [];
@@ -490,6 +595,76 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
     setDetailsDoc(doc);
     setDetailsOpen(true);
   }, []);
+
+  const openUploadModal = useCallback((options: {
+    title: string;
+    jsonText: string;
+    action: 'upload' | 'mergeOrUpload' | 'merge';
+    lockAction?: boolean;
+  }) => {
+    setUploadTitle(options.title);
+    setUploadInitialJson(options.jsonText);
+    setUploadDefaultAction(options.action);
+    setUploadLockAction(!!options.lockAction);
+    setUploadOpen(true);
+  }, []);
+
+  const handleUpload = useCallback(
+    async (payload: unknown) => {
+      if (!activeConnectionId || !selectedIndex) throw new Error('Select a connection and index first.');
+      await classicRetrievalService.indexDocuments(activeConnectionId, selectedIndex, payload);
+      await run();
+    },
+    [activeConnectionId, selectedIndex, run]
+  );
+
+  const downloadJson = useCallback((fileName: string, data: unknown) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }, []);
+
+  const exportFiltered = useCallback(async () => {
+    if (!selectedIndex) throw new Error('Select an index first.');
+    const fileName = `${selectedIndex}-filtered.json`;
+    downloadJson(fileName, results);
+  }, [downloadJson, results, selectedIndex]);
+
+  const exportAll = useCallback(async () => {
+    if (!activeConnectionId || !selectedIndex) throw new Error('Select a connection and index first.');
+    const pageSize = 1000;
+    let skip = 0;
+    let total: number | undefined;
+    let docs: Record<string, unknown>[] = [];
+
+    while (true) {
+      const body = {
+        search: '*',
+        top: pageSize,
+        skip,
+        count: true
+      };
+      const resp = await classicRetrievalService.searchDocuments(activeConnectionId, selectedIndex, body);
+      const rec = resp as Record<string, unknown>;
+      const batch = Array.isArray(rec.value) ? (rec.value as Record<string, unknown>[]) : [];
+      docs = [...docs, ...batch];
+      const countVal = typeof rec['@odata.count'] === 'number' ? (rec['@odata.count'] as number) : undefined;
+      if (typeof countVal === 'number') total = countVal;
+      skip += batch.length;
+      if (batch.length < pageSize) break;
+      if (typeof total === 'number' && skip >= total) break;
+      if (skip >= 5000) break;
+    }
+
+    const fileName = `${selectedIndex}-all.json`;
+    downloadJson(fileName, docs);
+  }, [activeConnectionId, downloadJson, selectedIndex]);
 
   const resetColumns = useCallback(() => {
     const base: ColumnDef[] = [{ header: 'Score', path: '@search.score' }];
@@ -675,6 +850,119 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
     return getFieldTooltipFromSchema(responseSchema as unknown as ConfigDrivenSchema, 'SearchResult', '@search.score');
   }, [responseSchema]);
 
+  const handleExportFiltered = useCallback(async () => {
+    try {
+      setExportLoading(true);
+      setExportError(null);
+      await exportFiltered();
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      setExportError(message || 'Export failed');
+    } finally {
+      setExportLoading(false);
+    }
+  }, [exportFiltered]);
+
+  const handleExportAll = useCallback(async () => {
+    try {
+      setExportLoading(true);
+      setExportError(null);
+      await exportAll();
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      setExportError(message || 'Export failed');
+    } finally {
+      setExportLoading(false);
+    }
+  }, [exportAll]);
+
+  const submitResetDoc = useCallback(async () => {
+    if (!activeConnectionId) {
+      setResetError('Select a connection first.');
+      return;
+    }
+    if (!resetIndexer) {
+      setResetError('Select an indexer.');
+      return;
+    }
+    if (!resetDocKey) {
+      setResetError('Document key is missing.');
+      return;
+    }
+
+    try {
+      setResetLoading(true);
+      setResetError(null);
+      await indexersService.resetDocuments(activeConnectionId, resetIndexer, { documentKeys: [resetDocKey] });
+      setResetLoading(false);
+      setResetOpen(false);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      setResetError(message || 'Reset failed');
+      setResetLoading(false);
+    }
+  }, [activeConnectionId, resetDocKey, resetIndexer]);
+
+  const handleDeleteDoc = useCallback(
+    async (doc: Record<string, unknown>) => {
+      const key = getDocKey(doc);
+      if (!keyFieldName || !key) {
+        setError('Unable to delete: key field missing on document.');
+        return;
+      }
+      const confirmed = await confirmService.confirm({
+        title: 'Delete Document',
+        message: `Delete document with key "${key}"?`
+      });
+      if (!confirmed) return;
+      const payload = {
+        value: [{ '@search.action': 'delete', [keyFieldName]: key }]
+      };
+      await handleUpload(payload);
+    },
+    [getDocKey, handleUpload, keyFieldName]
+  );
+
+  const handleDuplicateDoc = useCallback(
+    (doc: Record<string, unknown>) => {
+      const cleaned = stripMetadata(doc);
+      openUploadModal({
+        title: 'Duplicate Document',
+        jsonText: JSON.stringify(cleaned, null, 2),
+        action: 'upload',
+        lockAction: false
+      });
+    },
+    [openUploadModal, stripMetadata]
+  );
+
+  const handleEditDoc = useCallback(
+    (doc: Record<string, unknown>) => {
+      const cleaned = stripMetadata(doc);
+      openUploadModal({
+        title: 'Edit Document (merge)',
+        jsonText: JSON.stringify(cleaned, null, 2),
+        action: 'merge',
+        lockAction: true
+      });
+    },
+    [openUploadModal, stripMetadata]
+  );
+
+  const handleResetDoc = useCallback(
+    (doc: Record<string, unknown>) => {
+      const key = getDocKey(doc);
+      if (!key) {
+        setError('Unable to reset: key field missing on document.');
+        return;
+      }
+      setResetDocKey(key);
+      setResetError(null);
+      setResetOpen(true);
+    },
+    [getDocKey]
+  );
+
   return (
     <div className={styles.page}>
       <div className={styles.headerRow}>
@@ -694,6 +982,29 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
           ) : null}
           <Button variant="secondary" onClick={() => setAdvancedOpen((v) => !v)} title="Show/hide advanced query options">
             <i className="fas fa-sliders-h"></i> {advancedOpen ? 'Hide' : 'Show'} Advanced
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() =>
+              openUploadModal({
+                title: 'Upload Documents',
+                jsonText: '',
+                action: 'upload',
+                lockAction: false
+              })
+            }
+            disabled={!activeConnectionId || !selectedIndex}
+            title="Upload or merge documents"
+          >
+            <i className="fas fa-upload"></i> Upload
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => setExportOpen(true)}
+            disabled={!selectedIndex}
+            title="Export documents"
+          >
+            <i className="fas fa-download"></i> Export
           </Button>
           <Button variant="primary" onClick={() => void run()} disabled={!activeConnectionId || !selectedIndex || loading}>
             <i className="fas fa-play"></i> Run
@@ -761,6 +1072,10 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
           onOpenDetails={openDetails}
           onViewDocumentJson={setViewJsonItem}
           onExpandCell={setViewCell}
+          onDeleteDoc={handleDeleteDoc}
+          onDuplicateDoc={handleDuplicateDoc}
+          onEditDoc={handleEditDoc}
+          onResetDoc={handleResetDoc}
           cellValue={cellValue}
         />
       </div>
@@ -772,6 +1087,38 @@ const ClassicRetrievalPage: React.FC<ClassicRetrievalPageProps> = ({ indexName, 
         canRun={!!activeConnectionId && !!selectedIndex}
         loading={loading}
         onRunWithBody={runWithBody}
+      />
+
+      <ClassicRetrievalUploadModal
+        isOpen={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        title={uploadTitle}
+        initialJsonText={uploadInitialJson}
+        defaultAction={uploadDefaultAction}
+        lockAction={uploadLockAction}
+        onSubmit={handleUpload}
+      />
+
+      <ClassicRetrievalExportModal
+        isOpen={exportOpen}
+        onClose={() => setExportOpen(false)}
+        canExportFiltered={results.length > 0}
+        onExportFiltered={handleExportFiltered}
+        onExportAll={handleExportAll}
+        loading={exportLoading}
+        error={exportError}
+      />
+
+      <ClassicRetrievalResetDocumentModal
+        isOpen={resetOpen}
+        onClose={() => setResetOpen(false)}
+        docKey={resetDocKey}
+        indexerOptions={indexerOptions}
+        selectedIndexer={resetIndexer}
+        onSelectIndexer={setResetIndexer}
+        onSubmit={submitResetDoc}
+        loading={resetLoading}
+        error={resetError}
       />
 
       <JsonViewerModal isOpen={viewJsonItem !== null} onClose={() => setViewJsonItem(null)} title="Document JSON" data={viewJsonItem} />

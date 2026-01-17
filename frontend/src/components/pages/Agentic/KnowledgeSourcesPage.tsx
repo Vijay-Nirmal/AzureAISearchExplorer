@@ -24,6 +24,7 @@ import type { SearchField, SearchIndex } from '../../../types/IndexModels';
 import type { KnowledgeSource, KnowledgeSourceKind, SearchIndexFieldReference } from '../../../types/KnowledgeSourceModels';
 import { indexesService } from '../../../services/indexesService';
 import { knowledgeSourcesService } from '../../../services/knowledgeSourcesService';
+import { confirmService } from '../../../services/confirmService';
 import { KNOWLEDGE_SOURCE_DISCRIMINATOR, knowledgeSourceSchema } from './knowledgeSourceSchema';
 
 import styles from './KnowledgeSourcesPage.module.css';
@@ -625,7 +626,11 @@ const KnowledgeSourcesPage: React.FC = () => {
 
   const remove = async (name: string) => {
     if (!activeConnectionId) return;
-    if (!confirm(`Delete knowledge source '${name}'?`)) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Knowledge Source',
+      message: `Delete knowledge source '${name}'?`
+    });
+    if (!confirmed) return;
 
     try {
       await knowledgeSourcesService.deleteKnowledgeSource(activeConnectionId, name);

@@ -12,7 +12,7 @@ namespace AzureAISearchExplorer.Backend.Features.Indexers;
 
 public static class IndexersEndpoints
 {
-    private const string ApiVersion = "2023-11-01";
+    private const string ApiVersion = "2025-11-01-preview";
 
     private sealed record IndexerListItemDto(
         string Name,

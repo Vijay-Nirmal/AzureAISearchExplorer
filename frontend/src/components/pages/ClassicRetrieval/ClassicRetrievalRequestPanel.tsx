@@ -122,6 +122,15 @@ export const ClassicRetrievalRequestPanel: React.FC<Props> = ({
   vectorEditorSchema,
   vectorEditorValue
 }) => {
+  const defaultSemanticConfig = useMemo(
+    () => semanticConfigOptionsFromIndex.find((opt) => !!opt.value)?.value ?? '',
+    [semanticConfigOptionsFromIndex]
+  );
+
+  const defaultQueryLanguage = useMemo(
+    () => queryLanguageOptions.find((opt) => opt.value === 'en-us')?.value ?? 'en-us',
+    [queryLanguageOptions]
+  );
   const [facetFieldPick, setFacetFieldPick] = useState('');
 
   const orderbyParsed = useMemo(() => parseOrderbySingle(draft.orderby), [draft.orderby]);
@@ -241,9 +250,13 @@ export const ClassicRetrievalRequestPanel: React.FC<Props> = ({
                 setDraft((d) => ({
                   ...d,
                   basicVectorEnabled: enabled,
-                  // When disabling simple mode, don't destroy advanced vector payloads.
-                  // User can clear vectorQueries manually via Advanced.
-                  vectorQueries: enabled ? d.vectorQueries : d.vectorQueries
+                  basicVectorText: enabled ? (d.basicVectorText || d.search || '') : d.basicVectorText,
+                  queryType: enabled ? 'semantic' : d.queryType,
+                  queryLanguage: enabled ? (d.queryLanguage && d.queryLanguage !== 'none' ? d.queryLanguage : defaultQueryLanguage) : d.queryLanguage,
+                  queryRewrites: enabled ? (d.queryRewrites && d.queryRewrites !== 'none' ? d.queryRewrites : 'generative') : d.queryRewrites,
+                  semanticConfiguration: enabled ? (d.semanticConfiguration || defaultSemanticConfig) : d.semanticConfiguration,
+                  captions: enabled ? (d.captions && d.captions !== 'none' ? d.captions : 'extractive') : d.captions,
+                  answers: enabled ? (d.answers && d.answers !== 'none' ? d.answers : 'extractive|count-3') : d.answers
                 }));
               }}
               style={{ accentColor: 'var(--accent-color)' }}
@@ -281,37 +294,6 @@ export const ClassicRetrievalRequestPanel: React.FC<Props> = ({
                   placeholder="vectorField"
                 />
               )}
-            </div>
-
-            <div className={styles.inlineRow}>
-              <div className={styles.fieldRow}>
-                <div className={styles.labelRow}>
-                  <Label>K</Label>
-                  <InfoIcon tooltip="Number of nearest neighbors to return (top hits)." />
-                </div>
-                <Input
-                  type="number"
-                  value={draft.basicVectorK}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setField('basicVectorK', v === '' ? '' : Math.max(1, Number(v)));
-                  }}
-                  placeholder="10"
-                />
-              </div>
-
-              <div className={styles.fieldRow}>
-                <div className={styles.labelRow}>
-                  <Label>Weight</Label>
-                  <InfoIcon tooltip="Relative weight of the vector query (default 1.0)." />
-                </div>
-                <Input
-                  type="number"
-                  value={draft.basicVectorWeight}
-                  onChange={(e) => setField('basicVectorWeight', Number(e.target.value) || 1)}
-                  placeholder="1"
-                />
-              </div>
             </div>
 
             <div className={styles.fieldRow}>
@@ -643,14 +625,22 @@ export const ClassicRetrievalRequestPanel: React.FC<Props> = ({
                         <Label>Pre Tag</Label>
                         <InfoIcon tooltip={tip('highlightPreTag') || ''} />
                       </div>
-                      <Input value={draft.highlightPreTag} onChange={(e) => setField('highlightPreTag', e.target.value)} />
+                      <Input
+                        value={draft.highlightPreTag}
+                        onChange={(e) => setField('highlightPreTag', e.target.value)}
+                        placeholder="<em>"
+                      />
                     </div>
                     <div className={styles.fieldRow}>
                       <div className={styles.labelRow}>
                         <Label>Post Tag</Label>
                         <InfoIcon tooltip={tip('highlightPostTag') || ''} />
                       </div>
-                      <Input value={draft.highlightPostTag} onChange={(e) => setField('highlightPostTag', e.target.value)} />
+                      <Input
+                        value={draft.highlightPostTag}
+                        onChange={(e) => setField('highlightPostTag', e.target.value)}
+                        placeholder="</em>"
+                      />
                     </div>
                   </div>
                 </div>

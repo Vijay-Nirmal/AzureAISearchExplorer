@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '../common/Card';
 import { Input } from '../common/Input';
 import { connectionService } from '../../services/connectionService';
+import { alertService } from '../../services/alertService';
 import type { ServiceOverview } from '../../types/ConnectionProfile';
 import { useLayout } from '../../context/LayoutContext';
 import styles from './ServiceOverviewPage.module.css';
@@ -60,7 +61,7 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
             setIsScaling(false);
             await loadOverview();
         } catch (err: any) {
-            alert('Failed to scale service: ' + err.message);
+            alertService.show({ title: 'Error', message: `Failed to scale service: ${err.message}` });
         } finally {
             setScalingLoading(false);
         }
@@ -79,7 +80,7 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
             setIsEditingSettings(false);
             await loadOverview();
         } catch (err: any) {
-            alert('Failed to update service settings: ' + err.message);
+            alertService.show({ title: 'Error', message: `Failed to update service settings: ${err.message}` });
         } finally {
             setUpdatingSettings(false);
         }

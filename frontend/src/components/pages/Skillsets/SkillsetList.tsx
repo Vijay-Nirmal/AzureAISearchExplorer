@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { skillsetsService } from '../../../services/skillsetsService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -25,7 +27,7 @@ const SkillsetList: React.FC<SkillsetListProps> = ({ onEdit, onCreate }) => {
       setSkillsets(data);
     } catch (error) {
       console.error(error);
-      alert('Failed to load skillsets');
+      alertService.show({ title: 'Error', message: 'Failed to load skillsets.' });
     } finally {
       setLoading(false);
     }
@@ -38,14 +40,17 @@ const SkillsetList: React.FC<SkillsetListProps> = ({ onEdit, onCreate }) => {
 
   const handleDelete = async (skillsetName: string) => {
     if (!activeConnectionId) return;
-    if (confirm(`Are you sure you want to delete skillset '${skillsetName}'?`)) {
-      try {
-        await skillsetsService.deleteSkillset(activeConnectionId, skillsetName);
-        fetchSkillsets();
-      } catch (error) {
-        console.error(error);
-        alert('Failed to delete skillset');
-      }
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Skillset',
+      message: `Are you sure you want to delete skillset '${skillsetName}'?`
+    });
+    if (!confirmed) return;
+    try {
+      await skillsetsService.deleteSkillset(activeConnectionId, skillsetName);
+      fetchSkillsets();
+    } catch (error) {
+      console.error(error);
+      alertService.show({ title: 'Error', message: 'Failed to delete skillset.' });
     }
   };
 

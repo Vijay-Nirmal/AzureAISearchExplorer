@@ -1,0 +1,166 @@
+<svg width="600" height="360" viewBox="40 60 540 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- CLOUD -->
+    <linearGradient id="cloudGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B9BFF"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+
+    <radialGradient id="cloudLight" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- WINDOW -->
+    <linearGradient id="windowGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EAF0F7"/>
+    </linearGradient>
+
+    <!-- ACCENT -->
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7DB5FF"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+
+    <!-- SHADOWS -->
+    <filter id="deepShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="30" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+
+    <filter id="mediumShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="4"/>
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+      <feColorMatrix type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 .3 0"/>
+    </filter>
+
+    <!-- LENS -->
+    <radialGradient id="lensGlass" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- CLOUD -->
+  <path
+    d="M150 315
+       C90 315 55 275 55 235
+       C55 190 95 160 145 155
+       C165 105 215 75 280 75
+       C345 75 395 115 405 165
+       C455 165 495 205 495 255
+       C495 300 460 315 415 315
+       Z"
+    fill="url(#cloudGrad)"
+    filter="url(#deepShadow)"
+  />
+
+  <!-- CLOUD LIGHT -->
+  <path
+    d="M150 315
+       C90 315 55 275 55 235
+       C55 190 95 160 145 155
+       C165 105 215 75 280 75
+       C345 75 395 115 405 165
+       C455 165 495 205 495 255
+       C495 300 460 315 415 315
+       Z"
+    fill="url(#cloudLight)"
+  />
+
+  <!-- WINDOW -->
+  <rect
+    x="195"
+    y="160"
+    width="300"
+    height="185"
+    rx="20"
+    fill="url(#windowGrad)"
+    filter="url(#mediumShadow)"
+  />
+
+  <!-- WINDOW INNER SHADOW -->
+  <rect
+    x="195"
+    y="160"
+    width="300"
+    height="185"
+    rx="20"
+    fill="none"
+    filter="url(#innerShadow)"
+  />
+
+  <!-- TITLE DOTS -->
+  <circle cx="220" cy="185" r="5" fill="#CFE2FF"/>
+  <circle cx="238" cy="185" r="5" fill="#AFCBFF"/>
+  <circle cx="256" cy="185" r="5" fill="#7DB5FF"/>
+
+  <!-- SIDEBAR -->
+  <rect x="210" y="205" width="50" height="115" rx="10" fill="#EEF3FB"/>
+
+  <!-- CONTENT CARDS -->
+  <rect x="270" y="205" width="70" height="45" rx="10" fill="url(#accentGrad)"/>
+  <rect x="350" y="205" width="70" height="45" rx="10" fill="url(#accentGrad)"/>
+
+  <!-- DATA ROWS -->
+  <rect x="270" y="265" width="190" height="10" rx="5" fill="#E1E9F6"/>
+  <rect x="270" y="282" width="165" height="10" rx="5" fill="#EBF1FA"/>
+  <rect x="270" y="299" width="140" height="10" rx="5" fill="#F1F5FB"/>
+
+  <!-- LENS -->
+  <circle
+    cx="350"
+    cy="255"
+    r="46"
+    fill="#FFFFFF"
+    stroke="#3B82F6"
+    stroke-width="9"
+    filter="url(#mediumShadow)"
+  />
+
+  <!-- LENS GLASS -->
+  <circle cx="340" cy="245" r="38" fill="url(#lensGlass)"/>
+
+  <!-- HANDLE -->
+  <rect
+    x="382"
+    y="290"
+    width="85"
+    height="15"
+    rx="8"
+    transform="rotate(45 382 290)"
+    fill="#3B82F6"
+    filter="url(#mediumShadow)"
+  />
+
+  <!-- HANDLE HIGHLIGHT -->
+  <rect
+    x="386"
+    y="292"
+    width="78"
+    height="6"
+    rx="3"
+    transform="rotate(45 386 292)"
+    fill="#FFFFFF"
+    opacity="0.25"
+  />
+
+  <!-- CHART -->
+  <polyline
+    points="330,265 345,245 365,258 385,238"
+    fill="none"
+    stroke="#3B82F6"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

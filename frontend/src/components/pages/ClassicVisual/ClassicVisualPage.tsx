@@ -14,6 +14,8 @@ import { skillsetsService } from '../../../services/skillsetsService';
 import { indexesService } from '../../../services/indexesService';
 import { aliasesService } from '../../../services/aliasesService';
 import { synonymMapsService } from '../../../services/synonymMapsService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 
 import type { IndexerListItem, SearchIndexer } from '../../../types/IndexerModels';
 import type { SearchIndexerDataSourceConnection } from '../../../types/DataSourceModels';
@@ -111,6 +113,7 @@ const ClassicVisualPage: React.FC = () => {
   const [focusNodeId, setFocusNodeId] = useState<string | null>(null);
   const [editorTarget, setEditorTarget] = useState<EditorTarget | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     setBreadcrumbs([{ label: 'Classic Visual' }]);
@@ -242,7 +245,7 @@ const ClassicVisualPage: React.FC = () => {
       resetDirtyFlags();
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      alert(`Failed to save changes: ${message}`);
+      alertService.show({ title: 'Error', message: `Failed to save changes: ${message}` });
     } finally {
       setSaving(false);
     }
@@ -352,6 +355,105 @@ const ClassicVisualPage: React.FC = () => {
       if (syn) openEditor({ kind: 'synonym', name, value: syn });
     }
   }, [aliases, openEditor, selectedNodeId, skillsetDef, synonymMaps]);
+
+  const canDeleteSelected = useMemo(() => {
+    const id = selectedNodeId;
+    if (!id) return false;
+    if (id.startsWith('skill-')) return !!skillsetDef;
+    if (id.startsWith('selector-')) return !!skillsetDef;
+    if (id.startsWith('alias-')) return true;
+    if (id.startsWith('synonym-')) return true;
+    if (id === 'indexer-field-mappings' || id === 'indexer-output-field-mappings') return !!indexerDef;
+    return false;
+  }, [indexerDef, selectedNodeId, skillsetDef]);
+
+  const deleteSelected = useCallback(async () => {
+    const id = selectedNodeId;
+    if (!id) return;
+
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Node',
+      message: 'Delete the selected node?'
+    });
+    if (!confirmed) return;
+
+    setDeleting(true);
+    try {
+      if (id.startsWith('skill-') && skillsetDef) {
+        const idx = Number(id.slice('skill-'.length));
+        if (Number.isFinite(idx)) {
+          setSkillsetDef(prev => {
+            if (!prev) return prev;
+            const skills = Array.isArray(prev.skills) ? (prev.skills as unknown[]).filter(isPlainObject) : [];
+            const nextSkills = skills.filter((_, i) => i !== idx);
+            return { ...prev, skills: nextSkills } as SearchIndexerSkillset;
+          });
+          setDirtySkillset(true);
+          setSelectedNodeId(null);
+        }
+        return;
+      }
+
+      if (id.startsWith('selector-') && skillsetDef) {
+        const idx = Number(id.slice('selector-'.length));
+        if (Number.isFinite(idx)) {
+          setSkillsetDef(prev => {
+            if (!prev) return prev;
+            const current = isPlainObject(prev.indexProjections) ? ({ ...(prev.indexProjections as Record<string, unknown>) } as Record<string, unknown>) : {};
+            const selectors = getArrayOfObjects(current.selectors);
+            const nextSelectors = selectors.filter((_, i) => i !== idx);
+            current.selectors = nextSelectors;
+            return { ...prev, indexProjections: current } as SearchIndexerSkillset;
+          });
+          setDirtySkillset(true);
+          setSelectedNodeId(null);
+        }
+        return;
+      }
+
+      if (id === 'indexer-field-mappings' && indexerDef) {
+        setIndexerDef(prev => (prev ? { ...prev, fieldMappings: [] } : prev));
+        setDirtyIndexer(true);
+        setSelectedNodeId(null);
+        return;
+      }
+
+      if (id === 'indexer-output-field-mappings' && indexerDef) {
+        setIndexerDef(prev => (prev ? { ...prev, outputFieldMappings: [] } : prev));
+        setDirtyIndexer(true);
+        setSelectedNodeId(null);
+        return;
+      }
+
+      if (id.startsWith('alias-') && activeConnectionId) {
+        const name = id.replace('alias-', '');
+        await aliasesService.deleteAlias(activeConnectionId, name);
+        setAliases(prev => prev.filter(a => a.name !== name));
+        setDirtyAliases(prev => prev.filter(n => n !== name));
+        setSelectedNodeId(null);
+        return;
+      }
+
+      if (id.startsWith('synonym-') && activeConnectionId) {
+        const name = id.replace('synonym-', '');
+        await synonymMapsService.deleteSynonymMap(activeConnectionId, name);
+        setSynonymMaps(prev => prev.filter(s => s.name !== name));
+        setDirtySynonyms(prev => prev.filter(n => n !== name));
+        setIndexDef(prev => {
+          if (!prev) return prev;
+          const nextFields = (prev.fields || []).map((f) => {
+            const maps = Array.isArray(f.synonymMaps) ? f.synonymMaps : [];
+            return maps.includes(name) ? { ...f, synonymMaps: maps.filter(m => m !== name) } : f;
+          });
+          return { ...prev, fields: nextFields } as SearchIndex;
+        });
+        setDirtyIndex(true);
+        setSelectedNodeId(null);
+      }
+    } finally {
+      setDeleting(false);
+    }
+  }, [activeConnectionId, indexerDef, selectedNodeId, skillsetDef]);
 
   const editor = (() => {
     if (!editorTarget) return null;
@@ -743,6 +845,14 @@ const ClassicVisualPage: React.FC = () => {
           )}
           <Button variant="secondary" onClick={editSelected} disabled={!selectedNodeId}>
             <i className="fas fa-pen"></i> Edit Selected
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => void deleteSelected()}
+            disabled={!canDeleteSelected || deleting || loading}
+            title={canDeleteSelected ? 'Delete selected node' : 'Select a deletable node'}
+          >
+            <i className="fas fa-trash"></i> Delete Selected
           </Button>
         </div>
         <div className={styles.toolbarRight}>

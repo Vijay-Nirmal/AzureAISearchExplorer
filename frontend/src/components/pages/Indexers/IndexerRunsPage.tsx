@@ -1,6 +1,8 @@
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { indexersService } from '../../../services/indexersService';
+import { alertService } from '../../../services/alertService';
+import { confirmService } from '../../../services/confirmService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { InfoIcon } from '../../common/InfoIcon';
@@ -100,7 +102,7 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
       setStatus(s);
     } catch (error) {
       console.error(error);
-      alert('Failed to load indexer status');
+      alertService.show({ title: 'Error', message: 'Failed to load indexer status.' });
     } finally {
       setLoading(false);
     }
@@ -159,8 +161,11 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
 
     const verb = kind === 'run' ? 'run' : kind;
     const title = kind === 'run' ? 'Trigger a run now?' : kind === 'reset' ? 'Reset this indexer?' : 'Resync this indexer?';
-    const ok = confirm(`${title}\n\nThis will ${verb} '${indexerName}'.`);
-    if (!ok) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Confirm Action',
+      message: `${title}\n\nThis will ${verb} '${indexerName}'.`
+    });
+    if (!confirmed) return;
 
     setLoading(true);
     try {
@@ -170,7 +175,7 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
       await refresh();
     } catch (error) {
       console.error(error);
-      alert(`Failed to ${verb} indexer.`);
+      alertService.show({ title: 'Error', message: `Failed to ${verb} indexer.` });
     } finally {
       setLoading(false);
     }
@@ -190,7 +195,7 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
       .filter(Boolean);
 
     if (documentKeys.length === 0 && datasourceDocumentIds.length === 0) {
-      alert('Provide at least one document key or datasource document id.');
+      alertService.show({ title: 'Validation', message: 'Provide at least one document key or datasource document id.' });
       return;
     }
 
@@ -203,7 +208,7 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
       await refresh();
     } catch (error) {
       console.error(error);
-      alert('Failed to reset documents.');
+      alertService.show({ title: 'Error', message: 'Failed to reset documents.' });
     } finally {
       setLoading(false);
     }

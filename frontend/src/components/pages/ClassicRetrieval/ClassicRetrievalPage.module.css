@@ -113,6 +113,16 @@
   gap: 10px;
 }
 
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fileInputHidden {
+  display: none;
+}
+
 .smallHint {
   font-size: 12px;
   opacity: 0.7;
@@ -273,6 +283,52 @@
 .iconBtn:hover {
   opacity: 1;
   background: var(--hover-color);
+}
+
+.actionCell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 180px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  z-index: 10;
+  padding: 4px;
+}
+
+.actionMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 12px;
+}
+
+.actionMenuItem:hover {
+  background: var(--hover-color);
+}
+
+.actionMenuItemDanger {
+  color: var(--status-error-text);
+}
+
+.actionMenuDivider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 2px;
+  opacity: 0.7;
 }
 
 

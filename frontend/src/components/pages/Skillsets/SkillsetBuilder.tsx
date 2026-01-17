@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { skillsetsService } from '../../../services/skillsetsService';
+import { alertService } from '../../../services/alertService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -65,7 +66,7 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
         if (!isEditingDescription) setDescriptionDraft(data.description || '');
       } catch (error) {
         console.error('Failed to fetch skillset definition', error);
-        alert('Failed to load skillset definition');
+        alertService.show({ title: 'Error', message: 'Failed to load skillset definition.' });
       } finally {
         setLoading(false);
       }
@@ -77,7 +78,7 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
     if (!activeConnectionId) return;
     const name = (skillsetDef.name || '').trim();
     if (!name) {
-      alert('Skillset name is required.');
+      alertService.show({ title: 'Validation', message: 'Skillset name is required.' });
       return;
     }
 
@@ -88,7 +89,7 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
     } catch (error) {
       console.error(error);
       const message = error instanceof Error ? error.message : String(error);
-      alert('Failed to save skillset: ' + message);
+      alertService.show({ title: 'Error', message: `Failed to save skillset: ${message}` });
     } finally {
       setLoading(false);
     }
@@ -315,14 +316,14 @@ const SkillsetBuilder: React.FC<SkillsetBuilderProps> = ({ skillsetName, onBack 
                 value={skillsetDef}
                 onSave={(nextValue) => {
                   if (!nextValue || typeof nextValue !== 'object' || Array.isArray(nextValue)) {
-                    alert('Skillset JSON must be an object.');
+                    alertService.show({ title: 'Validation', message: 'Skillset JSON must be an object.' });
                     return;
                   }
 
                   const obj = nextValue as Record<string, unknown>;
                   const nextName = String(obj.name ?? '').trim();
                   if (!nextName) {
-                    alert('Skillset JSON must include a non-empty name.');
+                    alertService.show({ title: 'Validation', message: 'Skillset JSON must include a non-empty name.' });
                     return;
                   }
 

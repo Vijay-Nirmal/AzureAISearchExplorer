@@ -5,6 +5,7 @@ import { ConfigDrivenObjectForm } from '../../common/configDriven/ConfigDrivenOb
 import { applyDefaultsForType, getResolvedTypeDefinitions, normalizeBySchema } from '../../common/configDriven/configDrivenUtils';
 import type { ConfigDrivenSchema } from '../../common/configDriven/configDrivenTypes';
 import type { SearchIndexerDataSourceConnection } from '../../../types/DataSourceModels';
+import { confirmService } from '../../../services/confirmService';
 
 const isPlainObject = (v: unknown): v is Record<string, unknown> => {
   return !!v && typeof v === 'object' && !Array.isArray(v);
@@ -55,8 +56,12 @@ const DataSourceEncryptionKeyTabInner: React.FC<DataSourceEncryptionKeyTabProps>
     setDataSourceDef(prev => ({ ...prev, encryptionKey: next }));
   };
 
-  const remove = () => {
-    if (!window.confirm('Remove encryptionKey configuration from this data source?')) return;
+  const remove = async () => {
+    const confirmed = await confirmService.confirm({
+      title: 'Remove Encryption Key',
+      message: 'Remove encryptionKey configuration from this data source?'
+    });
+    if (!confirmed) return;
     if (commitTimerRef.current) window.clearTimeout(commitTimerRef.current);
     commitTimerRef.current = null;
     setPresent(false);

@@ -5,6 +5,7 @@ import { JsonEditorModal } from '../../../common/JsonEditorModal';
 import { ConfigDrivenObjectForm } from '../../../common/configDriven/ConfigDrivenObjectForm';
 import type { ConfigDrivenSchema } from '../../../common/configDriven/configDrivenTypes';
 import type { SearchIndexerSkillset } from '../../../../types/SkillsetModels';
+import { alertService } from '../../../../services/alertService';
 
 import skillsSchemaJson from '../../../../data/constants/config/Skillset/Skills/skillsConfig.json';
 
@@ -119,7 +120,7 @@ const SkillsetSkillsTabInner: React.FC<SkillsetSkillsTabProps> = ({ skillsetDef,
         value={skills}
         onSave={(nextValue) => {
           if (nextValue !== null && !Array.isArray(nextValue)) {
-            alert('Skills must be a JSON array.');
+            alertService.show({ title: 'Validation', message: 'Skills must be a JSON array.' });
             return;
           }
           const nextSkills = Array.isArray(nextValue)

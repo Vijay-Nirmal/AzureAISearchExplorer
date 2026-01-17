@@ -5,6 +5,7 @@ import { Label } from '../../common/Label';
 import { Modal } from '../../common/Modal';
 import { InfoIcon } from '../../common/InfoIcon';
 import { SelectWithDescription } from '../../common/SelectWithDescription';
+import { confirmService } from '../../../services/confirmService';
 
 import encryptionKeyDescriptions from '../../../data/constants/encryptionKeyPropertyDescriptions.json';
 import authMethods from '../../../data/constants/encryptionKeyAuthMethods.json';
@@ -64,11 +65,13 @@ export const IndexEncryptionKeyTab: React.FC<IndexEncryptionKeyTabProps> = ({ in
         setModalOpen(true);
     };
 
-    const removeKey = () => {
-        const ok = window.confirm(
-            'Remove encryptionKey from this index definition?\n\nNote: If the index already has an encryption key set, Azure AI Search may ignore attempts to set encryptionKey to null/removed.'
-        );
-        if (!ok) return;
+    const removeKey = async () => {
+        const confirmed = await confirmService.confirm({
+            title: 'Remove Encryption Key',
+            message:
+                'Remove encryptionKey from this index definition?\n\nNote: If the index already has an encryption key set, Azure AI Search may ignore attempts to set encryptionKey to null/removed.'
+        });
+        if (!confirmed) return;
         setIndexDef(prev => ({ ...prev, encryptionKey: undefined }));
     };
 

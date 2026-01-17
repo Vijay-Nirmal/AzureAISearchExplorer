@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { synonymMapsService } from '../../../services/synonymMapsService';
+import { confirmService } from '../../../services/confirmService';
 import type { SynonymMap } from '../../../types/SynonymMapModels';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
@@ -269,7 +270,11 @@ const SynonymMapsPage: React.FC = () => {
 
   const deleteSynonymMap = async (name: string) => {
     if (!activeConnectionId) return;
-    if (!confirm(`Delete synonym map "${name}"?`)) return;
+    const confirmed = await confirmService.confirm({
+      title: 'Delete Synonym Map',
+      message: `Delete synonym map "${name}"?`
+    });
+    if (!confirmed) return;
     try {
       await synonymMapsService.deleteSynonymMap(activeConnectionId, name);
       await fetchSynonymMaps();

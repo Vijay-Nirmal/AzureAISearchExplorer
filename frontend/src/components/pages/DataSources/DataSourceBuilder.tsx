@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '../../../context/LayoutContext';
 import { datasourcesService } from '../../../services/datasourcesService';
+import { alertService } from '../../../services/alertService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { Input } from '../../common/Input';
@@ -84,7 +85,7 @@ const DataSourceBuilder: React.FC<DataSourceBuilderProps> = ({ dataSourceName, o
         if (!isEditingDescription) setDescriptionDraft(String(ds.description || ''));
       } catch (error) {
         console.error(error);
-        alert('Failed to load data source.');
+        alertService.show({ title: 'Error', message: 'Failed to load data source.' });
       } finally {
         setLoading(false);
       }
@@ -136,7 +137,7 @@ const DataSourceBuilder: React.FC<DataSourceBuilderProps> = ({ dataSourceName, o
     if (!isEdit) {
       const cs = String(draft.credentials?.connectionString || '').trim();
       if (!cs) {
-        alert('Connection string is required for a new data source.');
+        alertService.show({ title: 'Validation', message: 'Connection string is required for a new data source.' });
         setActiveTab('credentials');
         return;
       }
@@ -144,14 +145,14 @@ const DataSourceBuilder: React.FC<DataSourceBuilderProps> = ({ dataSourceName, o
 
     const type = String(draft.type || '').trim();
     if (!type) {
-      alert('Type is required.');
+      alertService.show({ title: 'Validation', message: 'Type is required.' });
       setActiveTab('general');
       return;
     }
 
     const containerName = String(draft.container?.name || '').trim();
     if (!containerName) {
-      alert('Container name is required.');
+      alertService.show({ title: 'Validation', message: 'Container name is required.' });
       setActiveTab('container');
       return;
     }
@@ -161,7 +162,7 @@ const DataSourceBuilder: React.FC<DataSourceBuilderProps> = ({ dataSourceName, o
       const result = normalizeBySchema(schema, draft as unknown as Record<string, unknown>, { preserveUnknown: true });
       if (!result.value) {
         setErrors(result.errors);
-        alert('Fix validation errors before saving.');
+        alertService.show({ title: 'Validation', message: 'Fix validation errors before saving.' });
         return;
       }
 
@@ -171,7 +172,7 @@ const DataSourceBuilder: React.FC<DataSourceBuilderProps> = ({ dataSourceName, o
     } catch (error) {
       console.error(error);
       const msg = error instanceof Error ? error.message : String(error);
-      alert('Failed to save data source: ' + msg);
+      alertService.show({ title: 'Error', message: `Failed to save data source: ${msg}` });
     } finally {
       setLoading(false);
     }
@@ -552,7 +553,7 @@ const DataSourceBuilder: React.FC<DataSourceBuilderProps> = ({ dataSourceName, o
         value={draft as any}
         onSave={(nextValue) => {
           if (nextValue !== null && (typeof nextValue !== 'object' || Array.isArray(nextValue))) {
-            alert('Data source must be a JSON object.');
+            alertService.show({ title: 'Validation', message: 'Data source must be a JSON object.' });
             return;
           }
           if (!nextValue) return;
