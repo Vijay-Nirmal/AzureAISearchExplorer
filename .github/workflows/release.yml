@@ -58,7 +58,10 @@ jobs:
 
       - name: Prepare Electron assets (Linux)
         if: matrix.os == 'ubuntu-latest'
-        run: npm run prebuild:electron
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          xvfb-run -a npm run prebuild:electron
         env:
           ELECTRON_DISABLE_SANDBOX: "1"
 
