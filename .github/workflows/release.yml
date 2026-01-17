@@ -56,7 +56,14 @@ jobs:
       - name: Build backend
         run: npm run ${{ matrix.backend_command }}
 
-      - name: Prepare Electron assets
+      - name: Prepare Electron assets (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run prebuild:electron
+        env:
+          ELECTRON_DISABLE_SANDBOX: "1"
+
+      - name: Prepare Electron assets (Non-Linux)
+        if: matrix.os != 'ubuntu-latest'
         run: npm run prebuild:electron
 
       - name: Build Electron
