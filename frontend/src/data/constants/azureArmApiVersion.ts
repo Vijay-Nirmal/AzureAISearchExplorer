@@ -1,0 +1,1 @@
+export const AZURE_ARM_API_VERSION = '2025-05-01';

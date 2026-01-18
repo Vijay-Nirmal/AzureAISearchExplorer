@@ -1,15 +1,22 @@
 # Azure AI Search Explorer
 
+[![Latest Release](https://img.shields.io/github/v/release/Vijay-Nirmal/AzureAISearchExplorer?display_name=tag)](https://github.com/Vijay-Nirmal/AzureAISearchExplorer/releases)
+[![Build Status](https://github.com/Vijay-Nirmal/AzureAISearchExplorer/actions/workflows/release.yml/badge.svg)](https://github.com/Vijay-Nirmal/AzureAISearchExplorer/actions/workflows/release.yml)
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-ff5a5f)](https://github.com/sponsors/Vijay-Nirmal)
+
 Azure AI Search Explorer is a desktop UI for exploring, validating, and operating Azure AI Search services. It is designed for day‑to‑day work: inspecting service health, managing indexes and ingestion pipelines, and running both classic and agentic retrieval workflows.
 
-
 > Azure AI Search is an expensive resource to keep running for development and testing. If this project helps you, please consider sponsoring to offset Azure subscription costs.
+
+![Screenshots](assets/Azure_AI_Search_Explorer_Screenshot.png)
 
 ## Download
 
 Download the latest production build from the Releases page and run the installer for your OS.
 
 ## Features
+
+https://github.com/user-attachments/assets/80a05da0-7e90-4658-bf20-14b2c88dca11
 
 - **API-first coverage** - If a capability is available via Azure AI Search REST APIs, it is targeted for full support in the app.
 - **Connection profiles** - Connect to multiple Azure AI Search services using Entra ID, API Key, or Managed Identity.
@@ -33,12 +40,6 @@ Azure Portal is a great starting point, but it does not expose the full surface 
 - **Full API coverage** - Surface features that are not fully available in the portal.
 - **Missing portal features** - Manage synonym maps, autocomplete, document upload/download/edit, different data source types, mostly JSON and advanced configurations for each asset type.
 - **Clarity for new users** - The Classic Visual experience shows how data sources, indexers, skillsets, and indexes flow together so you can see what is happening at a glance.
-
-## Screenshots
-
-Add a product screenshot or walkthrough image here.
-
-![Azure AI Search Explorer Screenshot](assets/screenshots/overview.png)
 
 ## Local Development
 

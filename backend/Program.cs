@@ -1,16 +1,8 @@
 using AzureAISearchExplorer.Backend.Endpoints;
 using AzureAISearchExplorer.Backend.Extensions;
-using AzureAISearchExplorer.Backend.Features.Connections;
-using AzureAISearchExplorer.Backend.Features.DataSources;
-using AzureAISearchExplorer.Backend.Features.Indexers;
-using AzureAISearchExplorer.Backend.Features.Indexes;
-using AzureAISearchExplorer.Backend.Features.ClassicRetrieval;
-using AzureAISearchExplorer.Backend.Features.Aliases;
-using AzureAISearchExplorer.Backend.Features.SynonymMaps;
-using AzureAISearchExplorer.Backend.Features.Skillsets;
+using AzureAISearchExplorer.Backend.Features.ArmProxy;
+using AzureAISearchExplorer.Backend.Features.SearchProxy;
 using AzureAISearchExplorer.Backend.Features.Service;
-using AzureAISearchExplorer.Backend.Features.KnowledgeSources;
-using AzureAISearchExplorer.Backend.Features.KnowledgeBases;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Azure;
 using System.Text.Json.Serialization;
@@ -41,16 +33,8 @@ app.UseCors();
 
 // Map Endpoints
 app.MapLogsEndpoints();
-app.MapConnectionsEndpoints();
 app.MapServiceEndpoints();
-app.MapIndexesEndpoints();
-app.MapAliasesEndpoints();
-app.MapSynonymMapsEndpoints();
-app.MapDataSourcesEndpoints();
-app.MapSkillsetsEndpoints();
-app.MapIndexersEndpoints();
-app.MapClassicRetrievalEndpoints();
-app.MapKnowledgeSourcesEndpoints();
-app.MapKnowledgeBasesEndpoints();
+app.MapSearchProxyEndpoints();
+app.MapArmProxyEndpoints();
 
 app.Run();

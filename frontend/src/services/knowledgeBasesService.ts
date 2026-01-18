@@ -1,20 +1,31 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 import type { KnowledgeBase } from '../types/KnowledgeBaseModels';
+
+type SearchKnowledgeBasesResponse = {
+  value?: KnowledgeBase[];
+};
 
 export const knowledgeBasesService = {
   async listKnowledgeBases(connectionId: string) {
-    return apiClient.get<KnowledgeBase[]>(`/api/knowledgebases?connectionId=${connectionId}`);
+    const response = await searchRestClient.get<SearchKnowledgeBasesResponse>(connectionId, 'knowledgeBases');
+    return response.value ?? [];
   },
 
   async getKnowledgeBase(connectionId: string, name: string) {
-    return apiClient.get<KnowledgeBase>(`/api/knowledgebases/${encodeURIComponent(name)}?connectionId=${connectionId}`);
+    const path = `knowledgeBases/${encodeURIComponent(name)}`;
+    return searchRestClient.get<KnowledgeBase>(connectionId, path);
   },
 
   async upsertKnowledgeBase(connectionId: string, knowledgeBase: KnowledgeBase) {
-    return apiClient.post<KnowledgeBase>(`/api/knowledgebases?connectionId=${connectionId}`, knowledgeBase);
+    const name = knowledgeBase.name?.trim();
+    if (!name) throw new Error('Knowledge base name is required.');
+
+    const path = `knowledgeBases/${encodeURIComponent(name)}`;
+    return searchRestClient.put<KnowledgeBase>(connectionId, path, knowledgeBase);
   },
 
   async deleteKnowledgeBase(connectionId: string, name: string) {
-    return apiClient.delete(`/api/knowledgebases/${encodeURIComponent(name)}?connectionId=${connectionId}`);
+    const path = `knowledgeBases/${encodeURIComponent(name)}`;
+    await searchRestClient.delete(connectionId, path);
   }
 };

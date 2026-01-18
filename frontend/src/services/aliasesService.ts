@@ -1,20 +1,31 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 import type { SearchAlias } from '../types/AliasModels';
+
+type SearchAliasesResponse = {
+  value?: SearchAlias[];
+};
 
 export const aliasesService = {
   listAliases: async (connectionId: string): Promise<SearchAlias[]> => {
-    return apiClient.get<SearchAlias[]>(`/api/aliases?connectionId=${connectionId}`);
+    const response = await searchRestClient.get<SearchAliasesResponse>(connectionId, 'aliases');
+    return response.value ?? [];
   },
 
   getAlias: async (connectionId: string, aliasName: string): Promise<SearchAlias> => {
-    return apiClient.get<SearchAlias>(`/api/aliases/${encodeURIComponent(aliasName)}?connectionId=${connectionId}`);
+    const path = `aliases/${encodeURIComponent(aliasName)}`;
+    return searchRestClient.get<SearchAlias>(connectionId, path);
   },
 
   createOrUpdateAlias: async (connectionId: string, alias: SearchAlias): Promise<SearchAlias> => {
-    return apiClient.post<SearchAlias>(`/api/aliases?connectionId=${connectionId}`, alias);
+    const name = alias.name?.trim();
+    if (!name) throw new Error('Alias name is required.');
+
+    const path = `aliases/${encodeURIComponent(name)}`;
+    return searchRestClient.put<SearchAlias>(connectionId, path, alias);
   },
 
   deleteAlias: async (connectionId: string, aliasName: string): Promise<void> => {
-    return apiClient.delete(`/api/aliases/${encodeURIComponent(aliasName)}?connectionId=${connectionId}`);
+    const path = `aliases/${encodeURIComponent(aliasName)}`;
+    await searchRestClient.delete(connectionId, path);
   }
 };

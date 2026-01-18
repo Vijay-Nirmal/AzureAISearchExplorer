@@ -1,20 +1,31 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 import type { KnowledgeSource } from '../types/KnowledgeSourceModels';
+
+type SearchKnowledgeSourcesResponse = {
+  value?: KnowledgeSource[];
+};
 
 export const knowledgeSourcesService = {
   async listKnowledgeSources(connectionId: string) {
-    return apiClient.get<KnowledgeSource[]>(`/api/knowledgesources?connectionId=${connectionId}`);
+    const response = await searchRestClient.get<SearchKnowledgeSourcesResponse>(connectionId, 'knowledgeSources');
+    return response.value ?? [];
   },
 
   async getKnowledgeSource(connectionId: string, name: string) {
-    return apiClient.get<KnowledgeSource>(`/api/knowledgesources/${encodeURIComponent(name)}?connectionId=${connectionId}`);
+    const path = `knowledgeSources/${encodeURIComponent(name)}`;
+    return searchRestClient.get<KnowledgeSource>(connectionId, path);
   },
 
   async upsertKnowledgeSource(connectionId: string, knowledgeSource: KnowledgeSource) {
-    return apiClient.post<KnowledgeSource>(`/api/knowledgesources?connectionId=${connectionId}`, knowledgeSource);
+    const name = knowledgeSource.name?.trim();
+    if (!name) throw new Error('Knowledge source name is required.');
+
+    const path = `knowledgeSources/${encodeURIComponent(name)}`;
+    return searchRestClient.put<KnowledgeSource>(connectionId, path, knowledgeSource);
   },
 
   async deleteKnowledgeSource(connectionId: string, name: string) {
-    return apiClient.delete(`/api/knowledgesources/${encodeURIComponent(name)}?connectionId=${connectionId}`);
+    const path = `knowledgeSources/${encodeURIComponent(name)}`;
+    await searchRestClient.delete(connectionId, path);
   }
 };

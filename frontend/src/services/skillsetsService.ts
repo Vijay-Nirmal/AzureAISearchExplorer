@@ -1,33 +1,37 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 import type { SearchIndexerSkillset, SkillsetListItem } from '../types/SkillsetModels';
 
-type SkillsetListItemDto = {
-  name: string;
-  description?: string | null;
-  skillsCount: number;
-  eTag?: string | null;
+type SearchSkillsetsResponse = {
+  value?: SearchIndexerSkillset[];
 };
 
 export const skillsetsService = {
   listSkillsets: async (connectionId: string): Promise<SkillsetListItem[]> => {
-    const raw = await apiClient.get<SkillsetListItemDto[]>(`/api/skillsets?connectionId=${connectionId}`);
-    return (raw ?? []).map((x) => ({
-      name: x.name,
-      description: x.description ?? undefined,
-      skillsCount: x.skillsCount,
-      eTag: x.eTag ?? undefined
+    const response = await searchRestClient.get<SearchSkillsetsResponse>(connectionId, 'skillsets');
+
+    return (response.value ?? []).map((skillset) => ({
+      name: skillset.name,
+      description: skillset.description,
+      skillsCount: skillset.skills?.length ?? 0,
+      eTag: skillset['@odata.etag']
     }));
   },
 
   getSkillset: async (connectionId: string, skillsetName: string): Promise<SearchIndexerSkillset> => {
-    return apiClient.get<SearchIndexerSkillset>(`/api/skillsets/${encodeURIComponent(skillsetName)}?connectionId=${connectionId}`);
+    const path = `skillsets/${encodeURIComponent(skillsetName)}`;
+    return searchRestClient.get<SearchIndexerSkillset>(connectionId, path);
   },
 
   createOrUpdateSkillset: async (connectionId: string, skillset: SearchIndexerSkillset): Promise<SearchIndexerSkillset> => {
-    return apiClient.post<SearchIndexerSkillset>(`/api/skillsets?connectionId=${connectionId}`, skillset);
+    const name = skillset.name?.trim();
+    if (!name) throw new Error('Skillset name is required.');
+
+    const path = `skillsets/${encodeURIComponent(name)}`;
+    return searchRestClient.put<SearchIndexerSkillset>(connectionId, path, skillset);
   },
 
   deleteSkillset: async (connectionId: string, skillsetName: string): Promise<void> => {
-    return apiClient.delete(`/api/skillsets/${encodeURIComponent(skillsetName)}?connectionId=${connectionId}`);
+    const path = `skillsets/${encodeURIComponent(skillsetName)}`;
+    await searchRestClient.delete(connectionId, path);
   }
 };

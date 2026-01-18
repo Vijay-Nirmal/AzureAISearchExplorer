@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from '../common/Card';
 import { Input } from '../common/Input';
+import { JsonViewerModal } from '../common/JsonViewerModal';
+import { TruncatedTextCell } from '../common/TruncatedTextCell';
 import { connectionService } from '../../services/connectionService';
 import { alertService } from '../../services/alertService';
 import type { ServiceOverview } from '../../types/ConnectionProfile';
@@ -15,6 +17,10 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
     const [overview, setOverview] = useState<ServiceOverview | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const [viewerOpen, setViewerOpen] = useState(false);
+    const [viewerTitle, setViewerTitle] = useState('');
+    const [viewerData, setViewerData] = useState<unknown>(null);
     
     // Scaling State
     const [isScaling, setIsScaling] = useState(false);
@@ -29,6 +35,55 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
     const [updatingSettings, setUpdatingSettings] = useState(false);
     
     const { openTab } = useLayout();
+
+    const openViewer = (title: string, data: unknown) => {
+        setViewerTitle(title);
+        setViewerData(data);
+        setViewerOpen(true);
+    };
+
+    const parseJsonSafe = (raw: string | undefined | null): unknown => {
+        if (!raw) return null;
+        try {
+            return JSON.parse(raw);
+        } catch {
+            return raw;
+        }
+    };
+
+    const summarizeJson = (value: unknown): string => {
+        if (!value) return 'N/A';
+        if (Array.isArray(value)) return `Array (${value.length})`;
+        if (typeof value === 'object') return `Object (${Object.keys(value as Record<string, unknown>).length} keys)`;
+        return String(value);
+    };
+
+    const renderJsonCell = (label: string, raw?: string | null) => {
+        if (!raw) return <td>N/A</td>;
+        const parsed = parseJsonSafe(raw);
+        const summary = summarizeJson(parsed);
+        return (
+            <TruncatedTextCell
+                value={summary}
+                maxWidth="420px"
+                onExpand={() => openViewer(label, parsed)}
+            />
+        );
+    };
+
+    const renderListCell = (label: string, items?: string[] | null) => {
+        if (!items || items.length === 0) return <td>None</td>;
+        const joined = items.join(', ');
+        if (joined.length <= 80) return <td>{joined}</td>;
+
+        return (
+            <TruncatedTextCell
+                value={joined}
+                maxWidth="420px"
+                onExpand={() => openViewer(label, items)}
+            />
+        );
+    };
 
     useEffect(() => {
         loadOverview();
@@ -93,6 +148,7 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
     const { stats, endpoint, name, isManagementAvailable } = overview;
 
     return (
+        <>
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.titleGroup}>
@@ -247,11 +303,7 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
                                     </tr>
                                     <tr>
                                         <td>Auth Options</td>
-                                        <td>
-                                            {overview.authOptions ? (
-                                                <pre className={styles.jsonValue}>{JSON.stringify(JSON.parse(overview.authOptions), null, 2)}</pre>
-                                            ) : 'N/A'}
-                                        </td>
+                                        {renderJsonCell('Auth Options', overview.authOptions)}
                                     </tr>
                                     <tr>
                                         <td>Encryption (CMK)</td>
@@ -259,19 +311,15 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
                                     </tr>
                                     <tr>
                                         <td>Network Rule Set</td>
-                                        <td>
-                                            {overview.networkRuleSet ? (
-                                                <pre className={styles.jsonValue}>{JSON.stringify(JSON.parse(overview.networkRuleSet), null, 2)}</pre>
-                                            ) : 'None'}
-                                        </td>
+                                        {renderJsonCell('Network Rule Set', overview.networkRuleSet)}
                                     </tr>
                                     <tr>
                                         <td>Private Endpoints</td>
-                                        <td>{overview.privateEndpointConnections?.length ? overview.privateEndpointConnections.join(', ') : 'None'}</td>
+                                        {renderListCell('Private Endpoints', overview.privateEndpointConnections)}
                                     </tr>
                                     <tr>
                                         <td>Shared Private Links</td>
-                                        <td>{overview.sharedPrivateLinkResources?.length ? overview.sharedPrivateLinkResources.join(', ') : 'None'}</td>
+                                        {renderListCell('Shared Private Links', overview.sharedPrivateLinkResources)}
                                     </tr>
                                 </tbody>
                             </table>
@@ -301,6 +349,15 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
                             </table>
                         </Card>
                     </>
+                )}
+
+                {!isManagementAvailable && (
+                    <Card>
+                        <h3>Management Data</h3>
+                        <div style={{ color: 'var(--text-color)', opacity: 0.8, fontSize: '12px' }}>
+                            Management data is unavailable for this connection. Ensure the connection has a valid Resource ID and ARM access.
+                        </div>
+                    </Card>
                 )}
 
                 <Card>
@@ -393,5 +450,16 @@ export const ServiceOverviewPage: React.FC<ServiceOverviewPageProps> = ({ connec
                 )}
             </div>
         </div>
+        <JsonViewerModal
+            isOpen={viewerOpen}
+            onClose={() => {
+                setViewerOpen(false);
+                setViewerTitle('');
+                setViewerData(null);
+            }}
+            title={viewerTitle}
+            data={viewerData}
+        />
+        </>
     );
 };

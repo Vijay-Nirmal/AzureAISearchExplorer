@@ -1,60 +1,65 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 import type { IndexerListItem, ResetDocumentsRequest, SearchIndexer } from '../types/IndexerModels';
 import type { SearchIndexerStatus } from '../types/IndexerStatusModels';
 
-type IndexerListItemDto = {
-  name: string;
-  description?: string | null;
-  dataSourceName?: string | null;
-  targetIndexName?: string | null;
-  skillsetName?: string | null;
-  disabled?: boolean | null;
-  eTag?: string | null;
+type SearchIndexersResponse = {
+  value?: SearchIndexer[];
 };
 
 export const indexersService = {
   listIndexers: async (connectionId: string): Promise<IndexerListItem[]> => {
-    const raw = await apiClient.get<IndexerListItemDto[]>(`/api/indexers?connectionId=${connectionId}`);
-    return (raw ?? []).map((x) => ({
+    const response = await searchRestClient.get<SearchIndexersResponse>(connectionId, 'indexers');
+    return (response.value ?? []).map((x) => ({
       name: x.name,
       description: x.description ?? undefined,
       dataSourceName: x.dataSourceName ?? undefined,
       targetIndexName: x.targetIndexName ?? undefined,
       skillsetName: x.skillsetName ?? undefined,
       disabled: typeof x.disabled === 'boolean' ? x.disabled : undefined,
-      eTag: x.eTag ?? undefined
+      eTag: x['@odata.etag'] ?? undefined
     }));
   },
 
   getIndexer: async (connectionId: string, indexerName: string): Promise<SearchIndexer> => {
-    return apiClient.get<SearchIndexer>(`/api/indexers/${encodeURIComponent(indexerName)}?connectionId=${connectionId}`);
+    const path = `indexers/${encodeURIComponent(indexerName)}`;
+    return searchRestClient.get<SearchIndexer>(connectionId, path);
   },
 
   createOrUpdateIndexer: async (connectionId: string, indexer: SearchIndexer): Promise<SearchIndexer> => {
-    return apiClient.post<SearchIndexer>(`/api/indexers?connectionId=${connectionId}`, indexer);
+    const name = indexer.name?.trim();
+    if (!name) throw new Error('Indexer name is required.');
+
+    const path = `indexers/${encodeURIComponent(name)}`;
+    return searchRestClient.put<SearchIndexer>(connectionId, path, indexer);
   },
 
   deleteIndexer: async (connectionId: string, indexerName: string): Promise<void> => {
-    return apiClient.delete(`/api/indexers/${encodeURIComponent(indexerName)}?connectionId=${connectionId}`);
+    const path = `indexers/${encodeURIComponent(indexerName)}`;
+    await searchRestClient.delete(connectionId, path);
   },
 
   getIndexerStatus: async (connectionId: string, indexerName: string): Promise<SearchIndexerStatus> => {
-    return apiClient.get<SearchIndexerStatus>(`/api/indexers/${encodeURIComponent(indexerName)}/status?connectionId=${connectionId}`);
+    const path = `indexers/${encodeURIComponent(indexerName)}/status`;
+    return searchRestClient.get<SearchIndexerStatus>(connectionId, path);
   },
 
   runIndexer: async (connectionId: string, indexerName: string): Promise<void> => {
-    await apiClient.post(`/api/indexers/${encodeURIComponent(indexerName)}/run?connectionId=${connectionId}`, {});
+    const path = `indexers/${encodeURIComponent(indexerName)}/run`;
+    await searchRestClient.post<unknown>(connectionId, path);
   },
 
   resetIndexer: async (connectionId: string, indexerName: string): Promise<void> => {
-    await apiClient.post(`/api/indexers/${encodeURIComponent(indexerName)}/reset?connectionId=${connectionId}`, {});
+    const path = `indexers/${encodeURIComponent(indexerName)}/reset`;
+    await searchRestClient.post<unknown>(connectionId, path);
   },
 
   resyncIndexer: async (connectionId: string, indexerName: string): Promise<void> => {
-    await apiClient.post(`/api/indexers/${encodeURIComponent(indexerName)}/resync?connectionId=${connectionId}`, {});
+    const path = `indexers/${encodeURIComponent(indexerName)}/search.resync`;
+    await searchRestClient.post<unknown>(connectionId, path);
   },
 
   resetDocuments: async (connectionId: string, indexerName: string, request: ResetDocumentsRequest): Promise<void> => {
-    await apiClient.post(`/api/indexers/${encodeURIComponent(indexerName)}/reset-docs?connectionId=${connectionId}`, request);
+    const path = `indexers/${encodeURIComponent(indexerName)}/search.resetdocs`;
+    await searchRestClient.post<unknown>(connectionId, path, request);
   }
 };

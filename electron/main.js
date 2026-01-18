@@ -1,4 +1,4 @@
-const { app, BrowserWindow, nativeImage } = require('electron');
+const { app, BrowserWindow, nativeImage, session } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -23,6 +23,20 @@ function startBackend() {
 
   backendProcess.stderr.on('data', (data) => {
     console.error(`Backend Error: ${data}`);
+  });
+}
+
+function configureCorsBypass() {
+  const filter = {
+    urls: ['https://*.search.windows.net/*', 'https://*.search.azure.com/*']
+  };
+
+  session.defaultSession.webRequest.onHeadersReceived(filter, (details, callback) => {
+    const headers = details.responseHeaders || {};
+    headers['Access-Control-Allow-Origin'] = ['*'];
+    headers['Access-Control-Allow-Methods'] = ['GET, POST, PUT, PATCH, DELETE, OPTIONS'];
+    headers['Access-Control-Allow-Headers'] = ['*'];
+    callback({ responseHeaders: headers });
   });
 }
 
@@ -62,6 +76,7 @@ app.whenReady().then(() => {
   if (process.platform === 'win32') {
     app.setAppUserModelId('com.azureaisearchexplorer.app');
   }
+  configureCorsBypass();
   startBackend();
   createWindow();
 

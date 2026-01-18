@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 
 export const classicRetrievalService = {
   searchDocuments: async (
@@ -6,10 +6,8 @@ export const classicRetrievalService = {
     indexName: string,
     requestBody: unknown
   ): Promise<unknown> => {
-    return apiClient.post<unknown>(
-      `/api/classic/indexes/${encodeURIComponent(indexName)}/documents/search?connectionId=${encodeURIComponent(connectionId)}`,
-      requestBody
-    );
+    const path = `indexes/${encodeURIComponent(indexName)}/docs/search`;
+    return searchRestClient.post<unknown>(connectionId, path, requestBody);
   },
 
   indexDocuments: async (
@@ -17,9 +15,7 @@ export const classicRetrievalService = {
     indexName: string,
     requestBody: unknown
   ): Promise<unknown> => {
-    return apiClient.post<unknown>(
-      `/api/classic/indexes/${encodeURIComponent(indexName)}/documents/index?connectionId=${encodeURIComponent(connectionId)}`,
-      requestBody
-    );
+    const path = `indexes/${encodeURIComponent(indexName)}/docs/search.index`;
+    return searchRestClient.post<unknown>(connectionId, path, requestBody);
   }
 };

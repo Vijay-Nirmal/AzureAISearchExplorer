@@ -8,6 +8,10 @@ export interface ConnectionProfile {
     clientId?: string;
     managedIdentityType?: 'System' | 'User';
     group?: string;
+    resourceId?: string;
+    hasManagementAccess?: boolean;
+    subscriptionId?: string;
+    resourceGroupName?: string;
 }
 
 export interface ServiceStatistics {

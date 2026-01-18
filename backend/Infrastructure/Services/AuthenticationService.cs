@@ -8,7 +8,8 @@ namespace AzureAISearchExplorer.Backend.Infrastructure.Services;
 
 public class AuthenticationService
 {
-    private const string SearchScope = "https://search.azure.com/.default";
+	private const string SearchScope = "https://search.azure.com/.default";
+	private const string ArmScope = "https://management.azure.com/.default";
 	private readonly ILogger<AuthenticationService> _logger;
 	private readonly ConcurrentDictionary<string, TokenCredential> _credentialCache = new();
 
@@ -75,6 +76,21 @@ public class AuthenticationService
 
 		TokenCredential credential = await GetCredentialAsync(profile);
 		AccessToken token = await credential.GetTokenAsync(new TokenRequestContext(new[] { SearchScope }), cancellationToken);
+		return ("Authorization", new AuthenticationHeaderValue("Bearer", token.Token).ToString());
+	}
+
+	/// <summary>
+	/// Gets the correct header for Azure Resource Manager REST requests (AAD/MI only).
+	/// Returns null if the connection is configured for API key auth.
+	/// </summary>
+	public async Task<(string Name, string Value)?> GetArmAuthHeaderAsync(
+		ConnectionProfile profile,
+		CancellationToken cancellationToken)
+	{
+		if (profile.AuthType == "ApiKey") return null;
+
+		TokenCredential credential = await GetCredentialAsync(profile);
+		AccessToken token = await credential.GetTokenAsync(new TokenRequestContext(new[] { ArmScope }), cancellationToken);
 		return ("Authorization", new AuthenticationHeaderValue("Bearer", token.Token).ToString());
 	}
 

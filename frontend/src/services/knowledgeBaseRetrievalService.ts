@@ -1,11 +1,9 @@
-import { apiClient } from './apiClient';
+import { searchRestClient } from './searchRestClient';
 import type { KnowledgeBaseRetrievalResponse } from '../types/KnowledgeBaseRetrievalModels';
 
 export const knowledgeBaseRetrievalService = {
   async retrieve(connectionId: string, knowledgeBaseName: string, request: unknown) {
-    return apiClient.post<KnowledgeBaseRetrievalResponse>(
-      `/api/knowledgebases/${encodeURIComponent(knowledgeBaseName)}/retrieve?connectionId=${encodeURIComponent(connectionId)}`,
-      request
-    );
+    const path = `knowledgeBases/${encodeURIComponent(knowledgeBaseName)}/retrieve`;
+    return searchRestClient.post<KnowledgeBaseRetrievalResponse>(connectionId, path, request);
   }
 };

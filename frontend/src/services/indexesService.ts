@@ -1,33 +1,68 @@
-import { apiClient } from './apiClient';
-import type { SearchIndex, QueryResponse, SearchOptions } from '../types/IndexModels';
+import { searchRestClient } from './searchRestClient';
+import type { SearchIndex, QueryResponse, SearchOptions, IndexStatistics } from '../types/IndexModels';
+
+type SearchIndexesResponse = {
+  value?: SearchIndex[];
+};
+
+type SearchIndexStatsResponse = IndexStatistics;
+
+type SearchQueryResponse = {
+  value?: Array<Record<string, unknown>>;
+  ['@odata.count']?: number;
+};
 
 export const indexesService = {
   listIndexes: async (connectionId: string): Promise<any[]> => {
-    // Return custom object with stats
-    // The backend returns { index: SearchIndex, stats: IndexStatistics } or flattened
-    // Let's check backend endpoint implementation
-    // It returns: { Name, Fields, ..., Stats } object
-    return apiClient.get<any[]>(`/api/indexes?connectionId=${connectionId}`);
+    const response = await searchRestClient.get<SearchIndexesResponse>(connectionId, 'indexes');
+    const indexes = response.value ?? [];
+
+    const withStats = await Promise.all(
+      indexes.map(async (index) => {
+        const name = index?.name?.trim();
+        if (!name) return index;
+
+        try {
+          const stats = await searchRestClient.get<SearchIndexStatsResponse>(
+            connectionId,
+            `indexes/${encodeURIComponent(name)}/stats`
+          );
+          return { ...index, stats };
+        } catch {
+          return index;
+        }
+      })
+    );
+
+    return withStats;
   },
 
   getIndex: async (connectionId: string, indexName: string): Promise<SearchIndex> => {
-    return apiClient.get<SearchIndex>(`/api/indexes/${indexName}?connectionId=${connectionId}`);
+    const path = `indexes/${encodeURIComponent(indexName)}`;
+    return searchRestClient.get<SearchIndex>(connectionId, path);
   },
 
   createOrUpdateIndex: async (connectionId: string, index: SearchIndex): Promise<SearchIndex> => {
-    return apiClient.post<SearchIndex>(`/api/indexes?connectionId=${connectionId}`, index);
+    const name = index.name?.trim();
+    if (!name) throw new Error('Index name is required.');
+
+    const path = `indexes/${encodeURIComponent(name)}`;
+    return searchRestClient.put<SearchIndex>(connectionId, path, index);
   },
 
   deleteIndex: async (connectionId: string, indexName: string): Promise<void> => {
-    return apiClient.delete(`/api/indexes/${indexName}?connectionId=${connectionId}`);
+    const path = `indexes/${encodeURIComponent(indexName)}`;
+    await searchRestClient.delete(connectionId, path);
   },
 
   queryIndex: async (connectionId: string, indexName: string, searchText: string, options: SearchOptions): Promise<QueryResponse> => {
-    // Need to encode search text
-    const encodedSearch = encodeURIComponent(searchText);
-    return apiClient.post<QueryResponse>(
-        `/api/indexes/${indexName}/query?connectionId=${connectionId}&searchText=${encodedSearch}`, 
-        options
-    );
+    const path = `indexes/${encodeURIComponent(indexName)}/docs/search`;
+    const body = { ...options, search: searchText };
+    const response = await searchRestClient.post<SearchQueryResponse>(connectionId, path, body);
+
+    return {
+      count: response['@odata.count'],
+      results: response.value ?? []
+    };
   }
 };

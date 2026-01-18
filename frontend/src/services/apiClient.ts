@@ -80,11 +80,16 @@ const showNetworkErrorToast = (endpoint: string, method: string, error: unknown)
   });
 };
 
-const request = async (method: string, endpoint: string, body?: unknown): Promise<Response> => {
+const request = async (method: string, endpoint: string, body?: unknown, headers?: Record<string, string>): Promise<Response> => {
   try {
+    const mergedHeaders: Record<string, string> = {
+      ...(body ? { 'Content-Type': 'application/json' } : {}),
+      ...(headers ?? {})
+    };
+
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method,
-      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      headers: Object.keys(mergedHeaders).length ? mergedHeaders : undefined,
       body: body ? JSON.stringify(body) : undefined
     });
     if (!response.ok) {
@@ -120,19 +125,23 @@ const tryParseJson = async <T>(response: Response): Promise<T> => {
 };
 
 export const apiClient = {
-  get: async <T>(endpoint: string): Promise<T> => {
-    const response = await request('GET', endpoint);
+  get: async <T>(endpoint: string, headers?: Record<string, string>): Promise<T> => {
+    const response = await request('GET', endpoint, undefined, headers);
     return tryParseJson<T>(response);
   },
-  post: async <T>(endpoint: string, body: unknown): Promise<T> => {
-    const response = await request('POST', endpoint, body);
+  post: async <T>(endpoint: string, body: unknown, headers?: Record<string, string>): Promise<T> => {
+    const response = await request('POST', endpoint, body, headers);
     return tryParseJson<T>(response);
   },
-  put: async <T>(endpoint: string, body: unknown): Promise<T> => {
-    const response = await request('PUT', endpoint, body);
+  put: async <T>(endpoint: string, body: unknown, headers?: Record<string, string>): Promise<T> => {
+    const response = await request('PUT', endpoint, body, headers);
     return tryParseJson<T>(response);
   },
-  delete: async (endpoint: string): Promise<void> => {
-    await request('DELETE', endpoint);
+  patch: async <T>(endpoint: string, body: unknown, headers?: Record<string, string>): Promise<T> => {
+    const response = await request('PATCH', endpoint, body, headers);
+    return tryParseJson<T>(response);
+  },
+  delete: async (endpoint: string, headers?: Record<string, string>): Promise<void> => {
+    await request('DELETE', endpoint, undefined, headers);
   }
 };
