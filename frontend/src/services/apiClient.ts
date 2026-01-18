@@ -1,6 +1,6 @@
 import { toastService } from './toastService';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5368';
 
 const tryParseJsonSafe = (text: string): Record<string, unknown> | null => {
   try {

@@ -14,7 +14,7 @@ function startBackend() {
 
   backendProcess = spawn(backendPath, [], {
     cwd: path.dirname(backendPath),
-    env: { ...process.env, ASPNETCORE_URLS: 'http://localhost:5000' }
+    env: { ...process.env, ASPNETCORE_URLS: 'http://localhost:5368' }
   });
 
   backendProcess.stdout.on('data', (data) => {
