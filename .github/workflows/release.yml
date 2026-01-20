@@ -131,7 +131,14 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Files to upload" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          find dist -type f \( -name "*.exe" -o -name "*.dmg" -o -name "*.AppImage" \) -print >> $GITHUB_STEP_SUMMARY
+          find dist -type f \( \
+            -name "Azure AI Search Explorer Setup *.exe" -o \
+            -name "Azure AI Search Explorer-*.dmg" -o \
+            -name "Azure AI Search Explorer-*.AppImage" \
+          \) \
+          ! -path "*/unpacked/*" \
+          ! -path "*-unpacked/*" \
+          -print >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Release notes" >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.notes.outputs.body }}" >> $GITHUB_STEP_SUMMARY
@@ -147,6 +154,21 @@ jobs:
         with:
           path: dist
 
+      - name: Collect release files
+        id: files
+        run: |
+          find dist -type f \( \
+            -name "Azure AI Search Explorer Setup *.exe" -o \
+            -name "Azure AI Search Explorer-*.dmg" -o \
+            -name "Azure AI Search Explorer-*.AppImage" \
+          \) \
+          ! -path "*/unpacked/*" \
+          ! -path "*-unpacked/*" \
+          -print > release-files.txt
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          cat release-files.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
@@ -154,7 +176,4 @@ jobs:
           name: ${{ inputs.release_name != '' && inputs.release_name || inputs.tag }}
           generate_release_notes: true
           prerelease: ${{ inputs.prerelease }}
-          files: |
-            dist/**/*.exe
-            dist/**/*.dmg
-            dist/**/*.AppImage
+          files: ${{ steps.files.outputs.files }}
