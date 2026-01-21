@@ -1,6 +1,7 @@
-const { app, BrowserWindow, nativeImage, session } = require('electron');
+const { app, BrowserWindow, nativeImage, session, ipcMain, shell } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
+const { registerGithubCopilotIpc } = require('./ipc/githubCopilotIpc');
 
 let backendProcess = null;
 
@@ -28,7 +29,7 @@ function startBackend() {
 
 function configureCorsBypass() {
   const filter = {
-    urls: ['https://*.search.windows.net/*', 'https://*.search.azure.com/*']
+    urls: ['https://*.search.windows.net/*', 'https://*.search.azure.com/*', 'https://github.com/*', 'https://*.github.com/*', 'https://*.githubusercontent.com/*', 'https://*.githubcopilot.com/*']
   };
 
   session.defaultSession.webRequest.onHeadersReceived(filter, (details, callback) => {
@@ -76,6 +77,11 @@ app.whenReady().then(() => {
   if (process.platform === 'win32') {
     app.setAppUserModelId('com.azureaisearchexplorer.app');
   }
+  ipcMain.handle('open-external', async (_event, url) => {
+    if (typeof url !== 'string' || url.trim().length === 0) return;
+    await shell.openExternal(url);
+  });
+  registerGithubCopilotIpc();
   configureCorsBypass();
   startBackend();
   createWindow();

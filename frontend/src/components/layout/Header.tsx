@@ -6,7 +6,7 @@ import { NotificationPanel } from '../common/NotificationPanel';
 import { useToast } from '../../context/ToastContext';
 
 export const Header: React.FC = () => {
-  const { toggleTheme, theme, tabs, activeTabId, breadcrumbs } = useLayout();
+  const { toggleTheme, theme, tabs, activeTabId, breadcrumbs, toggleChat } = useLayout();
   const activeTab = tabs.find(t => t.id === activeTabId);
   const { notifications, dismissNotification } = useToast();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -49,6 +49,12 @@ export const Header: React.FC = () => {
       </div>
       
       <div className={styles.actions}>
+        <Button
+          variant="icon"
+          onClick={toggleChat}
+          title="Open Copilot Chat"
+          icon={<i className="fa-solid fa-comments"></i>}
+        />
         <Button 
           variant="icon" 
           onClick={toggleTheme} 

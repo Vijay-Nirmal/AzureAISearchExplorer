@@ -1,0 +1,10 @@
+[
+  { "value": "indexes", "label": "Indexes", "description": "Search indexes." },
+  { "value": "indexers", "label": "Indexers", "description": "Indexing pipelines." },
+  { "value": "datasources", "label": "Data Sources", "description": "Indexer data sources." },
+  { "value": "skillsets", "label": "Skillsets", "description": "AI enrichment skillsets." },
+  { "value": "synonymmaps", "label": "Synonym Maps", "description": "Synonym map resources." },
+  { "value": "aliases", "label": "Aliases", "description": "Search aliases." },
+  { "value": "knowledgeSources", "label": "Knowledge Sources", "description": "Agentic knowledge sources." },
+  { "value": "knowledgeBases", "label": "Knowledge Bases", "description": "Agentic knowledge bases." }
+]

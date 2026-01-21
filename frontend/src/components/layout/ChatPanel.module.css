@@ -1,0 +1,338 @@
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 420px;
+  max-width: 90vw;
+  background: var(--bg-color);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  resize: horizontal;
+  overflow: hidden;
+}
+
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.authSelectContainer {
+  width: auto;
+  min-width: 110px;
+}
+
+.authSelectControl {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 11px;
+  padding: 0 4px 0 0;
+  min-height: 20px;
+}
+
+.authSelectControl :global(i) {
+  font-size: 10px;
+}
+
+.authSelectMenu {
+  width: auto !important;
+  min-width: 200px;
+}
+
+.statusIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--accent-color);
+  font-size: 12px;
+}
+
+.authMenuWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.authMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+  z-index: 2100;
+  min-width: 260px;
+}
+
+.authMenuRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height));
+}
+
+.authBar {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.authHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.authTitle {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.85;
+}
+
+.authActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.authRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.authLabel {
+  min-width: 48px;
+}
+
+
+.tokenInput {
+  flex: 1;
+  min-width: 200px;
+}
+
+.deviceCode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  font-size: 12px;
+}
+
+.messages {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+}
+
+.messageRole {
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  margin-bottom: 6px;
+}
+
+.messageContent {
+  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.message.user {
+  border-color: rgba(0, 120, 212, 0.35);
+}
+
+.message.assistant {
+  border-color: rgba(70, 186, 128, 0.3);
+}
+
+.message.system {
+  border-style: dashed;
+  border-color: rgba(204, 204, 204, 0.3);
+}
+
+.message.tool {
+  border-color: rgba(255, 193, 7, 0.4);
+}
+
+.toolPayload {
+  margin-top: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.composer {
+  border-top: 1px solid var(--border-color);
+  padding: 12px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--sidebar-bg);
+}
+
+.composerInput {
+  min-height: 72px;
+  border-radius: 12px;
+  padding: 12px 148px 56px 12px;
+}
+
+.composerActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 4px;
+  backdrop-filter: blur(6px);
+}
+
+.composerInputWrap {
+  position: relative;
+}
+
+.modelSelectInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 11px;
+  color: var(--text-color);
+}
+
+.modelSelectContainer {
+  width: auto;
+  min-width: 88px;
+}
+
+.modelSelectControl {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 11px;
+  padding: 0 4px 0 0;
+  min-height: 20px;
+}
+
+.modelSelectControl :global(i) {
+  font-size: 10px;
+}
+
+.modelSelectMenu {
+  width: auto !important;
+  min-width: 180px;
+}
+
+.placeholder {
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+.pending {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.loadingText {
+  margin-right: 6px;
+}
+
+.loadingDots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.loadingDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--text-color);
+  opacity: 0.4;
+  animation: dotPulse 1.2s infinite;
+}
+
+.loadingDot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingDot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+}

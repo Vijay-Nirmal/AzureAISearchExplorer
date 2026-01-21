@@ -8,6 +8,7 @@ import { Header } from './components/layout/Header';
 import { TabBar } from './components/layout/TabBar';
 import { ContentArea } from './components/layout/ContentArea';
 import { BottomPanel } from './components/layout/BottomPanel';
+import { ChatPanel } from './components/layout/ChatPanel';
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
                 <TabBar />
                 <ContentArea />
                 <BottomPanel />
+                <ChatPanel />
               </div>
             </div>
           </ConfirmProvider>

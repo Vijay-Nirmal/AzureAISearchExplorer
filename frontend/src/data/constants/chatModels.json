@@ -1,0 +1,5 @@
+[
+  { "value": "default", "label": "Default", "description": "Use the default Copilot model." },
+  { "value": "fast", "label": "Fast", "description": "Lower latency responses for quick iterations." },
+  { "value": "deep", "label": "Deep Reasoning", "description": "More thorough reasoning for complex tasks." }
+]

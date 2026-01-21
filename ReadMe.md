@@ -4,7 +4,7 @@
 [![Build Status](https://github.com/Vijay-Nirmal/AzureAISearchExplorer/actions/workflows/release.yml/badge.svg)](https://github.com/Vijay-Nirmal/AzureAISearchExplorer/actions/workflows/release.yml)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-ff5a5f)](https://github.com/sponsors/Vijay-Nirmal)
 
-Azure AI Search Explorer is a desktop UI for exploring, validating, and operating Azure AI Search services. It is designed for day‑to‑day work: inspecting service health, managing indexes and ingestion pipelines, and running both classic and agentic retrieval workflows.
+Azure AI Search Explorer is a desktop UI for exploring, validating, and operating Azure AI Search services, with built-in GitHub Copilot Chat to assist with resource-aware queries. It is designed for day‑to‑day work: inspecting service health, managing indexes and ingestion pipelines, and running both classic and agentic retrieval workflows.
 
 > Azure AI Search is an expensive resource to keep running for development and testing. If this project helps you, please consider sponsoring to offset Azure subscription costs.
 
@@ -32,6 +32,16 @@ https://github.com/user-attachments/assets/80a05da0-7e90-4658-bf20-14b2c88dca11
 - **Agentic Retrieval** - Explore agentic retrieval workflows.
 - **Knowledge Sources** - Create and manage agentic knowledge source definitions.
 - **Knowledge Bases** - Build and manage knowledge bases for retrieval.
+
+## GitHub Copilot Chat Integration
+
+Azure AI Search Explorer includes a built-in GitHub Copilot Chat panel to help you explore and troubleshoot your search resources.
+
+- **Authentication**: Sign in with GitHub (device code or browser) or use a personal access token.
+- **Resource-aware tools**: The chat can call read-only tools to fetch Azure AI Search resources.
+- **Model picker**: The model list will let you use any available model in Github Copilot.
+
+https://github.com/user-attachments/assets/1c22bc3b-4d95-40cc-b186-137861d967bd
 
 ## Why This App Exists (Even with Azure Portal)
 

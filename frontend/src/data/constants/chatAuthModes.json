@@ -1,0 +1,5 @@
+[
+  { "value": "device_code", "label": "Device Code", "description": "Get a device code and verify in your browser." },
+  { "value": "browser", "label": "Browser", "description": "Open the verification page and complete sign-in." },
+  { "value": "token", "label": "Personal Access Token", "description": "Paste a GitHub token stored locally." }
+]

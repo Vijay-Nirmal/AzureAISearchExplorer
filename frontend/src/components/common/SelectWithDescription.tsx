@@ -14,6 +14,9 @@ interface SelectWithDescriptionProps extends Omit<React.SelectHTMLAttributes<HTM
     onChange?: React.ChangeEventHandler<HTMLSelectElement>;
     onChangeValues?: (values: string[]) => void;
     closeOnSelect?: boolean;
+    containerClassName?: string;
+    menuClassName?: string;
+    hideDescription?: boolean;
 }
 
 export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({ 
@@ -21,6 +24,9 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
     separator = " - ",
     className,
     closeOnSelect,
+    containerClassName,
+    menuClassName,
+    hideDescription,
     ...props 
 }) => {
     const anchorRef = useRef<HTMLDivElement | null>(null);
@@ -215,7 +221,7 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
     };
 
     return (
-        <div className={styles.selectContainer} ref={anchorRef}>
+        <div className={`${styles.selectContainer} ${containerClassName || ''}`} ref={anchorRef}>
             <button
                 type="button"
                 className={`${styles.control} ${className || ''}`}
@@ -235,7 +241,7 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
 
             {isOpen && menuPos && createPortal(
                 <div
-                    className={styles.menu}
+                    className={`${styles.menu} ${menuClassName || ''}`}
                     role="listbox"
                     style={{
                         left: menuPos.left,
@@ -266,7 +272,7 @@ export const SelectWithDescription: React.FC<SelectWithDescriptionProps> = ({
                                     ) : null}
                                     {opt.label || opt.value}
                                 </div>
-                                {opt.description && (
+                                {opt.description && !hideDescription && (
                                     <div className={styles.optionDescription}>{opt.description}</div>
                                 )}
                             </div>

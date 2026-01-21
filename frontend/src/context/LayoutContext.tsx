@@ -23,6 +23,8 @@ interface LayoutContextType {
   setActiveTab: (tabId: string) => void;
   isBottomPanelOpen: boolean;
   toggleBottomPanel: () => void;
+  isChatOpen: boolean;
+  toggleChat: () => void;
   activeConnectionId: string | null;
   setActiveConnectionId: (id: string | null) => void;
   breadcrumbs: BreadcrumbItem[];
@@ -36,6 +38,7 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
   const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeConnectionId, setActiveConnectionId] = useState<string | null>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
 
@@ -66,6 +69,10 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setIsBottomPanelOpen(prev => !prev);
   };
 
+  const toggleChat = () => {
+    setIsChatOpen(prev => !prev);
+  };
+
   return (
     <LayoutContext.Provider value={{
       theme,
@@ -77,6 +84,8 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setActiveTab: setActiveTabId,
       isBottomPanelOpen,
       toggleBottomPanel,
+      isChatOpen,
+      toggleChat,
       activeConnectionId,
       setActiveConnectionId,
       breadcrumbs,
