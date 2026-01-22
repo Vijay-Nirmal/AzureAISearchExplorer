@@ -14,7 +14,7 @@
     "build:backend:win": "cd backend && dotnet publish -c Release -r win-x64 --self-contained -o ../backend/publish",
     "build:backend:mac": "cd backend && dotnet publish -c Release -r osx-x64 --self-contained -o ../backend/publish",
     "build:backend:linux": "cd backend && dotnet publish -c Release -r linux-x64 --self-contained -o ../backend/publish",
-    "prebuild:electron": "rimraf electron/renderer && copyfiles -u 2 \"frontend/dist/**/*\" electron/renderer && cd electron && npm run generate:icon",
+    "prebuild:electron": "rimraf electron/renderer && copyfiles -u 2 \"frontend/dist/**/*\" electron/renderer",
     "build:electron": "cd electron && npm run dist",
     "build:electron:win": "cd electron && npm run dist -- --win",
     "build:electron:mac": "cd electron && npm run dist -- --mac",

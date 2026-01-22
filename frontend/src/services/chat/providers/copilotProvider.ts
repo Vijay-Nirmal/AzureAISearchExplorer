@@ -55,7 +55,7 @@ const buildSystemMessages = (systemPrompt?: string) => {
 };
 
 const readCopilotStream = async (response: Response): Promise<{ content: string; functionCall?: { name: string; arguments: string } }> => {
-  if (!response.body) return '';
+  if (!response.body) return { content: '' };
   const reader = response.body.getReader();
   const decoder = new TextDecoder('utf-8');
   let buffer = '';

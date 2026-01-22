@@ -13,14 +13,14 @@ import { formatToolCall, runTool, TOOL_NAMES } from '../../services/chat/toolReg
 import { authStore } from '../../services/chat/authStore';
 import { githubAuth } from '../../services/chat/githubAuth';
 import { connectionService } from '../../services/connectionService';
-import type { ChatMessage } from '../../services/chat/types';
+import type { AuthMode, ChatMessage } from '../../services/chat/types';
 
 const toOptions = (items: Array<{ value: string; description?: string; label?: string }>): SelectOption[] =>
   items.map((item) => ({ value: item.value, description: item.description, label: item.label }));
 
 export const ChatPanel: React.FC = () => {
   const { isChatOpen, toggleChat, activeConnectionId, breadcrumbs, chatDraft, setChatDraft } = useLayout();
-  const [authMode, setAuthMode] = useState(chatAuthModes[0]?.value ?? 'device_code');
+  const [authMode, setAuthMode] = useState<AuthMode>((chatAuthModes[0]?.value as AuthMode) ?? 'device_code');
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState('Not signed in');
@@ -376,7 +376,7 @@ export const ChatPanel: React.FC = () => {
                   <SelectWithDescription
                     options={authOptions}
                     value={authMode}
-                    onChange={(e) => setAuthMode(e.target.value)}
+                    onChange={(e) => setAuthMode(e.target.value as AuthMode)}
                     className={styles.authSelectControl}
                     containerClassName={styles.authSelectContainer}
                     menuClassName={styles.authSelectMenu}

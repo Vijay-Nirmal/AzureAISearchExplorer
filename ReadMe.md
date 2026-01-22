@@ -12,7 +12,7 @@ Azure AI Search Explorer is a desktop UI for exploring, validating, and operatin
 
 ## Download
 
-Download the latest production build from the Releases page and run the installer for your OS.
+Download the latest production build from the [Releases page](https://github.com/Vijay-Nirmal/AzureAISearchExplorer/releases) and run the installer for your OS.
 
 ## Features
 
