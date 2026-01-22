@@ -1,6 +1,7 @@
 import type { AuthMode, AuthResult, ChatProvider, ChatSendRequest, ChatSendResponse, ChatMessage } from '../types';
 import { authStore } from '../authStore';
 import { githubAuth } from '../githubAuth';
+import { TOOL_DEFINITIONS, TOOL_SUMMARY } from '../toolRegistry';
 
 const EDITOR_VERSION = 'AzureAISearchExplorer/1.0';
 const PLUGIN_VERSION = 'azure-ai-search-explorer/1.0';
@@ -22,63 +23,7 @@ const buildCopilotHeaders = (token: string) => ({
   'Editor-Plugin-Version': PLUGIN_VERSION
 });
 
-const TOOL_FUNCTIONS = [
-  {
-    name: 'resource_read',
-    description: 'Return JSON for an Azure AI Search resource from the selected connection. The assistant should call this read-only function when it needs resource details (indexes, indexers, datasources, skillsets, synonymmaps, aliases, knowledgeSources, knowledgeBases).',
-    parameters: {
-      type: 'object',
-      properties: {
-        type: {
-          type: 'string',
-          description: 'Resource type to read',
-          enum: [
-            'indexes',
-            'indexers',
-            'datasources',
-            'skillsets',
-            'synonymmaps',
-            'aliases',
-            'knowledgeSources',
-            'knowledgeBases'
-          ]
-        },
-        name: {
-          type: 'string',
-          description: 'Name of the resource to retrieve from the selected connection'
-        }
-      },
-      required: ['type', 'name']
-    }
-  },
-  {
-    name: 'resource_list',
-    description: 'Return a list of Azure AI Search resources from the selected connection. Optionally filter by resource types. Each item should include name, type, and basic metadata (e.g., lastModified, description if available).',
-    parameters: {
-      type: 'object',
-      properties: {
-        types: {
-          type: 'array',
-          description: 'Optional list of resource types to include. If omitted, return all resource types.',
-          items: {
-            type: 'string',
-            enum: [
-              'indexes',
-              'indexers',
-              'datasources',
-              'skillsets',
-              'synonymmaps',
-              'aliases',
-              'knowledgeSources',
-              'knowledgeBases'
-            ]
-          }
-        }
-      },
-      required: []
-    }
-  }
-];
+const TOOL_FUNCTIONS = TOOL_DEFINITIONS;
 
 const mapMessages = (messages: ChatMessage[]): Array<{ role: string; content: string }> => {
   return messages.flatMap((message) => {
@@ -99,12 +44,7 @@ const normalizeFunctionName = (name?: string) => {
 };
 
 const buildSystemMessages = (systemPrompt?: string) => {
-  const toolDescription = [
-    'Available tools:',
-    'resource_read(type, name) -> returns JSON for an Azure AI Search resource from the selected connection.',
-    'resource_list(types?) -> returns a list of resources with name, type, and basic metadata. Optional types filter.',
-    'Resource types: indexes, indexers, datasources, skillsets, synonymmaps, aliases, knowledgeSources, knowledgeBases.'
-  ].join(' ');
+  const toolDescription = TOOL_SUMMARY;
 
   const systemMessages: Array<{ role: string; content: string }> = [];
   if (systemPrompt?.trim()) {

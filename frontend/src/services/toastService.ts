@@ -6,6 +6,7 @@ export type ToastMessage = {
   message?: string;
   details?: string;
   variant?: ToastVariant;
+  copilotPrompt?: string;
   createdAt: number;
 };
 
@@ -22,6 +23,16 @@ const emit = (toast: ToastMessage) => {
     return;
   }
   listeners.forEach((listener) => listener(toast));
+};
+
+const buildCopilotPrompt = (toast: ToastMessage) => {
+  return [
+    'A warning or error occurred in the app. Explain the likely cause and next steps.',
+    '',
+    `Title: ${toast.title}`,
+    toast.message ? `Message: ${toast.message}` : '',
+    toast.details ? `Details: ${toast.details}` : ''
+  ].filter(Boolean).join('\n');
 };
 
 export const toastService: { subscribe: (listener: Listener) => () => void; show: (input: ToastInput) => void } = {
@@ -41,6 +52,9 @@ export const toastService: { subscribe: (listener: Listener) => () => void; show
       ...input,
       createdAt: Date.now()
     };
+    if ((toast.variant === 'error' || toast.variant === 'warning') && !toast.copilotPrompt) {
+      toast.copilotPrompt = buildCopilotPrompt(toast);
+    }
     emit(toast);
   }
 };

@@ -3,6 +3,7 @@ import { useLayout } from '../../../context/LayoutContext';
 import { indexersService } from '../../../services/indexersService';
 import { alertService } from '../../../services/alertService';
 import { confirmService } from '../../../services/confirmService';
+import { chatPanelService } from '../../../services/chat/chatPanelService';
 import { Button } from '../../common/Button';
 import { Card } from '../../common/Card';
 import { InfoIcon } from '../../common/InfoIcon';
@@ -179,6 +180,50 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
     } finally {
       setLoading(false);
     }
+  };
+
+  const buildRunExplainPrompt = (run: IndexerExecutionResult, tab: RunDetailsTab) => {
+    const summary = {
+      status: run.status,
+      statusDetail: run.statusDetail,
+      mode: run.mode,
+      startTime: run.startTime,
+      endTime: run.endTime,
+      itemsProcessed: run.itemsProcessed,
+      itemsFailed: run.itemsFailed,
+      errorMessage: run.errorMessage
+    };
+
+    const errors = Array.isArray(run.errors) ? run.errors : [];
+    const warnings = Array.isArray(run.warnings) ? run.warnings : [];
+    const focus = tab === 'warnings' ? warnings : errors;
+
+    const formattedIssues = focus.slice(0, 10).map((issue) => ({
+      key: issue.key,
+      name: issue.name,
+      message: (issue as SearchIndexerError).errorMessage ?? (issue as SearchIndexerWarning).message,
+      details: issue.details,
+      statusCode: (issue as SearchIndexerError).statusCode,
+      documentationLink: issue.documentationLink
+    }));
+
+    const topic = tab === 'warnings' ? 'warnings' : tab === 'errors' ? 'errors' : 'run status';
+
+    return [
+      `Explain the ${topic} for this indexer run and suggest likely causes and fixes.`,
+      '',
+      'Run summary:',
+      JSON.stringify(summary, null, 2),
+      '',
+      tab === 'warnings' || tab === 'errors' ? `${topic} (first ${formattedIssues.length}):` : 'Issues (first 10):',
+      JSON.stringify(formattedIssues, null, 2)
+    ].join('\n');
+  };
+
+  const handleExplainWithCopilot = () => {
+    if (!runDetails) return;
+    const prompt = buildRunExplainPrompt(runDetails.run, runDetails.tab);
+    chatPanelService.openWithMessage(prompt);
   };
 
   const submitResetDocs = async () => {
@@ -521,6 +566,13 @@ const IndexerRunsPage: React.FC<IndexerRunsPageProps> = ({ indexerName, onBack, 
               ))}
 
               <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Button
+                  variant="icon"
+                  title="Explain with Copilot"
+                  onClick={handleExplainWithCopilot}
+                >
+                  <i className="fa-brands fa-github"></i>
+                </Button>
                 {(runDetails.tab === 'errors' || runDetails.tab === 'warnings') && (
                   <div style={{ width: '260px' }}>
                     <Input

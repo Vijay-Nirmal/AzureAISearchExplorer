@@ -25,6 +25,8 @@ interface LayoutContextType {
   toggleBottomPanel: () => void;
   isChatOpen: boolean;
   toggleChat: () => void;
+  chatDraft: string | null;
+  setChatDraft: (message: string | null) => void;
   activeConnectionId: string | null;
   setActiveConnectionId: (id: string | null) => void;
   breadcrumbs: BreadcrumbItem[];
@@ -39,12 +41,27 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
   const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatDraft, setChatDraft] = useState<string | null>(null);
   const [activeConnectionId, setActiveConnectionId] = useState<string | null>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
 
   useEffect(() => {
     document.body.className = theme === 'light' ? 'light-theme' : '';
   }, [theme]);
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent<{ message?: string }>).detail;
+      const message = detail?.message;
+      if (typeof message === 'string' && message.trim()) {
+        setChatDraft(message);
+      }
+      setIsChatOpen(true);
+    };
+
+    window.addEventListener('chat:open', handler as EventListener);
+    return () => window.removeEventListener('chat:open', handler as EventListener);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -86,6 +103,8 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       toggleBottomPanel,
       isChatOpen,
       toggleChat,
+      chatDraft,
+      setChatDraft,
       activeConnectionId,
       setActiveConnectionId,
       breadcrumbs,

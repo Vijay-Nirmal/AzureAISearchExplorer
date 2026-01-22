@@ -40,6 +40,12 @@
   gap: 8px;
 }
 
+.headerActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .title {
   font-weight: 600;
 }
@@ -70,4 +76,8 @@
 
 .close:hover {
   opacity: 1;
+}
+
+.actionButton {
+  color: var(--text-color);
 }

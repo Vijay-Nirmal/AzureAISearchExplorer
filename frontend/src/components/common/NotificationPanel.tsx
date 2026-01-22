@@ -1,5 +1,7 @@
 import React from 'react';
 import type { ToastMessage } from '../../services/toastService';
+import { chatPanelService } from '../../services/chat/chatPanelService';
+import { Button } from './Button';
 import styles from './NotificationPanel.module.css';
 
 type Props = {
@@ -43,6 +45,16 @@ export const NotificationPanel: React.FC<Props> = ({ isOpen, onClose, notificati
                 <div className={styles.itemTitle}>{item.title}</div>
                 <div className={styles.itemMeta}>
                   <span>{formatRelativeTime(item.createdAt)}</span>
+                  {item.copilotPrompt && (item.variant === 'error' || item.variant === 'warning') ? (
+                    <Button
+                      variant="icon"
+                      title="Explain with Copilot"
+                      onClick={() => chatPanelService.openWithMessage(item.copilotPrompt!)}
+                      className={styles.itemCopilot}
+                    >
+                      <i className="fa-brands fa-github"></i>
+                    </Button>
+                  ) : null}
                   <button
                     className={styles.itemClose}
                     onClick={() => onDismiss(item.id)}

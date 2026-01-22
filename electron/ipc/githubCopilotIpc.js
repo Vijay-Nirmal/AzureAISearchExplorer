@@ -15,25 +15,26 @@ const sharedHeaders = () => ({
 const parseCopilotStream = async (response) => {
   const text = await response.text();
   // Log raw response for debugging
-  try {
-    console.log('Copilot stream response (raw):', text);
-    const parsedLines = text
-      .split('\n')
-      .map((l) => l.trim())
-      .filter((l) => l.startsWith('data:'))
-      .map((l) => l.replace(/^data:\s*/, ''))
-      .filter((l) => l && l !== '[DONE]')
-      .map((l) => {
-        try {
-          return JSON.stringify(JSON.parse(l), null, 2);
-        } catch {
-          return l;
-        }
-      });
+  // Disabling logs by commenting out to reduce noise
+  // try {
+  //   console.log('Copilot stream response (raw):', text);
+  //   const parsedLines = text
+  //     .split('\n')
+  //     .map((l) => l.trim())
+  //     .filter((l) => l.startsWith('data:'))
+  //     .map((l) => l.replace(/^data:\s*/, ''))
+  //     .filter((l) => l && l !== '[DONE]')
+  //     .map((l) => {
+  //       try {
+  //         return JSON.stringify(JSON.parse(l), null, 2);
+  //       } catch {
+  //         return l;
+  //       }
+  //     });
 
-  } catch (err) {
-    console.error('Failed to log Copilot stream response', err);
-  }
+  // } catch (err) {
+  //   console.error('Failed to log Copilot stream response', err);
+  // }
 
   const lines = text.split('\n');
   let content = '';

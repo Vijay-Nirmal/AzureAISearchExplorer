@@ -9,7 +9,7 @@ import { TextArea } from '../common/TextArea';
 import { JsonView } from '../common/JsonView';
 import chatAuthModes from '../../data/constants/chatAuthModes.json';
 import { chatClient, DEFAULT_CHAT_SETTINGS } from '../../services/chat/chatClient';
-import { resourceTool } from '../../services/chat/resourceTool';
+import { formatToolCall, runTool, TOOL_NAMES } from '../../services/chat/toolRegistry';
 import { authStore } from '../../services/chat/authStore';
 import { githubAuth } from '../../services/chat/githubAuth';
 import { connectionService } from '../../services/connectionService';
@@ -19,7 +19,7 @@ const toOptions = (items: Array<{ value: string; description?: string; label?: s
   items.map((item) => ({ value: item.value, description: item.description, label: item.label }));
 
 export const ChatPanel: React.FC = () => {
-  const { isChatOpen, toggleChat, activeConnectionId } = useLayout();
+  const { isChatOpen, toggleChat, activeConnectionId, breadcrumbs, chatDraft, setChatDraft } = useLayout();
   const [authMode, setAuthMode] = useState(chatAuthModes[0]?.value ?? 'device_code');
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -73,9 +73,72 @@ export const ChatPanel: React.FC = () => {
     loadModels();
   }, [authToken]);
 
+  useEffect(() => {
+    if (!chatDraft) return;
+    setInput(chatDraft);
+    setChatDraft(null);
+  }, [chatDraft, setChatDraft]);
+
   const scrollToBottom = () => {
     requestAnimationFrame(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    });
+  };
+
+  const toResourceType = (label?: string) => {
+    if (!label) return 'Unknown';
+    const normalized = label.toLowerCase();
+    const map: Record<string, string> = {
+      indexes: 'Index',
+      indexers: 'Indexer',
+      'data sources': 'Data Source',
+      datasources: 'Data Source',
+      skillsets: 'Skillset',
+      'synonym maps': 'Synonym Map',
+      synonymmaps: 'Synonym Map',
+      aliases: 'Alias',
+      'knowledge sources': 'Knowledge Source',
+      knowledgesources: 'Knowledge Source',
+      'knowledge bases': 'Knowledge Base',
+      knowledgebases: 'Knowledge Base',
+      'service overview': 'Service'
+    };
+    return map[normalized] ?? label;
+  };
+
+  const buildPageContext = () => {
+    const labels = breadcrumbs.map((item) => item.label).filter(Boolean);
+    const resourceType = labels.length > 0 ? toResourceType(labels[0]) : 'Service Overview';
+
+    const lines = ['Page Context:', `Resource Type: ${resourceType}`];
+
+    if (labels.length >= 2) {
+      lines.push(`Resource Name: ${labels[1]}`);
+    }
+
+    if (labels.length >= 3) {
+      lines.push(`Action: ${labels[2]}`);
+    }
+
+    return lines.join('\n');
+  };
+
+  const withPageContext = (baseMessages: ChatMessage[]) => {
+    const lastUserIndex = [...baseMessages]
+      .map((message, index) => ({ message, index }))
+      .filter(({ message }) => message.role === 'user')
+      .map(({ index }) => index)
+      .pop();
+
+    if (lastUserIndex === undefined) return baseMessages;
+
+    return baseMessages.map((message, index) => {
+      if (index !== lastUserIndex) return message;
+      if (message.content.includes('Page Context:')) return message;
+      return {
+        ...message,
+        content: `${message.content}\n\n${buildPageContext()}`
+      };
     });
   };
 
@@ -114,9 +177,7 @@ export const ChatPanel: React.FC = () => {
     const callMessage: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'assistant',
-      content: functionName === 'resource_list'
-        ? 'Calling tool: resource_list(...)'
-        : 'Calling tool: resource_read(...)',
+      content: formatToolCall(functionName, rawArguments),
       createdAt: Date.now()
     };
 
@@ -124,60 +185,19 @@ export const ChatPanel: React.FC = () => {
     setIsToolRunning(true);
 
     try {
-      if (functionName === 'resource_read') {
-        const parsed = JSON.parse(rawArguments) as { name?: string; type?: string };
-        const name = parsed.name?.trim();
-        const type = parsed.type?.trim();
-        if (!name || !type) return null;
+      const data = await runTool(functionName, rawArguments, connectionId);
+      if (data === null || data === undefined) return null;
 
-        callMessage.content = `Calling tool: resource_read(type="${type}", name="${name}")`;
-        updateMessageContent(callMessage.id, callMessage.content);
+      const toolMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: 'tool',
+        content: `Tool response: ${functionName}`,
+        createdAt: Date.now(),
+        data
+      };
 
-        const data = await resourceTool.getResource({
-          connectionId,
-          type,
-          name
-        });
-
-        const toolMessage: ChatMessage = {
-          id: crypto.randomUUID(),
-          role: 'tool',
-          content: `Tool response: resource_read`,
-          createdAt: Date.now(),
-          data
-        };
-
-        appendMessage(toolMessage);
-        return [callMessage, toolMessage];
-      }
-
-      if (functionName === 'resource_list') {
-        const parsed = JSON.parse(rawArguments) as { types?: string[] };
-        const types = Array.isArray(parsed.types) ? parsed.types.map((type) => type.trim()).filter(Boolean) : undefined;
-        const typeLabel = types?.length ? `types=[${types.map((type) => `"${type}"`).join(', ')}]` : '';
-        const callSuffix = typeLabel ? `(${typeLabel})` : '()';
-
-        callMessage.content = `Calling tool: resource_list${callSuffix}`;
-        updateMessageContent(callMessage.id, callMessage.content);
-
-        const data = await resourceTool.listResources({
-          connectionId,
-          types
-        });
-
-        const toolMessage: ChatMessage = {
-          id: crypto.randomUUID(),
-          role: 'tool',
-          content: `Tool response: resource_list`,
-          createdAt: Date.now(),
-          data
-        };
-
-        appendMessage(toolMessage);
-        return [callMessage, toolMessage];
-      }
-
-      return null;
+      appendMessage(toolMessage);
+      return [callMessage, toolMessage];
     } finally {
       setIsToolRunning(false);
     }
@@ -193,7 +213,7 @@ export const ChatPanel: React.FC = () => {
     let response = initialResponse;
     let nextMessages = baseMessages;
 
-    while (response.functionCall && (response.functionCall.name === 'resource_read' || response.functionCall.name === 'resource_list')) {
+    while (response.functionCall && TOOL_NAMES.includes(response.functionCall.name)) {
       const toolResult = await executeToolCall(
         response.functionCall.name,
         response.functionCall.arguments,
@@ -222,12 +242,13 @@ export const ChatPanel: React.FC = () => {
   const sendWithMessages = async (baseMessages: ChatMessage[]) => {
     setIsSending(true);
     try {
+      const messagesWithContext = withPageContext(baseMessages);
       const systemPrompt = await buildSystemPrompt(activeConnectionId);
       const effectiveModel = model || availableModels[0]?.value || DEFAULT_CHAT_SETTINGS.model;
       const response = await chatClient.sendMessage({
         providerId: 'copilot',
         connectionId: activeConnectionId,
-        messages: baseMessages,
+        messages: messagesWithContext,
         settings: {
           ...DEFAULT_CHAT_SETTINGS,
           model: effectiveModel,
@@ -235,7 +256,7 @@ export const ChatPanel: React.FC = () => {
         }
       });
 
-      const finalResponse = await handleToolCalls(response, baseMessages, systemPrompt, activeConnectionId, effectiveModel);
+      const finalResponse = await handleToolCalls(response, messagesWithContext, systemPrompt, activeConnectionId, effectiveModel);
       setIsSending(false);
       if (finalResponse?.content) {
         await streamAssistantResponse(finalResponse.content);
@@ -537,6 +558,7 @@ const buildSystemPrompt = async (connectionId: string | null) => {
     'You are the Azure AI Search Explorer assistant.',
     'Only answer questions about Azure AI Search or this application. If asked about anything else, refuse briefly and redirect to Azure AI Search topics.',
     'Use the internal read-only resource tool to retrieve Azure AI Search resources for the selected connection when needed.',
+    'Page Context: Each user message may include a "Page Context" block describing the current screen (resource type, name, action). Use it to interpret relative references like "this" or "here".',
     'Never ask the user for tool parameters; infer them from the conversation or request clarification about the resource itself.',
     connectionContext
   ].join(' ');

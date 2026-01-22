@@ -89,3 +89,6 @@ Some UI editors are generated from config JSON under `src/data/constants/config/
 ## API Communication
 - **Location**: `src/services/`
 - **Usage**: Use `apiClient.ts` for all backend calls. Create feature-specific service modules (e.g., `logService.ts`) that utilize it.
+
+## Chat Panel Integration
+- Use `chatPanelService.openWithMessage()` to open Copilot Chat with a prefilled prompt from other pages/components (avoid dispatching custom events directly).

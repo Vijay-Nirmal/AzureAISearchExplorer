@@ -1,5 +1,7 @@
 import React from 'react';
 import type { ToastMessage } from '../../services/toastService';
+import { chatPanelService } from '../../services/chat/chatPanelService';
+import { Button } from './Button';
 import styles from './ToastContainer.module.css';
 
 type Props = {
@@ -23,15 +25,27 @@ export const ToastContainer: React.FC<Props> = ({ toasts, onDismiss, onPause, on
         >
           <div className={styles.header}>
             <div className={styles.title}>{toast.title}</div>
-            <button
-              className={styles.close}
-              onClick={() => onDismiss(toast.id)}
-              title="Dismiss"
-              aria-label="Dismiss"
-              type="button"
-            >
-              <i className="fas fa-times"></i>
-            </button>
+            <div className={styles.headerActions}>
+              {toast.copilotPrompt && (toast.variant === 'error' || toast.variant === 'warning') ? (
+                <Button
+                  variant="icon"
+                  title="Explain with Copilot"
+                  onClick={() => chatPanelService.openWithMessage(toast.copilotPrompt!)}
+                  className={styles.actionButton}
+                >
+                  <i className="fa-brands fa-github"></i>
+                </Button>
+              ) : null}
+              <button
+                className={styles.close}
+                onClick={() => onDismiss(toast.id)}
+                title="Dismiss"
+                aria-label="Dismiss"
+                type="button"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
           </div>
           {toast.message ? <div className={styles.message}>{toast.message}</div> : null}
           {toast.details ? <pre className={styles.details}>{toast.details}</pre> : null}

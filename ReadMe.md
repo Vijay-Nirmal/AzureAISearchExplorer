@@ -38,10 +38,13 @@ https://github.com/user-attachments/assets/80a05da0-7e90-4658-bf20-14b2c88dca11
 Azure AI Search Explorer includes a built-in GitHub Copilot Chat panel to help you explore and troubleshoot your search resources.
 
 - **Authentication**: Sign in with GitHub (device code or browser) or use a personal access token.
-- **Resource-aware tools**: The chat can call read-only tools to fetch Azure AI Search resources.
-- **Model picker**: The model list will let you use any available model in Github Copilot.
+- **Resource-aware tools**: Read-only tools can fetch indexes, indexers, datasources, skillsets, synonym maps, aliases, knowledge sources, and knowledge bases.
+- **Indexer status + service details**: Built-in tools can fetch indexer run status and service overview data.
+- **Model picker**: Models are loaded from the Copilot models API with all latest models available.
+- **Page Context**: The chat includes the current page context (resource type/name/action) so relative questions like “this” or “here” are understood.
+- **Error/Warning assist**: Error and warning toasts include a Copilot button to open chat with a prefilled explanation prompt.
 
-https://github.com/user-attachments/assets/1c22bc3b-4d95-40cc-b186-137861d967bd
+https://github.com/user-attachments/assets/8d31510f-0d31-43a2-ac97-f3ff09c9464a
 
 ## Why This App Exists (Even with Azure Portal)
 
@@ -57,5 +60,3 @@ If you need to run locally for development:
 
 - Install dependencies: `npm run install:all`
 - Start the app: `npm run dev`
-
-This runs the Backend (ASP.NET Core), Frontend (Vite), and Electron shell together.
